@@ -1,0 +1,22 @@
+from ninja import NinjaAPI
+
+from apps.api.auth import router as auth_router
+from apps.api.user import router as user_router
+from apps.api.system import router as system_router
+from apps.api.event import router as event_router
+from apps.exceptions import exception_handler
+from apps.tokens import JWTAuth
+
+api = NinjaAPI(
+    title="iTicket API",
+    version="1.0.0",
+    description="iTicket loyihasi uchun REST API",
+    auth=JWTAuth(),
+)
+
+api.add_router("", auth_router, tags=["authentication"])
+api.add_router("", user_router, tags=["user"])
+api.add_router("", system_router, tags=["system"])
+api.add_router("", event_router, tags=["dashboard"])
+
+exception_handler(api)
