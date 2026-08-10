@@ -14,12 +14,12 @@ async def get_sales_outlets(request: Request, lang: str = "uz"):
     activate(lang)
     sales_outlets = [
         sales async for sales in
-        SalesOutlets.objects.select_related("place").prefetch_related("place__translations").all()
+        SalesOutlets.objects.select_related("place").prefetch_related("place__translations").all().aiterator()
     ]
     return sales_outlets
 
 
 @router.get("/questions/", response=list[QuestionsSchema], auth=None)
 async def get_questions(request: Request):
-    questions = [question async for question in Questions.objects.filter(is_visible=True).all()]
+    questions = [question async for question in Questions.objects.filter(is_visible=True).all().aiterator() ]
     return questions

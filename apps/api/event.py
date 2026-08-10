@@ -28,11 +28,7 @@ async def get_events(request: HttpRequest, filters: EventFilterSchema = Query(),
     prefetch_related = [
         "translations", "category__translations", "place__translations", "tickets", "tickets__translations"
     ]
-    events_obj = (
-        Event.objects
-        .select_related("place", "category")
-        .prefetch_related(prefetch_related)
-    )
+    events_obj = Event.objects.select_related("place", "category").prefetch_related(*prefetch_related)
     events = filters.filter(events_obj)
     return events
 

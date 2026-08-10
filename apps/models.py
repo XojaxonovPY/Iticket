@@ -63,7 +63,7 @@ class Place(TranslatableModel):
         name=CharField(max_length=200)
     )
     phone_number = CharField(max_length=20)
-    image = ImageField(null=True, blank=True)
+    image = ImageField(null=True, blank=True, upload_to="place/")
 
 
 class Category(TranslatableModel):
@@ -80,7 +80,7 @@ class Event(TranslatableModel):
         title=CharField(max_length=355),
         description=TextField()
     )
-    image = ImageField(null=True, blank=True)
+    image = ImageField(null=True, blank=True, upload_to="events/")
     category = ForeignKey("apps.Category", null=True, blank=True, related_name="events", on_delete=SET_NULL)
     latitude = DecimalField(max_digits=9, decimal_places=6)
     longitude = DecimalField(max_digits=9, decimal_places=6)
