@@ -7,6 +7,7 @@ from ninja import Router, Query
 from ninja.errors import HttpError
 from ninja.pagination import paginate, PageNumberPagination
 
+from apps.commons.decorators import cache_page_ninja
 from apps.filters import EventFilterSchema
 from apps.models import Category, Event
 from apps.schema.event import CategorySchema, EventSchema
@@ -15,6 +16,7 @@ router = Router()
 
 
 @router.get("/categories/", response=list[CategorySchema], auth=None)
+@cache_page_ninja(timeout=60 * 5)
 @paginate(PageNumberPagination, page=1, page_size=20)
 async def get_categories(request: HttpRequest, lang: str = "uz"):
     activate(lang)
@@ -22,6 +24,7 @@ async def get_categories(request: HttpRequest, lang: str = "uz"):
 
 
 @router.get("/events/", response=list[EventSchema], auth=None)
+@cache_page_ninja(timeout=60 * 5)
 @paginate(PageNumberPagination, page=1, page_size=20)
 async def get_events(request: HttpRequest, filters: EventFilterSchema = Query(), lang: str = "uz"):
     activate(lang)

@@ -1,12 +1,12 @@
 from http import HTTPStatus
 
-from django.contrib.auth.hashers import make_password
 from django.http import HttpRequest
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
 from ninja import Router
 from ninja.errors import HttpError
 
+from apps.commons.decorators import cache_page_ninja
 from apps.models import Country, Address
 from apps.models import User
 from apps.schema import AddressInUpSchema, MessageSchema, PasswordSchema
@@ -37,9 +37,11 @@ async def update_password(request: HttpRequest, payload: PasswordSchema):
     if not await user.acheck_password(payload.old_password):
         raise HttpError(status_code=HTTPStatus.BAD_REQUEST, message=_("Password not match"))
     await User.objects.filter(pk=user.pk).aupdate(password=payload.new_password)
-    return {"message":_("Password is successfully updated")}
+    return {"message": _("Password is successfully updated")}
+
 
 @router.get("/country/", response=list[CountrySchema], auth=None)
+@cache_page_ninja(60 * 7)
 async def get_country(request: HttpRequest, lang: str = "uz"):
     activate(lang)
     countries = [country async for country in Country.objects.prefetch_related("translations").all()]

@@ -8,7 +8,7 @@ from django.conf import settings
 from django.utils.timezone import now
 from ninja.security import HttpBearer
 
-from apps.exceptions import TokenError
+from apps.commons.exceptions import TokenError
 from apps.models import User
 
 SECRET_KEY = settings.SECRET_KEY

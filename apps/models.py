@@ -5,7 +5,7 @@ from django.db.models.deletion import SET_NULL, CASCADE
 from django.db.models.enums import TextChoices
 from parler.models import TranslatableModel, TranslatedFields
 
-from apps.manager import CustomUserManager
+from apps.commons.manager import CustomUserManager
 
 
 class User(AbstractUser):
