@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from django.http import HttpRequest
 from django.utils.translation import activate
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 from ninja import Router, Query
 from ninja.errors import HttpError
 from ninja.pagination import paginate, PageNumberPagination

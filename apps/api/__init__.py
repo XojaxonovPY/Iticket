@@ -5,7 +5,7 @@ from apps.api.user import router as user_router
 from apps.api.system import router as system_router
 from apps.api.event import router as event_router
 from apps.commons.exceptions import exception_handler
-from apps.tokens import JWTAuth
+from apps.commons.tokens import JWTAuth
 
 api = NinjaAPI(
     title="iTicket API",
