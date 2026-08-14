@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from asgiref.sync import sync_to_async
+from django.contrib.auth.hashers import make_password
 from django.http import HttpRequest
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
@@ -36,7 +38,8 @@ async def update_password(request: HttpRequest, payload: PasswordSchema):
     user: User = request.auth
     if not await user.acheck_password(payload.old_password):
         raise HttpError(status_code=HTTPStatus.BAD_REQUEST, message=_("Password not match"))
-    await User.objects.filter(pk=user.pk).aupdate(password=payload.new_password)
+    hash_password = await sync_to_async(make_password)(payload.new_password)
+    await User.objects.filter(pk=user.pk).aupdate(password=hash_password)
     return {"message": _("Password is successfully updated")}
 
 

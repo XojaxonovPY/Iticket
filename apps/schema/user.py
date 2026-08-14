@@ -33,7 +33,6 @@ class PasswordSchema(Schema):
     def validate_password(self):
         if self.new_password != self.confirm_password:
             raise ValueError(_("Password is not equal to confirm_password"))
-        self.new_password = make_password(str(self.new_password))
         return self
 
 

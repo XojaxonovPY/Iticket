@@ -1,3 +1,4 @@
+from asgiref.sync import sync_to_async
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.hashers import make_password
 
@@ -21,7 +22,11 @@ class CustomUserManager(BaseUserManager):
 
     async def _acreate_user(self, phone_number, email, password, **extra_fields):
         """See _create_user()"""
-        user = self._create_user_object(phone_number, email, password, **extra_fields)
+        if not phone_number:
+            raise ValueError("The given phone_number must be set")
+        email = self.normalize_email(email)
+        user = self.model(phone_number=phone_number, email=email, **extra_fields)
+        user.password = await sync_to_async(make_password)(password)
         await user.asave(using=self._db)
         return user
 

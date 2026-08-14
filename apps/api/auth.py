@@ -19,7 +19,7 @@ async def register(request: HttpRequest, payload: RegisterSchema):
     user = await User.objects.filter(email=payload.email, phone_number=payload.phone_number).afirst()
     if user:
         raise HttpError(status_code=HTTPStatus.CONFLICT, message=_("User already exists"))
-    await User.objects.acreate_superuser(**payload.dict())
+    await User.objects.acreate_user(**payload.dict())
     return MessageSchema(message=_("User is registered"))
 
 
