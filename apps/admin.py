@@ -1,15 +1,17 @@
 import datetime
-from django.contrib import admin, messages
-from django.http import HttpResponse
-from django.utils.safestring import mark_safe
-from django.utils.html import escape
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django_json_widget.widgets import JSONEditorWidget
-from parler.admin import TranslatableAdmin
+
 import openpyxl
+from django.contrib import admin, messages
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
+from django.http import HttpResponse
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
+from django_json_widget.widgets import JSONEditorWidget
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+from parler.admin import TranslatableAdmin
 
 from apps import models
 from apps.models import (
@@ -17,21 +19,23 @@ from apps.models import (
     Event, Ticket, Wishlist, OrderItem, Order, Payment, Transaction
 )
 
+admin.sites.site.unregister(Group)
 
-@admin.action(description=_("Tanlangan obyektlarni Excel (.xlsx) ga yuklab olish"))
+
+@admin.action(description=_("Export selected objects to Excel (.xlsx)"))
 def export_to_excel(modeladmin, request, queryset):
     """
-    Har qanday model ma'lumotlarini Excel (.xlsx) formatida eksport qilish uchun umumiy harakat.
+    Generic action to export any model data to Excel (.xlsx) format.
     """
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = modeladmin.model._meta.verbose_name_plural.capitalize()[:31]
 
-    # Stillar
+    # Styles
     header_font = Font(name="Calibri", size=11, bold=True, color="FFFFFF")
     header_fill = PatternFill(start_color="1F497D", end_color="1F497D", fill_type="solid")
     header_alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
-    
+
     thin_border = Border(
         left=Side(style='thin', color='D9D9D9'),
         right=Side(style='thin', color='D9D9D9'),
@@ -56,11 +60,12 @@ def export_to_excel(modeladmin, request, queryset):
         for field in fields:
             val = getattr(obj, field.name)
             if isinstance(val, (datetime.datetime, datetime.date)):
-                val = val.strftime("%Y-%m-%d %H:%M:%S") if isinstance(val, datetime.datetime) else val.strftime("%Y-%m-%d")
+                val = val.strftime("%Y-%m-%d %H:%M:%S") if isinstance(val, datetime.datetime) else val.strftime(
+                    "%Y-%m-%d")
             elif hasattr(val, '__str__') and not isinstance(val, (int, float, str, bool, type(None))):
                 val = str(val)
             row_data.append(val if val is not None else "")
-        
+
         ws.append(row_data)
         ws.row_dimensions[row_idx].height = 20
 
@@ -85,7 +90,8 @@ def export_to_excel(modeladmin, request, queryset):
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ("id", "phone_number", "email", "gender", "birth_date", "country", "is_staff", "is_active", "date_joined")
+    list_display = ("id", "phone_number", "email", "gender", "birth_date", "country", "is_staff", "is_active",
+                    "date_joined")
     list_filter = ("gender", "is_staff", "is_active", "is_superuser", "country")
     search_fields = ("phone_number", "email", "first_name", "last_name")
     ordering = ("-id",)
@@ -95,9 +101,9 @@ class UserAdmin(BaseUserAdmin):
 
     fieldsets = (
         (None, {"fields": ("phone_number", "password")}),
-        (_("Shaxsiy ma'lumotlar"), {"fields": ("first_name", "last_name", "email", "gender", "birth_date", "country")}),
-        (_("Huquqlar"), {"fields": ("is_active", "is_staff", "is_superuser", "user_permissions")}),
-        (_("Muhim sanalar"), {"fields": ("last_login", "date_joined")}),
+        (_("Personal Info"), {"fields": ("first_name", "last_name", "email", "gender", "birth_date", "country")}),
+        (_("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser", "user_permissions")}),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
         (
@@ -120,16 +126,16 @@ class CountryAdmin(TranslatableAdmin):
 
 @admin.register(Questions)
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display = ("id", "short_question", "short_answer","is_visible")
+    list_display = ("id", "short_question", "short_answer", "is_visible")
     search_fields = ("question", "answer")
     list_per_page = 25
     actions = [export_to_excel]
 
-    @admin.display(description=_("Savol"))
+    @admin.display(description=_("Question"))
     def short_question(self, obj):
         return obj.question[:60] + "..." if len(obj.question) > 60 else obj.question
 
-    @admin.display(description=_("Javob"))
+    @admin.display(description=_("Answer"))
     def short_answer(self, obj):
         return obj.answer[:60] + "..." if len(obj.answer) > 60 else obj.answer
 
@@ -153,10 +159,11 @@ class PlaceAdmin(TranslatableAdmin):
     list_per_page = 25
     actions = [export_to_excel]
 
-    @admin.display(description=_("Rasm"))
+    @admin.display(description=_("Image"))
     def image_preview(self, obj):
         if obj.image:
-            return mark_safe(f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
+            return mark_safe(
+                f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
         return "-"
 
 
@@ -183,10 +190,11 @@ class EventAdmin(TranslatableAdmin):
         models.JSONField: {'widget': JSONEditorWidget},
     }
 
-    @admin.display(description=_("Rasm"))
+    @admin.display(description=_("Image"))
     def image_preview(self, obj):
         if obj.image:
-            return mark_safe(f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
+            return mark_safe(
+                f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
         return "-"
 
 
@@ -247,15 +255,15 @@ class OrderAdmin(admin.ModelAdmin):
             f'<span style="background-color: {escape(color)}; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11px;">{escape(obj.get_status_display())}</span>'
         )
 
-    @admin.action(description=_("Tanlangan buyurtmalarni 'Yetkazilgan' deb belgilash"))
+    @admin.action(description=_("Mark selected orders as Delivered"))
     def mark_as_delivered(self, request, queryset):
         updated = queryset.update(status=Order.StatusTextChoices.DELIVERED)
-        self.message_user(request, f"{updated} ta buyurtma holati 'Yetkazilgan' ga o'zgartirildi.", messages.SUCCESS)
+        self.message_user(request, f"{updated} order(s) marked as Delivered.", messages.SUCCESS)
 
-    @admin.action(description=_("Tanlangan buyurtmalarni 'Bekor qilingan' deb belgilash"))
+    @admin.action(description=_("Mark selected orders as Cancelled"))
     def mark_as_cancelled(self, request, queryset):
         updated = queryset.update(status=Order.StatusTextChoices.CANCELLED)
-        self.message_user(request, f"{updated} ta buyurtma holati 'Bekor qilingan' ga o'zgartirildi.", messages.WARNING)
+        self.message_user(request, f"{updated} order(s) marked as Cancelled.", messages.WARNING)
 
 
 @admin.register(Payment)
@@ -280,22 +288,22 @@ class PaymentAdmin(admin.ModelAdmin):
             f'<span style="background-color: {escape(color)}; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11px;">{escape(obj.get_status_display())}</span>'
         )
 
-    @admin.action(description=_("Tanlangan to'lovlarni 'Bajarildi' deb belgilash"))
+    @admin.action(description=_("Mark selected payments as Completed"))
     def mark_as_completed(self, request, queryset):
         updated = queryset.update(status=Payment.StatusTextChoices.COMPLETED)
-        self.message_user(request, f"{updated} ta to'lov holati 'Bajarildi' ga o'zgartirildi.", messages.SUCCESS)
+        self.message_user(request, f"{updated} payment(s) marked as Completed.", messages.SUCCESS)
 
-    @admin.action(description=_("Tanlangan to'lovlarni 'Qaytarildi' deb belgilash"))
+    @admin.action(description=_("Mark selected payments as Refunded"))
     def mark_as_refunded(self, request, queryset):
         updated = queryset.update(status=Payment.StatusTextChoices.REFUNDED)
-        self.message_user(request, f"{updated} ta to'lov holati 'Qaytarildi' ga o'zgartirildi.", messages.INFO)
+        self.message_user(request, f"{updated} payment(s) marked as Refunded.", messages.INFO)
 
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ("id", "payment_id", "colored_status", "created_at", "updated_at")
     list_filter = ("status", "created_at")
-    search_fields = ("payment_id__id",)
+    search_fields = ("payment__id",)
     readonly_fields = ("created_at", "updated_at")
     list_per_page = 25
     actions = [export_to_excel]

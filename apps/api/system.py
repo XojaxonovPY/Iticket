@@ -5,7 +5,7 @@ from ninja import Router
 
 from apps.commons.decorators import cache_page_ninja
 from apps.models import SalesOutlets, Questions
-from apps.schema.system import SalesOutletsSchema, QuestionsSchema
+from apps.schema import SalesOutletsSchema, QuestionsSchema
 
 router = Router()
 

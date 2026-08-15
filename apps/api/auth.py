@@ -16,7 +16,7 @@ router = Router()
 
 @router.post("/register/", response={HTTPStatus.CREATED: MessageSchema}, auth=None)
 async def register(request: HttpRequest, payload: RegisterSchema):
-    user = await User.objects.filter(email=payload.email, phone_number=payload.phone_number).afirst()
+    user: bool = await User.objects.filter(email=payload.email, phone_number=payload.phone_number).aexists()
     if user:
         raise HttpError(status_code=HTTPStatus.CONFLICT, message=_("User already exists"))
     await User.objects.acreate_user(**payload.dict())

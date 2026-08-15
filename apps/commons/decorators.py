@@ -1,45 +1,55 @@
-import asyncio
-from functools import wraps
+import functools
+import inspect
 
 from django.core.cache import cache
 from django.http import HttpRequest
-from django.utils.translation import get_language
+from django.utils.translation import activate
 
 
-def cache_page_ninja(timeout: int = 300):
-    """
-    Django Ninja Paginated va Oddiy Endpoint'lar uchun mos kesh dekoratori.
-    """
-
+def cache_page_ninja(timeout: int = 60 * 15, key_prefix: str = "ninja_cache"):
     def decorator(func):
-        @wraps(func)
-        async def async_wrapper(request: HttpRequest, *args, **kwargs):
-            # 1. Tilni aniqlash
-            header_lang = request.headers.get("Accept-Language")
-            if header_lang:
-                header_lang = header_lang.split(",")[0].split("-")[0].strip()
 
-            # lang = request.GET.get("lang") or header_lang or get_language() or "uz"
-            lang = get_language() or "uz"
+        def _get_lang_from_request(request: HttpRequest, kwargs: dict) -> str:
+            lang = kwargs.get("lang") or request.GET.get("lang")
+            if not lang and hasattr(request, "headers"):
+                lang = request.headers.get("Accept-Language")
+            return lang or "uz"
 
-            # 2. Unikal kesh kaliti (Query Params va Page hisobga olinadi)
-            cache_key = f"ninja_cache:{lang}:{request.get_full_path()}"
+        def _make_cache_key(request: HttpRequest, lang: str) -> str:
+            return f"{key_prefix}:{request.path}:{lang}"
 
-            # 3. Keshni tekshiramiz
-            cached_data = await cache.aget(cache_key)
-            if cached_data is not None:
-                return cached_data
+        if inspect.iscoroutinefunction(func):
 
-            # 4. Funksiyani bajaramiz
-            if asyncio.iscoroutinefunction(func):
-                response = await func(request, *args, **kwargs)
-            else:
-                response = func(request, *args, **kwargs)
+            @functools.wraps(func)
+            async def async_wrapper(request: HttpRequest, *args, **kwargs):
+                lang = _get_lang_from_request(request, kwargs)
+                activate(lang)
+                cache_key = _make_cache_key(request, lang)
+                response_data = await cache.aget(cache_key)
+                if response_data is not None:
+                    return response_data
+                response_data = await func(request, *args, **kwargs)
+                await cache.aset(cache_key, response_data, timeout)
+                return response_data
 
-            # 5. Keshga yozamiz va qaytaramiz
-            await cache.aset(cache_key, response, timeout=timeout)
-            return response
+            return async_wrapper
 
-        return async_wrapper
+        else:
+
+            @functools.wraps(func)
+            def sync_wrapper(request: HttpRequest, *args, **kwargs):
+                lang = _get_lang_from_request(request, kwargs)
+                activate(lang)
+                cache_key = _make_cache_key(request, lang)
+
+                response_data = cache.get(cache_key)
+                if response_data is not None:
+                    return response_data
+
+                response_data = func(request, *args, **kwargs)
+                cache.set(cache_key, response_data, timeout)
+                return response_data
+
+            return sync_wrapper
 
     return decorator

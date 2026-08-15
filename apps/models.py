@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField, EmailField, DateField, Model, ForeignKey, TextField, DecimalField, TimeField
-from django.db.models import ImageField, DateTimeField, JSONField, PositiveIntegerField, BooleanField
+from django.db.models import (
+    CharField, EmailField, DateField, Model, ForeignKey, TextField, DecimalField, TimeField,
+    ImageField, DateTimeField, JSONField, PositiveIntegerField, BooleanField
+)
 from django.db.models.deletion import SET_NULL, CASCADE
 from django.db.models.enums import TextChoices
 from parler.models import TranslatableModel, TranslatedFields
@@ -25,6 +27,12 @@ class User(AbstractUser):
     country = ForeignKey("apps.Country", null=True, blank=True, related_name="users", on_delete=SET_NULL)
     groups = None
 
+    def __str__(self):
+        full_name = self.get_full_name().strip()
+        if full_name:
+            return f"{full_name} ({self.phone_number})"
+        return self.phone_number or self.email or f"User #{self.pk}"
+
 
 class Country(TranslatableModel):
     translations = TranslatedFields(
@@ -36,11 +44,19 @@ class Country(TranslatableModel):
         verbose_name_plural = "countries"
         db_table = "apps_countries"
 
+    def __str__(self):
+        return self.safe_translation_getter("name", any_language=True) or f"Country #{self.pk}"
+
 
 class Questions(Model):
     question = TextField()
     answer = TextField()
     is_visible = BooleanField(default=False)
+
+    def __str__(self):
+        if len(self.question) > 50:
+            return f"{self.question[:50]}..."
+        return self.question or f"Question #{self.pk}"
 
 
 class SalesOutlets(Model):
@@ -56,6 +72,10 @@ class SalesOutlets(Model):
         verbose_name_plural = "sales_outlets"
         db_table = "apps_sales_outlets"
 
+    def __str__(self):
+        place_str = str(self.place) if self.place else f"Outlet #{self.pk}"
+        return f"{place_str} ({self.start_time.strftime('%H:%M')} - {self.end_time.strftime('%H:%M')})"
+
 
 class Place(TranslatableModel):
     translations = TranslatedFields(
@@ -65,6 +85,11 @@ class Place(TranslatableModel):
     phone_number = CharField(max_length=20)
     image = ImageField(null=True, blank=True, upload_to="place/")
 
+    def __str__(self):
+        title = self.safe_translation_getter("title", any_language=True)
+        name = self.safe_translation_getter("name", any_language=True)
+        return title or name or f"Place #{self.pk}"
+
 
 class Category(TranslatableModel):
     translations = TranslatedFields(name=CharField(max_length=255))
@@ -73,6 +98,9 @@ class Category(TranslatableModel):
         verbose_name = "category"
         verbose_name_plural = "categories"
         db_table = "apps_categories"
+
+    def __str__(self):
+        return self.safe_translation_getter("name", any_language=True) or f"Category #{self.pk}"
 
 
 class Event(TranslatableModel):
@@ -89,6 +117,9 @@ class Event(TranslatableModel):
     restriction = JSONField(default=dict, null=True, blank=True)
     place = ForeignKey("apps.Place", null=True, blank=True, related_name="events", on_delete=SET_NULL)
 
+    def __str__(self):
+        return self.safe_translation_getter("title", any_language=True) or f"Event #{self.pk}"
+
 
 class Ticket(TranslatableModel):
     translations = TranslatedFields(
@@ -99,12 +130,20 @@ class Ticket(TranslatableModel):
     count = PositiveIntegerField(default=0)
     even = ForeignKey("apps.Event", null=True, blank=True, related_name="tickets", on_delete=CASCADE)
 
+    def __str__(self):
+        title = self.safe_translation_getter("title", any_language=True) or "Ticket"
+        even_str = str(self.even) if self.even else "No Event"
+        return f"{title} ({self.price} UZS) - {even_str}"
+
 
 class Wishlist(Model):
     event = ForeignKey("apps.Event", related_name="wishlists", on_delete=CASCADE, db_index=True)
     user = ForeignKey("apps.User", related_name="wishlists", on_delete=CASCADE, db_index=True)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Wishlist: {self.user} -> {self.event}"
 
 
 class OrderItem(Model):
@@ -117,6 +156,10 @@ class OrderItem(Model):
         verbose_name = "order_item"
         verbose_name_plural = "order_items"
         db_table = "apps_order_items"
+
+    def __str__(self):
+        user_str = str(self.user) if self.user else "Anonymous"
+        return f"OrderItem #{self.pk} ({self.event} for {user_str})"
 
 
 class Order(Model):
@@ -132,6 +175,9 @@ class Order(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"Order #{self.pk} - {self.user_id} [{self.get_status_display()}]"
+
 
 class Payment(Model):
     class StatusTextChoices(TextChoices):
@@ -146,6 +192,9 @@ class Payment(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"Payment #{self.pk} ({self.total_amount} UZS) [{self.get_status_display()}]"
+
 
 class Transaction(Model):
     class StatusTextChoices(TextChoices):
@@ -158,6 +207,9 @@ class Transaction(Model):
     )
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Transaction #{self.pk} [{self.get_status_display()}]"
 
 
 class Address(Model):
@@ -175,3 +227,6 @@ class Address(Model):
     addintional_information = TextField()
     user = ForeignKey("apps.User", related_name="addresses", on_delete=CASCADE, db_index=True)
     country = ForeignKey("apps.Country", related_name="addresses", on_delete=SET_NULL, db_index=True, null=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.city}, {self.street})"
