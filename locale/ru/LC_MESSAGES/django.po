@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-15 20:37+0500\n"
+"POT-Creation-Date: 2026-08-16 19:57+0500\n"
 "PO-Revision-Date: 2026-08-15 18:30+0500\n"
 "Last-Translator: Dev <dev@example.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -15,51 +15,51 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: apps/admin.py:25
+#: apps/admin.py:27
 msgid "Export selected objects to Excel (.xlsx)"
 msgstr "Экспортировать выбранные объекты в Excel (.xlsx)"
 
-#: apps/admin.py:104
+#: apps/admin.py:106
 msgid "Personal Info"
 msgstr "Личная информация"
 
-#: apps/admin.py:105
+#: apps/admin.py:107
 msgid "Permissions"
 msgstr "Права доступа"
 
-#: apps/admin.py:106
+#: apps/admin.py:108
 msgid "Important dates"
 msgstr "Важные даты"
 
-#: apps/admin.py:134
+#: apps/admin.py:136
 msgid "Question"
 msgstr "Вопрос"
 
-#: apps/admin.py:138
+#: apps/admin.py:140
 msgid "Answer"
 msgstr "Ответ"
 
-#: apps/admin.py:162 apps/admin.py:193
+#: apps/admin.py:164 apps/admin.py:196
 msgid "Image"
 msgstr "Изображение"
 
-#: apps/admin.py:245 apps/admin.py:278 apps/admin.py:311
+#: apps/admin.py:249 apps/admin.py:282 apps/admin.py:315
 msgid "Status"
 msgstr "Статус"
 
-#: apps/admin.py:258
+#: apps/admin.py:262
 msgid "Mark selected orders as Delivered"
 msgstr "Отметить выбранные заказы как Доставленные"
 
-#: apps/admin.py:263
+#: apps/admin.py:267
 msgid "Mark selected orders as Cancelled"
 msgstr "Отметить выбранные заказы как Отмененные"
 
-#: apps/admin.py:291
+#: apps/admin.py:295
 msgid "Mark selected payments as Completed"
 msgstr "Отметить выбранные платежи как Завершенные"
 
-#: apps/admin.py:296
+#: apps/admin.py:300
 msgid "Mark selected payments as Refunded"
 msgstr "Отметить выбранные платежи как Возвращенные"
 
@@ -79,45 +79,64 @@ msgstr "Пользователь не существует"
 msgid "Invalid token"
 msgstr "Недействительный токен"
 
+#: apps/api/cards.py:27
+#, fuzzy
+#| msgid "User does not exist"
+msgid "Ticket does not exist"
+msgstr "Пользователь не существует"
+
+#: apps/api/cards.py:45
+#, fuzzy
+#| msgid "Password is successfully updated"
+msgid "Card is save successfully"
+msgstr "Пароль успешно обновлен"
+
+#: apps/api/cards.py:86 apps/api/cards.py:98
+#, fuzzy
+#| msgid "User does not exist"
+msgid "Card does not exist"
+msgstr "Пользователь не существует"
+
 #: apps/api/event.py:49 apps/api/event.py:61
 msgid "Event not found"
 msgstr "Мероприятие не найдено"
 
 #: apps/api/event.py:65
 msgid "Wishlist is created"
-msgstr ""
+msgstr "Список желаний создан"
 
-#: apps/api/user.py:40
+#: apps/api/user.py:31
+msgid "User not found"
+msgstr "Пользователь не найден"
+
+#: apps/api/user.py:42
 msgid "Password not match"
 msgstr "Пароли не совпадают"
 
-#: apps/api/user.py:43
+#: apps/api/user.py:45
 msgid "Password is successfully updated"
 msgstr "Пароль успешно обновлен"
 
-#: apps/api/user.py:73 apps/api/user.py:84
+#: apps/api/user.py:75 apps/api/user.py:86
 msgid "Address not found"
 msgstr "Адрес не найден"
 
-#: apps/commons/tokens.py:53
+#: apps/commons/tokens.py:55
 msgid "Token is invalid"
 msgstr "Токен недействителен"
 
-#: apps/commons/tokens.py:56
+#: apps/commons/tokens.py:58
 msgid "User is not found"
 msgstr "Пользователь не найден"
 
-#: apps/commons/tokens.py:61
+#: apps/commons/tokens.py:63
 msgid "User is not found or deleted"
 msgstr "Пользователь не найден или удален"
 
-#: apps/schema/auth.py:19 apps/schema/user.py:35
+#: apps/schema/auth.py:19 apps/schema/user.py:34
 msgid "Password is not equal to confirm_password"
 msgstr "Пароль не совпадает с подтверждением пароля"
 
 #: apps/schema/auth.py:27
 msgid "Phone number must contain digits"
 msgstr "Номер телефона должен состоять из цифр"
-
-#~ msgid "User not found"
-#~ msgstr "Пользователь не найден"

@@ -48,7 +48,7 @@ class Country(TranslatableModel):
         return self.safe_translation_getter("name", any_language=True) or f"Country #{self.pk}"
 
 
-class Questions(Model):
+class Question(Model):
     question = TextField()
     answer = TextField()
     is_visible = BooleanField(default=False)
@@ -147,8 +147,9 @@ class Wishlist(Model):
 
 
 class OrderItem(Model):
-    event = ForeignKey("apps.Event", related_name="order_items", on_delete=CASCADE, db_index=True)
+    ticket = ForeignKey("apps.Ticket", related_name="order_items", on_delete=CASCADE, db_index=True)
     user = ForeignKey("apps.User", null=True, blank=True, related_name="order_items", on_delete=CASCADE, db_index=True)
+    count = PositiveIntegerField(default=0)
     datetime = DateTimeField(auto_now_add=True)
     created_at = DateTimeField(auto_now_add=True)
 
@@ -159,7 +160,7 @@ class OrderItem(Model):
 
     def __str__(self):
         user_str = str(self.user) if self.user else "Anonymous"
-        return f"OrderItem #{self.pk} ({self.event} for {user_str})"
+        return f"OrderItem #{self.pk} ({self.ticket} for {user_str})"
 
 
 class Order(Model):
@@ -169,14 +170,14 @@ class Order(Model):
         CANCELLED = "cancelled", "Cancelled"
         FAILED = "failed", "Failed"
 
-    user_id = ForeignKey("apps.User", related_name="orders", on_delete=CASCADE, db_index=True)
-    item = ForeignKey("apps.OrderItem", related_name="order", on_delete=CASCADE, db_index=True)
+    user = ForeignKey("apps.User", related_name="orders", on_delete=SET_NULL, db_index=True, null=True)
     status = CharField(max_length=30, choices=StatusTextChoices.choices, default=StatusTextChoices.PENDING)
+    total_amount = DecimalField(max_digits=10, decimal_places=3)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Order #{self.pk} - {self.user_id} [{self.get_status_display()}]"
+        return f"Order #{self.pk} - {self.user} [{self.get_status_display()}]"
 
 
 class Payment(Model):
@@ -186,7 +187,7 @@ class Payment(Model):
         CANCELLED = "cancelled", "Cancelled"
         REFUNDED = "refunded", "Refunded"
 
-    total_amount = DecimalField(max_digits=9, decimal_places=6)
+    total_amount = DecimalField(max_digits=10, decimal_places=3)
     order = ForeignKey("apps.Order", related_name="payments", on_delete=SET_NULL, db_index=True, null=True)
     status = CharField(max_length=30, choices=StatusTextChoices.choices, default=StatusTextChoices.PENDING)
     created_at = DateTimeField(auto_now_add=True)
@@ -205,6 +206,7 @@ class Transaction(Model):
     status = CharField(
         max_length=30, choices=StatusTextChoices.choices, default=StatusTextChoices.SUCCESS, db_index=True
     )
+    amount = DecimalField(max_digits=10, decimal_places=3)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 

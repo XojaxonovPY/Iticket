@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-15 20:37+0500\n"
+"POT-Creation-Date: 2026-08-16 19:57+0500\n"
 "PO-Revision-Date: 2026-08-15 18:30+0500\n"
 "Last-Translator: Dev <dev@example.com>\n"
 "Language-Team: Uzbek <uz@li.org>\n"
@@ -14,51 +14,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: apps/admin.py:25
+#: apps/admin.py:27
 msgid "Export selected objects to Excel (.xlsx)"
 msgstr "Tanlangan obyektlarni Excel (.xlsx) ga yuklab olish"
 
-#: apps/admin.py:104
+#: apps/admin.py:106
 msgid "Personal Info"
 msgstr "Shaxsiy ma'lumotlar"
 
-#: apps/admin.py:105
+#: apps/admin.py:107
 msgid "Permissions"
 msgstr "Huquqlar"
 
-#: apps/admin.py:106
+#: apps/admin.py:108
 msgid "Important dates"
 msgstr "Muhim sanalar"
 
-#: apps/admin.py:134
+#: apps/admin.py:136
 msgid "Question"
 msgstr "Savol"
 
-#: apps/admin.py:138
+#: apps/admin.py:140
 msgid "Answer"
 msgstr "Javob"
 
-#: apps/admin.py:162 apps/admin.py:193
+#: apps/admin.py:164 apps/admin.py:196
 msgid "Image"
 msgstr "Rasm"
 
-#: apps/admin.py:245 apps/admin.py:278 apps/admin.py:311
+#: apps/admin.py:249 apps/admin.py:282 apps/admin.py:315
 msgid "Status"
 msgstr "Holat"
 
-#: apps/admin.py:258
+#: apps/admin.py:262
 msgid "Mark selected orders as Delivered"
 msgstr "Tanlangan buyurtmalarni 'Yetkazilgan' deb belgilash"
 
-#: apps/admin.py:263
+#: apps/admin.py:267
 msgid "Mark selected orders as Cancelled"
 msgstr "Tanlangan buyurtmalarni 'Bekor qilingan' deb belgilash"
 
-#: apps/admin.py:291
+#: apps/admin.py:295
 msgid "Mark selected payments as Completed"
 msgstr "Tanlangan to'lovlarni 'Bajarildi' deb belgilash"
 
-#: apps/admin.py:296
+#: apps/admin.py:300
 msgid "Mark selected payments as Refunded"
 msgstr "Tanlangan to'lovlarni 'Qaytarildi' deb belgilash"
 
@@ -78,45 +78,64 @@ msgstr "Foydalanuvchi mavjud emas"
 msgid "Invalid token"
 msgstr "Yaroqsiz token"
 
+#: apps/api/cards.py:27
+#, fuzzy
+#| msgid "User does not exist"
+msgid "Ticket does not exist"
+msgstr "Foydalanuvchi mavjud emas"
+
+#: apps/api/cards.py:45
+#, fuzzy
+#| msgid "Password is successfully updated"
+msgid "Card is save successfully"
+msgstr "Parol muvaffaqiyatli yangilandi"
+
+#: apps/api/cards.py:86 apps/api/cards.py:98
+#, fuzzy
+#| msgid "User does not exist"
+msgid "Card does not exist"
+msgstr "Foydalanuvchi mavjud emas"
+
 #: apps/api/event.py:49 apps/api/event.py:61
 msgid "Event not found"
 msgstr "Tadbir topilmadi"
 
 #: apps/api/event.py:65
 msgid "Wishlist is created"
-msgstr ""
+msgstr "Istaklar ro‘yxati yaratildi"
 
-#: apps/api/user.py:40
+#: apps/api/user.py:31
+msgid "User not found"
+msgstr "Foydalanuvchi topilmadi"
+
+#: apps/api/user.py:42
 msgid "Password not match"
 msgstr "Parollar mos kelmadi"
 
-#: apps/api/user.py:43
+#: apps/api/user.py:45
 msgid "Password is successfully updated"
 msgstr "Parol muvaffaqiyatli yangilandi"
 
-#: apps/api/user.py:73 apps/api/user.py:84
+#: apps/api/user.py:75 apps/api/user.py:86
 msgid "Address not found"
 msgstr "Manzil topilmadi"
 
-#: apps/commons/tokens.py:53
+#: apps/commons/tokens.py:55
 msgid "Token is invalid"
 msgstr "Token yaroqsiz"
 
-#: apps/commons/tokens.py:56
+#: apps/commons/tokens.py:58
 msgid "User is not found"
 msgstr "Foydalanuvchi topilmadi"
 
-#: apps/commons/tokens.py:61
+#: apps/commons/tokens.py:63
 msgid "User is not found or deleted"
 msgstr "Foydalanuvchi topilmadi yoki o'chirilgan"
 
-#: apps/schema/auth.py:19 apps/schema/user.py:35
+#: apps/schema/auth.py:19 apps/schema/user.py:34
 msgid "Password is not equal to confirm_password"
 msgstr "Parol tasdiqlash paroli bilan mos kelmaydi"
 
 #: apps/schema/auth.py:27
 msgid "Phone number must contain digits"
 msgstr "Telefon raqami faqat raqamlardan iborat bo'lishi kerak"
-
-#~ msgid "User not found"
-#~ msgstr "Foydalanuvchi topilmadi"

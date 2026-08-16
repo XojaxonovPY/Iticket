@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-15 20:37+0500\n"
+"POT-Creation-Date: 2026-08-16 19:57+0500\n"
 "PO-Revision-Date: 2026-08-15 18:30+0500\n"
 "Last-Translator: Dev <dev@example.com>\n"
 "Language-Team: English <en@li.org>\n"
@@ -14,51 +14,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/admin.py:25
+#: apps/admin.py:27
 msgid "Export selected objects to Excel (.xlsx)"
 msgstr "Export selected objects to Excel (.xlsx)"
 
-#: apps/admin.py:104
+#: apps/admin.py:106
 msgid "Personal Info"
 msgstr "Personal Info"
 
-#: apps/admin.py:105
+#: apps/admin.py:107
 msgid "Permissions"
 msgstr "Permissions"
 
-#: apps/admin.py:106
+#: apps/admin.py:108
 msgid "Important dates"
 msgstr "Important dates"
 
-#: apps/admin.py:134
+#: apps/admin.py:136
 msgid "Question"
 msgstr "Question"
 
-#: apps/admin.py:138
+#: apps/admin.py:140
 msgid "Answer"
 msgstr "Answer"
 
-#: apps/admin.py:162 apps/admin.py:193
+#: apps/admin.py:164 apps/admin.py:196
 msgid "Image"
 msgstr "Image"
 
-#: apps/admin.py:245 apps/admin.py:278 apps/admin.py:311
+#: apps/admin.py:249 apps/admin.py:282 apps/admin.py:315
 msgid "Status"
 msgstr "Status"
 
-#: apps/admin.py:258
+#: apps/admin.py:262
 msgid "Mark selected orders as Delivered"
 msgstr "Mark selected orders as Delivered"
 
-#: apps/admin.py:263
+#: apps/admin.py:267
 msgid "Mark selected orders as Cancelled"
 msgstr "Mark selected orders as Cancelled"
 
-#: apps/admin.py:291
+#: apps/admin.py:295
 msgid "Mark selected payments as Completed"
 msgstr "Mark selected payments as Completed"
 
-#: apps/admin.py:296
+#: apps/admin.py:300
 msgid "Mark selected payments as Refunded"
 msgstr "Mark selected payments as Refunded"
 
@@ -78,6 +78,24 @@ msgstr "User does not exist"
 msgid "Invalid token"
 msgstr "Invalid token"
 
+#: apps/api/cards.py:27
+#, fuzzy
+#| msgid "User does not exist"
+msgid "Ticket does not exist"
+msgstr "User does not exist"
+
+#: apps/api/cards.py:45
+#, fuzzy
+#| msgid "Password is successfully updated"
+msgid "Card is save successfully"
+msgstr "Password is successfully updated"
+
+#: apps/api/cards.py:86 apps/api/cards.py:98
+#, fuzzy
+#| msgid "User does not exist"
+msgid "Card does not exist"
+msgstr "User does not exist"
+
 #: apps/api/event.py:49 apps/api/event.py:61
 msgid "Event not found"
 msgstr "Event not found"
@@ -86,37 +104,38 @@ msgstr "Event not found"
 msgid "Wishlist is created"
 msgstr ""
 
-#: apps/api/user.py:40
+#: apps/api/user.py:31
+msgid "User not found"
+msgstr "User not found"
+
+#: apps/api/user.py:42
 msgid "Password not match"
 msgstr "Password does not match"
 
-#: apps/api/user.py:43
+#: apps/api/user.py:45
 msgid "Password is successfully updated"
 msgstr "Password is successfully updated"
 
-#: apps/api/user.py:73 apps/api/user.py:84
+#: apps/api/user.py:75 apps/api/user.py:86
 msgid "Address not found"
 msgstr "Address not found"
 
-#: apps/commons/tokens.py:53
+#: apps/commons/tokens.py:55
 msgid "Token is invalid"
 msgstr "Token is invalid"
 
-#: apps/commons/tokens.py:56
+#: apps/commons/tokens.py:58
 msgid "User is not found"
 msgstr "User is not found"
 
-#: apps/commons/tokens.py:61
+#: apps/commons/tokens.py:63
 msgid "User is not found or deleted"
 msgstr "User is not found or deleted"
 
-#: apps/schema/auth.py:19 apps/schema/user.py:35
+#: apps/schema/auth.py:19 apps/schema/user.py:34
 msgid "Password is not equal to confirm_password"
 msgstr "Password is not equal to confirm_password"
 
 #: apps/schema/auth.py:27
 msgid "Phone number must contain digits"
 msgstr "Phone number must contain digits"
-
-#~ msgid "User not found"
-#~ msgstr "User not found"

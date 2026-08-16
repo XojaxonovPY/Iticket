@@ -20,7 +20,7 @@ router = Router()
 @paginate(PageNumberPagination, page=1, page_size=20)
 async def get_all_categories(request: HttpRequest, lang: str = "uz"):
     activate(lang)
-    return Category.objects.prefetch_related("translations").all()
+    return Category.objects.prefetch_related("translations")
 
 
 @router.get("/events/", response=list[EventSchema], auth=None)

@@ -26,10 +26,12 @@ async def get_user(request: HttpRequest):
 @router.patch("/profile/", response=UserOutSchema)
 async def update_user(request: HttpRequest, payload: UserInSchema):
     user: User = request.auth
-    update_count = await User.objects.filter(pk=user.pk).aupdate(**payload)
+    update_count = await User.objects.filter(pk=user.pk).aupdate(**payload.model_dump(exclude_unset=True))
     if not update_count:
-        for attr, value in payload.dict().items():
-            setattr(user, attr, value)
+        raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=_("User not found"))
+    for attr, value in payload.model_dump(exclude_unset=True).items():
+        setattr(user, attr, value)
+
     return user
 
 

@@ -15,9 +15,11 @@ from parler.admin import TranslatableAdmin
 
 from apps import models
 from apps.models import (
-    User, Country, Questions, SalesOutlets, Place, Category,
-    Event, Ticket, Wishlist, OrderItem, Order, Payment, Transaction
+    User, Country, Question, SalesOutlets, Place, Category,
+    Event, Ticket, Wishlist, OrderItem, Order, Payment, Transaction, Address
 )
+
+
 
 admin.sites.site.unregister(Group)
 
@@ -124,8 +126,8 @@ class CountryAdmin(TranslatableAdmin):
     actions = [export_to_excel]
 
 
-@admin.register(Questions)
-class QuestionsAdmin(admin.ModelAdmin):
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
     list_display = ("id", "short_question", "short_answer", "is_visible")
     search_fields = ("question", "answer")
     list_per_page = 25
@@ -142,9 +144,9 @@ class QuestionsAdmin(admin.ModelAdmin):
 
 @admin.register(SalesOutlets)
 class SalesOutletsAdmin(admin.ModelAdmin):
-    list_display = ("id", "phone_number", "place", "start_time", "end_time", "latitude", "longitude")
+    list_display = ("id", "place", "start_time", "end_time", "latitude", "longitude")
     list_filter = ("place",)
-    search_fields = ("phone_number",)
+    search_fields = ("place__translations__title", "place__translations__name")
     list_per_page = 25
     actions = [export_to_excel]
     formfield_overrides = {
@@ -155,7 +157,7 @@ class SalesOutletsAdmin(admin.ModelAdmin):
 @admin.register(Place)
 class PlaceAdmin(TranslatableAdmin):
     list_display = ("id", "phone_number", "image_preview")
-    search_fields = ("phone_number",)
+    search_fields = ("phone_number", "translations__title", "translations__name")
     list_per_page = 25
     actions = [export_to_excel]
 
@@ -169,7 +171,8 @@ class PlaceAdmin(TranslatableAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(TranslatableAdmin):
-    list_display = ("id",)
+    list_display = ("id", "name")
+    search_fields = ("translations__name",)
     list_per_page = 25
     actions = [export_to_excel]
 
@@ -181,8 +184,8 @@ class TicketInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(TranslatableAdmin):
-    list_display = ("id", "category", "place_id", "start_datetime", "end_datetime", "image_preview")
-    list_filter = ("category", "place_id", "start_datetime")
+    list_display = ("id", "category", "place", "start_datetime", "end_datetime", "image_preview")
+    list_filter = ("category", "place", "start_datetime")
     inlines = [TicketInline]
     list_per_page = 25
     actions = [export_to_excel]
@@ -200,8 +203,9 @@ class EventAdmin(TranslatableAdmin):
 
 @admin.register(Ticket)
 class TicketAdmin(TranslatableAdmin):
-    list_display = ("id", "price", "count", "even_id")
-    list_filter = ("even_id",)
+    list_display = ("id", "price", "count", "even")
+    list_filter = ("even",)
+    search_fields = ("translations__title", "even__translations__title")
     list_per_page = 25
     actions = [export_to_excel]
 
@@ -218,9 +222,9 @@ class WishlistAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ("id", "event", "user", "datetime", "created_at")
+    list_display = ("id", "ticket", "user", "count", "datetime", "created_at")
     list_filter = ("created_at", "datetime")
-    search_fields = ("user__phone_number", "user__email")
+    search_fields = ("user__phone_number", "user__email", "ticket__translations__title")
     readonly_fields = ("created_at", "datetime")
     list_per_page = 25
     actions = [export_to_excel]
@@ -234,9 +238,9 @@ class PaymentInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id", "user_id", "item", "colored_status", "created_at", "updated_at")
+    list_display = ("id", "user", "total_amount", "colored_status", "created_at", "updated_at")
     list_filter = ("status", "created_at")
-    search_fields = ("user_id__phone_number", "user_id__email", "id")
+    search_fields = ("user__phone_number", "user__email", "id")
     readonly_fields = ("created_at", "updated_at")
     inlines = [PaymentInline]
     list_per_page = 25
@@ -301,7 +305,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("id", "payment_id", "colored_status", "created_at", "updated_at")
+    list_display = ("id", "payment", "colored_status", "created_at", "updated_at")
     list_filter = ("status", "created_at")
     search_fields = ("payment__id",)
     readonly_fields = ("created_at", "updated_at")
@@ -318,3 +322,12 @@ class TransactionAdmin(admin.ModelAdmin):
         return mark_safe(
             f'<span style="background-color: {escape(color)}; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11px;">{escape(obj.get_status_display())}</span>'
         )
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "city", "street", "building", "user", "country")
+    list_filter = ("city", "country")
+    search_fields = ("title", "city", "street", "user__phone_number", "user__email")
+    list_per_page = 25
+    actions = [export_to_excel]

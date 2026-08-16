@@ -1,4 +1,3 @@
-from django.contrib.auth.hashers import make_password
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from ninja import ModelSchema, Schema
