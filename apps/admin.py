@@ -222,10 +222,10 @@ class WishlistAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ("id", "ticket", "user", "count", "datetime", "created_at")
-    list_filter = ("created_at", "datetime")
+    list_display = ("id", "ticket", "order", "count", "updated_at", "created_at")
+    list_filter = ("created_at", "updated_at")
     search_fields = ("user__phone_number", "user__email", "ticket__translations__title")
-    readonly_fields = ("created_at", "datetime")
+    readonly_fields = ("created_at", "updated_at")
     list_per_page = 25
     actions = [export_to_excel]
 

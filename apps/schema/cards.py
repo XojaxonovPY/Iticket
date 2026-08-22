@@ -1,5 +1,9 @@
-from ninja import Schema
+from apps.schema import EventSchema, TicketSchema
 
 
-class OrderItemSchema(Schema):
-    ticked_id:int
+class TicketCardSchema(TicketSchema):
+    purchase_count: int
+
+
+class EventCardSchema(EventSchema):
+    tickets: list[TicketCardSchema]

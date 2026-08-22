@@ -148,10 +148,11 @@ class Wishlist(Model):
 
 class OrderItem(Model):
     ticket = ForeignKey("apps.Ticket", related_name="order_items", on_delete=CASCADE, db_index=True)
-    user = ForeignKey("apps.User", null=True, blank=True, related_name="order_items", on_delete=CASCADE, db_index=True)
+    order = ForeignKey("apps.Order", null=True, blank=True, related_name="order_item", on_delete=CASCADE, db_index=True)
     count = PositiveIntegerField(default=0)
-    datetime = DateTimeField(auto_now_add=True)
+    price_at_purchase = DecimalField(max_digits=10, decimal_places=3)
     created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "order_item"
@@ -159,7 +160,7 @@ class OrderItem(Model):
         db_table = "apps_order_items"
 
     def __str__(self):
-        user_str = str(self.user) if self.user else "Anonymous"
+        user_str = str(self.order) if self.order else "Anonymous"
         return f"OrderItem #{self.pk} ({self.ticket} for {user_str})"
 
 

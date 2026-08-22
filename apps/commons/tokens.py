@@ -87,3 +87,6 @@ class OptionalJWTAuth(JWTAuth):
 
         request.user = AnonymousUser()
         return AnonymousUser()
+
+
+optional_auth: OptionalJWTAuth = OptionalJWTAuth()
