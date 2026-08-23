@@ -1,10 +1,13 @@
 import datetime
+from typing import Any
 
 import openpyxl
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
-from django.http import HttpResponse
+from django.db import transaction, IntegrityError
+from django.db.models import When, F, Value, Case, PositiveIntegerField
+from django.http import HttpResponse, HttpRequest
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -14,12 +17,11 @@ from openpyxl.utils import get_column_letter
 from parler.admin import TranslatableAdmin
 
 from apps import models
+from apps.commons.exceptions import logger
 from apps.models import (
     User, Country, Question, SalesOutlets, Place, Category,
     Event, Ticket, Wishlist, OrderItem, Order, Payment, Transaction, Address
 )
-
-
 
 admin.sites.site.unregister(Group)
 
@@ -203,8 +205,8 @@ class EventAdmin(TranslatableAdmin):
 
 @admin.register(Ticket)
 class TicketAdmin(TranslatableAdmin):
-    list_display = ("id", "price", "count", "even")
-    list_filter = ("even",)
+    list_display = ("id", "price", "count", "event")
+    list_filter = ("event",)
     search_fields = ("translations__title", "even__translations__title")
     list_per_page = 25
     actions = [export_to_excel]
@@ -268,6 +270,32 @@ class OrderAdmin(admin.ModelAdmin):
     def mark_as_cancelled(self, request, queryset):
         updated = queryset.update(status=Order.StatusTextChoices.CANCELLED)
         self.message_user(request, f"{updated} order(s) marked as Cancelled.", messages.WARNING)
+
+    def save_model(self, request: HttpRequest, obj: Order, form: Any, change: Any) -> None:
+        if change and "status" in form.changed_data:
+            if obj.status == Order.StatusTextChoices.CANCELLED:
+                order_items = obj.order_item.select_related("ticket").all()
+                when_clauses = []
+                ticket_ids = []
+
+                for item in order_items:
+                    if item.ticket.pk:
+                        ticket_ids.append(item.ticket.pk)
+                        when_clauses.append(When(id=item.ticket.pk, then=F("count") + Value(item.count)))
+
+                try:
+                    with transaction.atomic():
+                        if ticket_ids:
+                            Ticket.objects.filter(id__in=ticket_ids).update(
+                                count=Case(*when_clauses, default=F("count"), output_field=PositiveIntegerField())
+                            )
+                        super().save_model(request, obj, form, change)
+                    return
+                except IntegrityError as e:
+                    logger.error(f"Chiptalarni qaytarishda xatolik: {e}")
+                    raise e
+
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Payment)

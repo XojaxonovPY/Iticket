@@ -128,11 +128,11 @@ class Ticket(TranslatableModel):
     )
     price = DecimalField(max_digits=9, decimal_places=3)
     count = PositiveIntegerField(default=0)
-    even = ForeignKey("apps.Event", null=True, blank=True, related_name="tickets", on_delete=CASCADE)
+    event = ForeignKey("apps.Event", null=True, blank=True, related_name="tickets", on_delete=CASCADE)
 
     def __str__(self):
         title = self.safe_translation_getter("title", any_language=True) or "Ticket"
-        even_str = str(self.even) if self.even else "No Event"
+        even_str = str(self.event) if self.event else "No Event"
         return f"{title} ({self.price} UZS) - {even_str}"
 
 
@@ -174,6 +174,7 @@ class Order(Model):
     user = ForeignKey("apps.User", related_name="orders", on_delete=SET_NULL, db_index=True, null=True)
     status = CharField(max_length=30, choices=StatusTextChoices.choices, default=StatusTextChoices.PENDING)
     total_amount = DecimalField(max_digits=10, decimal_places=3)
+    total_paid = DecimalField(max_digits=10, decimal_places=3, default=0)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
@@ -190,6 +191,7 @@ class Payment(Model):
 
     total_amount = DecimalField(max_digits=10, decimal_places=3)
     order = ForeignKey("apps.Order", related_name="payments", on_delete=SET_NULL, db_index=True, null=True)
+    user = ForeignKey("apps.User", related_name="payments", on_delete=SET_NULL, db_index=True, null=True)
     status = CharField(max_length=30, choices=StatusTextChoices.choices, default=StatusTextChoices.PENDING)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
@@ -227,7 +229,7 @@ class Address(Model):
     building = CharField(max_length=300)
     apparition = CharField(max_length=300)
     email_index = CharField(max_length=155)
-    addintional_information = TextField()
+    additional_information = TextField()
     user = ForeignKey("apps.User", related_name="addresses", on_delete=CASCADE, db_index=True)
     country = ForeignKey("apps.Country", related_name="addresses", on_delete=SET_NULL, db_index=True, null=True)
 
