@@ -26,7 +26,7 @@ async def get_all_categories(request: HttpRequest, lang: str = "uz"):
 @router.get("/events/", response=list[EventSchema], auth=None)
 @cache_page_ninja(timeout=60 * 5)
 @paginate(PageNumberPagination, page=1, page_size=20)
-async def get_all_events(request: HttpRequest, filters: EventFilterSchema = Query(), lang: str = "uz"):
+async def get_all_events(request: HttpRequest, filters: Query[EventFilterSchema], lang: str = "uz"):
     activate(lang)
     prefetch_related = [
         "translations", "category__translations", "place__translations", "tickets", "tickets__translations"

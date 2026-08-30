@@ -75,7 +75,7 @@ def create_order_transaction(payload: OrderInSchema, user: User | None = None) -
     except IntegrityError as e:
         logger.error(e)
         raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message="Server has problem")
-    return order
+    return {"message": "Order created successfully"}
 
 
 @router.post("/orders/", response={HTTPStatus.CREATED: MessageSchema}, auth=None)
@@ -83,8 +83,8 @@ async def create_order(request: HttpRequest, payload: OrderInSchema):
     user: User | None = await User.objects.filter(
         Q(phone_number=payload.phone_number) | Q(email=payload.email)
     ).afirst()
-    await sync_to_async(create_order_transaction)(payload, user)
-    return HTTPStatus.CREATED, MessageSchema(message="Order created successfully")
+    message = await sync_to_async(create_order_transaction)(payload, user)
+    return HTTPStatus.CREATED, message
 
 
 @router.get("/orders/", response=list[OrderOutSchema])
@@ -95,5 +95,5 @@ async def get_orders(request: HttpRequest, lang: str = "uz"):
     .select_related("user").prefetch_related(
         Prefetch("order_item", queryset=item_qs))
     ).distinct().order_by("-created_at")
-    orders = [order async for order in order_object.aiterator(chunk_size=50)]
+    orders = [order async for order in order_object.aiterator(chunk_size=100)]
     return orders

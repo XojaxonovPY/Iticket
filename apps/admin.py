@@ -240,7 +240,7 @@ class PaymentInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "total_amount", "colored_status", "created_at", "updated_at")
+    list_display = ("id", "user", "total_amount", "total_paid","colored_status", "created_at", "updated_at")
     list_filter = ("status", "created_at")
     search_fields = ("user__phone_number", "user__email", "id")
     readonly_fields = ("created_at", "updated_at")
@@ -329,6 +329,13 @@ class PaymentAdmin(admin.ModelAdmin):
     def mark_as_refunded(self, request, queryset):
         updated = queryset.update(status=Payment.StatusTextChoices.REFUNDED)
         self.message_user(request, f"{updated} payment(s) marked as Refunded.", messages.INFO)
+
+    def save_model(self, request: HttpRequest, obj: Payment, form: Any, change: Any) -> None:
+        if change and "status" in form.changed_data:
+            if obj.status in (Payment.StatusTextChoices.CANCELLED, Payment.StatusTextChoices.REFUNDED):
+                with transaction.atomic():
+                    Order.objects.filter(pk=obj.order.pk).update(total_paid=0)
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Transaction)

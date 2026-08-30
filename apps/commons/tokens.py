@@ -27,11 +27,11 @@ def create_token(payload: dict, expires_delta: timedelta) -> str:
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-def create_access_token(subject: str, expires_delta: Optional[timedelta] = None) -> str:
+def create_access_token(subject: str) -> str:
     """
     subject: Foydalanuvchining ID si bo'ladi
     """
-    delta = expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    delta = timedelta(days  =ACCESS_TOKEN_EXPIRE_MINUTES)
     return create_token({"sub": str(subject), "type": "access"}, delta)
 
 
