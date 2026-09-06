@@ -1,0 +1,38 @@
+[
+{
+  "model": "apps.question",
+  "pk": 11,
+  "fields": {
+    "question": "Chiptani qanday sotib olish mumkin?",
+    "answer": "Tadbirlar boʻlimidan kerakli tadbir va chipta turini tanlab, toʻlovni onlayn amalga oshirishingiz mumkin.",
+    "is_visible": true
+  }
+},
+{
+  "model": "apps.question",
+  "pk": 12,
+  "fields": {
+    "question": "Sotib olingan chiptani bekor qilish yoki qaytarish mumkinmi?",
+    "answer": "Tadbir boshlanishidan 24 soat oldin chiptani qaytarish imkoniyati mavjud.",
+    "is_visible": true
+  }
+},
+{
+  "model": "apps.question",
+  "pk": 13,
+  "fields": {
+    "question": "Chiptani qayerdan qogʻoz koʻrinishida olish mumkin?",
+    "answer": "Bizning sotuv shoxobchalarimizdan biriga tashrif buyurib, elektron chiptangizni qogʻoz variantiga almashtirishingiz mumkin.",
+    "is_visible": true
+  }
+},
+{
+  "model": "apps.question",
+  "pk": 14,
+  "fields": {
+    "question": "Toʻlov usullari qanday?",
+    "answer": "Click, Payme, Uzum va xalqaro Visa/Mastercard kartalari orqali toʻlov qilish mumkin.",
+    "is_visible": true
+  }
+}
+]

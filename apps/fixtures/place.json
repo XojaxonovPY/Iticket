@@ -1,0 +1,154 @@
+[
+{
+  "model": "apps.place",
+  "pk": 10,
+  "fields": {
+    "phone_number": "+998712000001",
+    "image": "place/humo_arena.jpg"
+  }
+},
+{
+  "model": "apps.place",
+  "pk": 11,
+  "fields": {
+    "phone_number": "+998712000002",
+    "image": "place/xalqlar_dostligi.jpg"
+  }
+},
+{
+  "model": "apps.place",
+  "pk": 12,
+  "fields": {
+    "phone_number": "+998712000003",
+    "image": "place/navoiy_teatri.jpg"
+  }
+},
+{
+  "model": "apps.place",
+  "pk": 13,
+  "fields": {
+    "phone_number": "+998712000004",
+    "image": "place/pakhtakor_stadium.jpg"
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 20,
+  "fields": {
+    "language_code": "uz",
+    "title": "Humo Arena Muz Saroyi",
+    "name": "Humo Arena",
+    "master": 10
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 21,
+  "fields": {
+    "language_code": "ru",
+    "title": "Ледовый дворец Humo Arena",
+    "name": "Хумо Арена",
+    "master": 10
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 22,
+  "fields": {
+    "language_code": "en",
+    "title": "Humo Arena Ice Dome",
+    "name": "Humo Arena",
+    "master": 10
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 23,
+  "fields": {
+    "language_code": "uz",
+    "title": "Xalqlar Doʻstligi Sanʻat Saroyi",
+    "name": "Xalqlar Doʻstligi",
+    "master": 11
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 24,
+  "fields": {
+    "language_code": "ru",
+    "title": "Дворец искусств Дружба Народов",
+    "name": "Дружба Народов",
+    "master": 11
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 25,
+  "fields": {
+    "language_code": "en",
+    "title": "Peoples Friendship Palace",
+    "name": "Peoples Friendship",
+    "master": 11
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 26,
+  "fields": {
+    "language_code": "uz",
+    "title": "Alisher Navoiy nomidagi Katta Teatr",
+    "name": "Navoiy Teatri",
+    "master": 12
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 27,
+  "fields": {
+    "language_code": "ru",
+    "title": "Большой театр имени Алишера Навои",
+    "name": "Театр Навои",
+    "master": 12
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 28,
+  "fields": {
+    "language_code": "en",
+    "title": "Alisher Navoi Theatre",
+    "name": "Navoi Theatre",
+    "master": 12
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 29,
+  "fields": {
+    "language_code": "uz",
+    "title": "Paxtakor Markaziy Stadioni",
+    "name": "Paxtakor Stadioni",
+    "master": 13
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 30,
+  "fields": {
+    "language_code": "ru",
+    "title": "Центральный стадион Пахтакор",
+    "name": "Стадион Пахтакор",
+    "master": 13
+  }
+},
+{
+  "model": "apps.placetranslation",
+  "pk": 31,
+  "fields": {
+    "language_code": "en",
+    "title": "Pakhtakor Central Stadium",
+    "name": "Pakhtakor Stadium",
+    "master": 13
+  }
+}
+]

@@ -10,3 +10,6 @@ init:
 	python manage.py makemessages -l en
 compile:
 	python manage.py compilemessages
+
+load:
+	python manage.py loaddata apps/fixtures/*.json

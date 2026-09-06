@@ -1,0 +1,194 @@
+[
+{
+  "model": "apps.category",
+  "pk": 14,
+  "fields": {}
+},
+{
+  "model": "apps.category",
+  "pk": 15,
+  "fields": {}
+},
+{
+  "model": "apps.category",
+  "pk": 16,
+  "fields": {}
+},
+{
+  "model": "apps.category",
+  "pk": 17,
+  "fields": {}
+},
+{
+  "model": "apps.category",
+  "pk": 18,
+  "fields": {}
+},
+{
+  "model": "apps.category",
+  "pk": 19,
+  "fields": {}
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 28,
+  "fields": {
+    "language_code": "uz",
+    "name": "Konsertlar",
+    "master": 14
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 29,
+  "fields": {
+    "language_code": "ru",
+    "name": "Концерты",
+    "master": 14
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 30,
+  "fields": {
+    "language_code": "en",
+    "name": "Concerts",
+    "master": 14
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 31,
+  "fields": {
+    "language_code": "uz",
+    "name": "Teatr",
+    "master": 15
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 32,
+  "fields": {
+    "language_code": "ru",
+    "name": "Театр",
+    "master": 15
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 33,
+  "fields": {
+    "language_code": "en",
+    "name": "Theater",
+    "master": 15
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 34,
+  "fields": {
+    "language_code": "uz",
+    "name": "Sport",
+    "master": 16
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 35,
+  "fields": {
+    "language_code": "ru",
+    "name": "Спорт",
+    "master": 16
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 36,
+  "fields": {
+    "language_code": "en",
+    "name": "Sports",
+    "master": 16
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 37,
+  "fields": {
+    "language_code": "uz",
+    "name": "Kino",
+    "master": 17
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 38,
+  "fields": {
+    "language_code": "ru",
+    "name": "Кино",
+    "master": 17
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 39,
+  "fields": {
+    "language_code": "en",
+    "name": "Cinema",
+    "master": 17
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 40,
+  "fields": {
+    "language_code": "uz",
+    "name": "Bolalar uchun",
+    "master": 18
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 41,
+  "fields": {
+    "language_code": "ru",
+    "name": "Для детей",
+    "master": 18
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 42,
+  "fields": {
+    "language_code": "en",
+    "name": "For Kids",
+    "master": 18
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 43,
+  "fields": {
+    "language_code": "uz",
+    "name": "Festivallar",
+    "master": 19
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 44,
+  "fields": {
+    "language_code": "ru",
+    "name": "Фестивали",
+    "master": 19
+  }
+},
+{
+  "model": "apps.categorytranslation",
+  "pk": 45,
+  "fields": {
+    "language_code": "en",
+    "name": "Festivals",
+    "master": 19
+  }
+}
+]

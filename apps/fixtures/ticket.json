@@ -1,0 +1,782 @@
+[
+{
+  "model": "apps.ticket",
+  "pk": 9,
+  "fields": {
+    "price": "150000.000",
+    "count": 500,
+    "event": 6
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 10,
+  "fields": {
+    "price": "400000.000",
+    "count": 100,
+    "event": 6
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 11,
+  "fields": {
+    "price": "200000.000",
+    "count": 400,
+    "event": 7
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 12,
+  "fields": {
+    "price": "500000.000",
+    "count": 80,
+    "event": 7
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 13,
+  "fields": {
+    "price": "100000.000",
+    "count": 200,
+    "event": 8
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 14,
+  "fields": {
+    "price": "300000.000",
+    "count": 50,
+    "event": 8
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 15,
+  "fields": {
+    "price": "90000.000",
+    "count": 150,
+    "event": 9
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 16,
+  "fields": {
+    "price": "250000.000",
+    "count": 60,
+    "event": 9
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 17,
+  "fields": {
+    "price": "50000.000",
+    "count": 1000,
+    "event": 10
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 18,
+  "fields": {
+    "price": "120000.000",
+    "count": 300,
+    "event": 10
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 19,
+  "fields": {
+    "price": "60000.000",
+    "count": 800,
+    "event": 11
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 20,
+  "fields": {
+    "price": "180000.000",
+    "count": 120,
+    "event": 11
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 21,
+  "fields": {
+    "price": "70000.000",
+    "count": 600,
+    "event": 12
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 22,
+  "fields": {
+    "price": "220000.000",
+    "count": 100,
+    "event": 12
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 23,
+  "fields": {
+    "price": "80000.000",
+    "count": 350,
+    "event": 13
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 24,
+  "fields": {
+    "price": "80000.000",
+    "count": 600,
+    "event": 14
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 25,
+  "fields": {
+    "price": "200000.000",
+    "count": 150,
+    "event": 14
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 26,
+  "fields": {
+    "price": "100000.000",
+    "count": 400,
+    "event": 15
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 27,
+  "fields": {
+    "price": "120000.000",
+    "count": 1000,
+    "event": 16
+  }
+},
+{
+  "model": "apps.ticket",
+  "pk": 28,
+  "fields": {
+    "price": "40000.000",
+    "count": 2000,
+    "event": 17
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 19,
+  "fields": {
+    "language_code": "uz",
+    "title": "Standart Zonalari",
+    "description": "B3 va B4 sektorlaridagi oʻrinlar",
+    "master": 9
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 20,
+  "fields": {
+    "language_code": "ru",
+    "title": "Стандартные места",
+    "description": "Места в секторах B3 и B4",
+    "master": 9
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 21,
+  "fields": {
+    "language_code": "en",
+    "title": "Standard Seats",
+    "description": "Seats in sectors B3 and B4",
+    "master": 9
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 22,
+  "fields": {
+    "language_code": "uz",
+    "title": "VIP Fan-zona",
+    "description": "Sahnaga eng yaqin fan-zona chiptalari",
+    "master": 10
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 23,
+  "fields": {
+    "language_code": "ru",
+    "title": "VIP Фан-зона",
+    "description": "Билеты в фан-зону прямо перед сценой",
+    "master": 10
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 24,
+  "fields": {
+    "language_code": "en",
+    "title": "VIP Fan-zone",
+    "description": "Fan zone tickets right in front of the stage",
+    "master": 10
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 25,
+  "fields": {
+    "language_code": "uz",
+    "title": "Amfiteatr Oʻrinlari",
+    "description": "Amfiteatr markaziy oʻrinlari",
+    "master": 11
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 26,
+  "fields": {
+    "language_code": "ru",
+    "title": "Места в амфитеатре",
+    "description": "Центральные места амфитеатра",
+    "master": 11
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 27,
+  "fields": {
+    "language_code": "en",
+    "title": "Amphitheater Seats",
+    "description": "Central amphitheater seats",
+    "master": 11
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 28,
+  "fields": {
+    "language_code": "uz",
+    "title": "VIP Parter",
+    "description": "Birinchi va ikkinchi qator oʻrinlari",
+    "master": 12
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 29,
+  "fields": {
+    "language_code": "ru",
+    "title": "VIP Партер",
+    "description": "Места первого и второго рядов",
+    "master": 12
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 30,
+  "fields": {
+    "language_code": "en",
+    "title": "VIP Parterre",
+    "description": "First and second row seats",
+    "master": 12
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 31,
+  "fields": {
+    "language_code": "uz",
+    "title": "Balkon Oʻrinlari",
+    "description": "Yuqori balkon qatori",
+    "master": 13
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 32,
+  "fields": {
+    "language_code": "ru",
+    "title": "Места на балконе",
+    "description": "Верхний ряд балкона",
+    "master": 13
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 33,
+  "fields": {
+    "language_code": "en",
+    "title": "Balcony Seats",
+    "description": "Upper balcony row",
+    "master": 13
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 34,
+  "fields": {
+    "language_code": "uz",
+    "title": "Parter Oʻrinlari",
+    "description": "Sahna qarshisidagi qulay oʻrinlar",
+    "master": 14
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 35,
+  "fields": {
+    "language_code": "ru",
+    "title": "Места в партере",
+    "description": "Удобные места перед сценой",
+    "master": 14
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 36,
+  "fields": {
+    "language_code": "en",
+    "title": "Parterre Seats",
+    "description": "Comfortable seats in front of stage",
+    "master": 14
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 37,
+  "fields": {
+    "language_code": "uz",
+    "title": "Loga Oʻrinlari",
+    "description": "Yon loga sektorlari",
+    "master": 15
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 38,
+  "fields": {
+    "language_code": "ru",
+    "title": "Места в ложе",
+    "description": "Боковые сектора ложи",
+    "master": 15
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 39,
+  "fields": {
+    "language_code": "en",
+    "title": "Box Seats",
+    "description": "Side box sectors",
+    "master": 15
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 40,
+  "fields": {
+    "language_code": "uz",
+    "title": "Markaziy Parter",
+    "description": "Markaziy parter qatorlari",
+    "master": 16
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 41,
+  "fields": {
+    "language_code": "ru",
+    "title": "Центральный Партер",
+    "description": "Ряды центрального партера",
+    "master": 16
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 42,
+  "fields": {
+    "language_code": "en",
+    "title": "Central Parterre",
+    "description": "Central parterre rows",
+    "master": 16
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 43,
+  "fields": {
+    "language_code": "uz",
+    "title": "Sharqiy Sektor",
+    "description": "Sharqiy tribuna oʻrinlari",
+    "master": 17
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 44,
+  "fields": {
+    "language_code": "ru",
+    "title": "Восточный сектор",
+    "description": "Места на восточной трибуне",
+    "master": 17
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 45,
+  "fields": {
+    "language_code": "en",
+    "title": "East Sector",
+    "description": "Seats at eastern stand",
+    "master": 17
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 46,
+  "fields": {
+    "language_code": "uz",
+    "title": "Gʻarbiy VIP Tribuna",
+    "description": "Soya ostidagi qulay VIP oʻrinlar",
+    "master": 18
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 47,
+  "fields": {
+    "language_code": "ru",
+    "title": "Западная VIP трибуна",
+    "description": "Удобные VIP места под навесом",
+    "master": 18
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 48,
+  "fields": {
+    "language_code": "en",
+    "title": "West VIP Stand",
+    "description": "Comfortable covered VIP seats",
+    "master": 18
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 49,
+  "fields": {
+    "language_code": "uz",
+    "title": "Tribuna Sektor B",
+    "description": "Muz usti koʻrinishi yaxshi boʻlgan oʻrinlar",
+    "master": 19
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 50,
+  "fields": {
+    "language_code": "ru",
+    "title": "Трибуна Сектор B",
+    "description": "Места с отличным видом на лед",
+    "master": 19
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 51,
+  "fields": {
+    "language_code": "en",
+    "title": "Stand Sector B",
+    "description": "Seats with great ice view",
+    "master": 19
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 52,
+  "fields": {
+    "language_code": "uz",
+    "title": "VIP Lojasi",
+    "description": "Xususiy VIP loja oʻrinlari",
+    "master": 20
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 53,
+  "fields": {
+    "language_code": "ru",
+    "title": "VIP Ложа",
+    "description": "Места в частной VIP ложе",
+    "master": 20
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 54,
+  "fields": {
+    "language_code": "en",
+    "title": "VIP Lounge",
+    "description": "Private VIP lounge seats",
+    "master": 20
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 55,
+  "fields": {
+    "language_code": "uz",
+    "title": "Kinozal Oʻrinlari",
+    "description": "Asosiy zal seating",
+    "master": 21
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 56,
+  "fields": {
+    "language_code": "ru",
+    "title": "Места в кинозале",
+    "description": "Рассадка в главном зале",
+    "master": 21
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 57,
+  "fields": {
+    "language_code": "en",
+    "title": "Cinema Hall Seats",
+    "description": "Main hall seating",
+    "master": 21
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 58,
+  "fields": {
+    "language_code": "uz",
+    "title": "Qizil Yoʻlakcha va VIP Pass",
+    "description": "Qizil yoʻlakcha va mehmonlar zonasi",
+    "master": 22
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 59,
+  "fields": {
+    "language_code": "ru",
+    "title": "Красная Дорожка и VIP Pass",
+    "description": "Доступ к красной дорожке и гостевой зоне",
+    "master": 22
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 60,
+  "fields": {
+    "language_code": "en",
+    "title": "Red Carpet VIP Pass",
+    "description": "Red carpet and guest area access",
+    "master": 22
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 61,
+  "fields": {
+    "language_code": "uz",
+    "title": "Standart Seans",
+    "description": "Katta zaldagi barcha standart qatorlar",
+    "master": 23
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 62,
+  "fields": {
+    "language_code": "ru",
+    "title": "Стандарт Сеанс",
+    "description": "Все стандартные ряды в большом зале",
+    "master": 23
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 63,
+  "fields": {
+    "language_code": "en",
+    "title": "Standard Screening",
+    "description": "All standard rows in the main hall",
+    "master": 23
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 64,
+  "fields": {
+    "language_code": "uz",
+    "title": "Bolalar va Validayn Sektori",
+    "description": "Oila uchun qulay oʻrinlar",
+    "master": 24
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 65,
+  "fields": {
+    "language_code": "ru",
+    "title": "Сектор Для Детей и Родителей",
+    "description": "Удобные места для всей семьи",
+    "master": 24
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 66,
+  "fields": {
+    "language_code": "en",
+    "title": "Family Sector",
+    "description": "Comfortable family seats",
+    "master": 24
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 67,
+  "fields": {
+    "language_code": "uz",
+    "title": "Sehrli Rink Oʻrinlari",
+    "description": "Muz maydoniga eng yaqin 1-3 qatorlar",
+    "master": 25
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 68,
+  "fields": {
+    "language_code": "ru",
+    "title": "Места у Сцены",
+    "description": "1-3 ряды прямо у ледовой арены",
+    "master": 25
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 69,
+  "fields": {
+    "language_code": "en",
+    "title": "Rinkside Seats",
+    "description": "Rows 1-3 right by the ice rink",
+    "master": 25
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 70,
+  "fields": {
+    "language_code": "uz",
+    "title": "Interaktiv Zona",
+    "description": "Oʻyinlar va animatorlar zonasi",
+    "master": 26
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 71,
+  "fields": {
+    "language_code": "ru",
+    "title": "Интерактивная Зона",
+    "description": "Зона игр и аниматоров",
+    "master": 26
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 72,
+  "fields": {
+    "language_code": "en",
+    "title": "Interactive Zone",
+    "description": "Games and animators zone",
+    "master": 26
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 73,
+  "fields": {
+    "language_code": "uz",
+    "title": "Open-Air Maydon",
+    "description": "Umumiy raqs va harakatlanish zonasi",
+    "master": 27
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 74,
+  "fields": {
+    "language_code": "ru",
+    "title": "Open-Air Зона",
+    "description": "Общая танцевальная зона",
+    "master": 27
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 75,
+  "fields": {
+    "language_code": "en",
+    "title": "Open-Air Pass",
+    "description": "General dance and standing area",
+    "master": 27
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 76,
+  "fields": {
+    "language_code": "uz",
+    "title": "Kirish Bileti",
+    "description": "Festival hududiga 1 kunlik kiritish bileti",
+    "master": 28
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 77,
+  "fields": {
+    "language_code": "ru",
+    "title": "Входной Билет",
+    "description": "Билет на 1 день доступа к территории фестиваля",
+    "master": 28
+  }
+},
+{
+  "model": "apps.tickettranslation",
+  "pk": 78,
+  "fields": {
+    "language_code": "en",
+    "title": "Entrance Pass",
+    "description": "1-day access pass to festival grounds",
+    "master": 28
+  }
+}
+]

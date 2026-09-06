@@ -3,11 +3,11 @@ from http import HTTPStatus
 
 from asgiref.sync import sync_to_async
 from django.db import transaction
-from django.db.models import Q, F, Case, PositiveIntegerField, When, Value
-from django.db.models.query import Prefetch
+from django.db.models import Q, F, Case, PositiveIntegerField, When, Value, Prefetch
 from django.db.utils import IntegrityError
 from django.http import HttpRequest
 from django.utils.translation import activate
+from django.utils.translation import gettext as _
 from ninja import Router
 from ninja.errors import HttpError
 
@@ -33,7 +33,7 @@ def create_order_transaction(payload: OrderInSchema, user: User | None = None) -
             tickets = Ticket.objects.select_for_update().filter(pk__in=ticket_ids).all()
 
             if len(tickets) != len(payload_map):
-                raise HttpError(status_code=HTTPStatus.NOT_FOUND, message="Tickets not found")
+                raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=_("Tickets not found"))
 
             total_amount = 0
             ticket_dict = {}
@@ -43,7 +43,7 @@ def create_order_transaction(payload: OrderInSchema, user: User | None = None) -
                 if ticket.count < requested_count:
                     raise HttpError(
                         status_code=HTTPStatus.BAD_REQUEST,
-                        message=f"Not enough tickets available for {ticket.id}"
+                        message=_(f"Not enough tickets available for {ticket.id}")
                     )
 
                 total_amount += ticket.price * requested_count
@@ -74,8 +74,8 @@ def create_order_transaction(payload: OrderInSchema, user: User | None = None) -
             )
     except IntegrityError as e:
         logger.error(e)
-        raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message="Server has problem")
-    return {"message": "Order created successfully"}
+        raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message=_("Server has problem"))
+    return {"message": _("Order created successfully")}
 
 
 @router.post("/orders/", response={HTTPStatus.CREATED: MessageSchema}, auth=None)

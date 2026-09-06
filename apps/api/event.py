@@ -31,7 +31,7 @@ async def get_all_events(request: HttpRequest, filters: Query[EventFilterSchema]
     prefetch_related = [
         "translations", "category__translations", "place__translations", "tickets", "tickets__translations"
     ]
-    events_obj: Event = Event.objects.select_related("place", "category").prefetch_related(*prefetch_related)
+    events_obj: Event = Event.objects.select_related("place", "category").prefetch_related(*prefetch_related).distinct()
     events = filters.filter(events_obj)
     return events
 
@@ -67,7 +67,7 @@ async def create_or_delete_wishlist(request: HttpRequest, payload: WishlistSchem
 
 @router.get("/wishlist/", response=list[EventSchema])
 @paginate(PageNumberPagination, page=1, page_size=20)
-async def get_wishlist_events(request: HttpRequest, filters: EventFilterSchema = Query(), lang: str = "uz"):
+async def get_wishlist_events(request: HttpRequest, filters: Query[EventFilterSchema], lang: str = "uz"):
     activate(lang)
     events_obj = Event.objects.filter(
         wishlists__user=request.auth

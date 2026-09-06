@@ -15,7 +15,7 @@ from apps.models import User
 
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 5
+ACCESS_TOKEN_EXPIRE_DAYS = 5
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
 
@@ -31,7 +31,7 @@ def create_access_token(subject: str) -> str:
     """
     subject: Foydalanuvchining ID si bo'ladi
     """
-    delta = timedelta(days  =ACCESS_TOKEN_EXPIRE_MINUTES)
+    delta = timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
     return create_token({"sub": str(subject), "type": "access"}, delta)
 
 

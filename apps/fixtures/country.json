@@ -1,0 +1,162 @@
+[
+{
+  "model": "apps.country",
+  "pk": 22,
+  "fields": {}
+},
+{
+  "model": "apps.country",
+  "pk": 23,
+  "fields": {}
+},
+{
+  "model": "apps.country",
+  "pk": 24,
+  "fields": {}
+},
+{
+  "model": "apps.country",
+  "pk": 25,
+  "fields": {}
+},
+{
+  "model": "apps.country",
+  "pk": 26,
+  "fields": {}
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 48,
+  "fields": {
+    "language_code": "uz",
+    "name": "Oʻzbekiston",
+    "master": 22
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 49,
+  "fields": {
+    "language_code": "ru",
+    "name": "Узбекистан",
+    "master": 22
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 50,
+  "fields": {
+    "language_code": "en",
+    "name": "Uzbekistan",
+    "master": 22
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 51,
+  "fields": {
+    "language_code": "uz",
+    "name": "Rossiya",
+    "master": 23
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 52,
+  "fields": {
+    "language_code": "ru",
+    "name": "Россия",
+    "master": 23
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 53,
+  "fields": {
+    "language_code": "en",
+    "name": "Russia",
+    "master": 23
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 54,
+  "fields": {
+    "language_code": "uz",
+    "name": "AQSH",
+    "master": 24
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 55,
+  "fields": {
+    "language_code": "ru",
+    "name": "США",
+    "master": 24
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 56,
+  "fields": {
+    "language_code": "en",
+    "name": "USA",
+    "master": 24
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 57,
+  "fields": {
+    "language_code": "uz",
+    "name": "Turkiya",
+    "master": 25
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 58,
+  "fields": {
+    "language_code": "ru",
+    "name": "Турция",
+    "master": 25
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 59,
+  "fields": {
+    "language_code": "en",
+    "name": "Turkey",
+    "master": 25
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 60,
+  "fields": {
+    "language_code": "uz",
+    "name": "Germaniya",
+    "master": 26
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 61,
+  "fields": {
+    "language_code": "ru",
+    "name": "Германия",
+    "master": 26
+  }
+},
+{
+  "model": "apps.countrytranslation",
+  "pk": 62,
+  "fields": {
+    "language_code": "en",
+    "name": "Germany",
+    "master": 26
+  }
+}
+]

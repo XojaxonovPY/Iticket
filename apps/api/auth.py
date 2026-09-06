@@ -36,17 +36,17 @@ async def login(request: HttpRequest, payload: LoginSchema):
         raise HttpError(message="Incorrect password", status_code=HTTPStatus.BAD_REQUEST)
     user.last_login = now()
     await user.asave()
-    access_token = create_access_token(str(user.pk))
-    refresh_token = create_refresh_token(str(user.pk))
+    access_token: str = create_access_token(str(user.pk))
+    refresh_token: str = create_refresh_token(str(user.pk))
     return TokenSchema(access_token=access_token, refresh_token=refresh_token)
 
 
 @router.post("/refresh/token/", response={HTTPStatus.OK: TokenSchema}, auth=None)
 async def get_refresh_token(request: HttpRequest, payload: RefreshTokenSchema):
-    token: dict = verify_token(payload)
+    token: dict[str, str] = verify_token(payload)
     if not token and token.get("type") != "refresh":
         raise HttpError(status_code=HTTPStatus.BAD_REQUEST, message=_("Invalid token"))
     subject = token.get("sub")
-    access_token = create_access_token(str(subject))
-    refresh_token = create_refresh_token(str(subject))
+    access_token = create_access_token(subject)
+    refresh_token = create_refresh_token(subject)
     return TokenSchema(access_token=access_token, refresh_token=refresh_token)

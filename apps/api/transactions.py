@@ -4,6 +4,7 @@ from asgiref.sync import sync_to_async
 from django.db import transaction
 from django.db.models import Prefetch, Q
 from django.http.request import HttpRequest
+from django.utils.translation import gettext as __
 from ninja import Router, Query
 from ninja.errors import HttpError
 
@@ -24,10 +25,10 @@ def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str
                 .first()
             )
             if not order:
-                raise HttpError(HTTPStatus.NOT_FOUND, "Order not found")
+                raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=__("Order not found"))
 
             if order.status in [Order.StatusTextChoices.CANCELLED, Order.StatusTextChoices.FAILED]:
-                raise HttpError(HTTPStatus.BAD_REQUEST, "Order is already cancelled or failed")
+                raise HttpError(HTTPStatus.BAD_REQUEST, __("Order is already cancelled or failed"))
             payment_filter = {"order": order, "user": user, "status": Payment.StatusTextChoices.PENDING}
             payment, _ = Payment.objects.select_for_update().get_or_create(
                 **payment_filter,
@@ -35,7 +36,7 @@ def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str
             )
 
             if payment.status == Payment.StatusTextChoices.COMPLETED:
-                raise HttpError(HTTPStatus.BAD_REQUEST, "Payment already completed")
+                raise HttpError(HTTPStatus.BAD_REQUEST, __("Payment already completed"))
 
             order_required_amount = order.total_amount
             paid_amount = payload.total_amount
@@ -64,7 +65,7 @@ def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str
                     )
 
                 Transaction.objects.bulk_create(transactions)
-                return {"message": "Payment completed successfully"}
+                return {"message": __("Payment completed successfully")}
 
             else:
                 Payment.objects.filter(**payment_filter).update(
@@ -76,12 +77,12 @@ def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str
                     amount=paid_amount,
                     status=Transaction.StatusTextChoices.SUCCESS
                 )
-                return {"message": "Partial payment accepted"}
+                return {"message": __("Partial payment accepted")}
     except HttpError:
         raise
     except Exception as e:
         logger.error(f"Payment error: {e}", exc_info=True)
-        raise HttpError(HTTPStatus.INTERNAL_SERVER_ERROR, "Payment processing failed")
+        raise HttpError(HTTPStatus.INTERNAL_SERVER_ERROR, __("Payment processing failed"))
 
 
 @router.post("/payment/", response={HTTPStatus.CREATED: MessageSchema})
