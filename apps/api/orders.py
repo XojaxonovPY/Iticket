@@ -43,7 +43,7 @@ def create_order_transaction(payload: OrderInSchema, user: User | None = None) -
                 if ticket.count < requested_count:
                     raise HttpError(
                         status_code=HTTPStatus.BAD_REQUEST,
-                        message=_(f"Not enough tickets available for {ticket.id}")
+                        message=_("Not enough tickets available for {ticket_id}").format(ticket_id=ticket.id)
                     )
 
                 total_amount += ticket.price * requested_count

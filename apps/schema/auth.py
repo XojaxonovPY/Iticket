@@ -16,7 +16,7 @@ class RegisterSchema(Schema):
     @model_validator(mode="after")
     def validate_password(self):
         if self.password != self.confirm_password:
-            return ValueError(_("Password is not equal to confirm_password"))
+            raise ValueError(_("Password is not equal to confirm_password"))
         return self
 
     @field_validator("phone_number")

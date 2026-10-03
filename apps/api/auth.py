@@ -36,7 +36,7 @@ async def login(request: HttpRequest, payload: LoginSchema):
         raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=_("User does not exist"))
 
     if not await user.acheck_password(payload.password):
-        raise HttpError(message="Incorrect password", status_code=HTTPStatus.BAD_REQUEST)
+        raise HttpError(message=_("Incorrect password"), status_code=HTTPStatus.BAD_REQUEST)
     user.last_login = now()
     await user.asave()
     access_token: str = create_access_token(str(user.pk))

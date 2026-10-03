@@ -5,6 +5,7 @@ from django.db.models import (
 )
 from django.db.models.deletion import SET_NULL, CASCADE
 from django.db.models.enums import TextChoices
+from django.utils.translation import gettext_lazy as _
 from parler.models import TranslatableModel, TranslatedFields
 
 from apps.commons.manager import CustomUserManager
@@ -12,8 +13,8 @@ from apps.commons.manager import CustomUserManager
 
 class User(AbstractUser):
     class GenderTextChoices(TextChoices):
-        MALE = "male", "Male"
-        FEMALE = "female", "Female"
+        MALE = "male", _("Male")
+        FEMALE = "female", _("Female")
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "phone_number"
@@ -166,10 +167,10 @@ class OrderItem(Model):
 
 class Order(Model):
     class StatusTextChoices(TextChoices):
-        PENDING = "pending", "Pending"
-        DELIVERED = "delivered", "Delivered"
-        CANCELLED = "cancelled", "Cancelled"
-        FAILED = "failed", "Failed"
+        PENDING = "pending", _("Pending")
+        DELIVERED = "delivered", _("Delivered")
+        CANCELLED = "cancelled", _("Cancelled")
+        FAILED = "failed", _("Failed")
 
     user = ForeignKey("apps.User", related_name="orders", on_delete=SET_NULL, db_index=True, null=True)
     status = CharField(max_length=30, choices=StatusTextChoices.choices, default=StatusTextChoices.PENDING)
@@ -184,10 +185,10 @@ class Order(Model):
 
 class Payment(Model):
     class StatusTextChoices(TextChoices):
-        PENDING = "pending", "Pending"
-        COMPLETED = "completed", "Completed"
-        CANCELLED = "cancelled", "Cancelled"
-        REFUNDED = "refunded", "Refunded"
+        PENDING = "pending", _("Pending")
+        COMPLETED = "completed", _("Completed")
+        CANCELLED = "cancelled", _("Cancelled")
+        REFUNDED = "refunded", _("Refunded")
 
     total_amount = DecimalField(max_digits=10, decimal_places=3)
     order = ForeignKey("apps.Order", related_name="payments", on_delete=SET_NULL, db_index=True, null=True)
@@ -202,8 +203,8 @@ class Payment(Model):
 
 class Transaction(Model):
     class StatusTextChoices(TextChoices):
-        SUCCESS = "success", "Success"
-        FAILED = "failed", "Failed"
+        SUCCESS = "success", _("Success")
+        FAILED = "failed", _("Failed")
 
     payment = ForeignKey("apps.Payment", on_delete=SET_NULL, related_name="transactions", db_index=True, null=True)
     status = CharField(

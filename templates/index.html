@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTicket.uz — Madaniy va ko'ngilochar tadbirlarga chiptalar</title>
+    <meta name="description" content="Konsertlar, spektakllar, festivallar va sport musobaqalariga rasmiy chiptalarni onlayn xarid qiling.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23eb1c24'><path d='M2 9v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zm18 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM4 5h16a1 1 0 0 0 0-2H4a1 1 0 0 0 0 2z'/></svg>">
+
+    <!-- Google Font & Brand CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- React 18 & ReactDOM (CDN) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- In-browser JSX parser (Babel) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS (CDN) & FontAwesome Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#EB1C24',
+                        'primary-dark': '#D0141B',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen selection:bg-rose-500 selection:text-white">
+
+    <!-- React Root Mount -->
+    <div id="root"></div>
+
+    <!-- Django Configuration for Frontend -->
+    <script>
+        window.DJANGO_CONFIG = {
+            csrfToken: "{{ csrf_token }}",
+            baseUrl: "{{ BASE_URL|default:'' }}"
+        };
+    </script>
+
+    <!-- 1. Localization, API Client & Services Layer (Vanilla JS) -->
+    <script src="{% static 'js/i18n.js' %}"></script>
+    <script src="{% static 'js/api/client.js' %}"></script>
+    <script src="{% static 'js/api/services.js' %}"></script>
+
+    <!-- 2. UI Components (Babel JSX) -->
+    <script type="text/babel" src="{% static 'js/components/Toast.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/EventCard.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/Navbar.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/Footer.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/AuthModal.js' %}"></script>
+
+    <!-- 3. Pages Layer (Babel JSX) -->
+    <script type="text/babel" src="{% static 'js/pages/HomePage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/EventDetailPage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/CartPage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/CheckoutPage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/ProfilePage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/WishlistPage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/OutletsPage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/FAQPage.js' %}"></script>
+
+    <!-- 4. Main App & Router Entrypoint (Babel JSX) -->
+    <script type="text/babel" src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

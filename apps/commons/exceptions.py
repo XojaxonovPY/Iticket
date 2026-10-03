@@ -2,6 +2,7 @@ import logging
 from http import HTTPStatus
 
 from django.http.request import HttpRequest
+from django.utils.translation import gettext as _
 from ninja import NinjaAPI
 from ninja.errors import HttpError, ValidationError
 
@@ -52,7 +53,7 @@ def exception_handler(api: NinjaAPI):
             {
                 "status": False,
                 "status_code": HTTPStatus.UNPROCESSABLE_ENTITY,
-                "message": "Ma'lumotlar noto'g'ri kiritildi",
+                "message": _("Invalid input data"),
                 "errors": formatted_errors,
             },
             status=HTTPStatus.UNPROCESSABLE_ENTITY,
@@ -66,7 +67,7 @@ def exception_handler(api: NinjaAPI):
             {
                 "status": False,
                 "status_code": HTTPStatus.INTERNAL_SERVER_ERROR,
-                "message": "An internal server error occurred.",
+                "message": _("An internal server error occurred."),
                 "errors": None,
             },
             status=HTTPStatus.INTERNAL_SERVER_ERROR,

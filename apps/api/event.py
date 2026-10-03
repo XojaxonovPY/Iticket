@@ -67,7 +67,7 @@ async def create_or_delete_wishlist(request: HttpRequest, payload: WishlistSchem
         await Wishlist.objects.acreate(user=user, event_id=event_id)
     except IntegrityError as e:
         logger.error(e)
-        raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message="Something went wrong")
+        raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message=_("Something went wrong"))
     return HTTPStatus.CREATED, MessageSchema(status=True, message=_("Wishlist is created"))
 
 
