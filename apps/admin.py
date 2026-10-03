@@ -2,6 +2,7 @@ import datetime
 from typing import Any
 
 import openpyxl
+from django.conf import settings
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
@@ -156,6 +157,23 @@ class SalesOutletsAdmin(admin.ModelAdmin):
     }
 
 
+def get_image_url(image) -> str:
+    """Return accessible URL for image whether it is a URLField string or FileField/ImageField."""
+    if not image:
+        return ""
+    if hasattr(image, "url"):
+        return image.url
+    url_str = str(image).strip()
+    if not url_str:
+        return ""
+    if not url_str.startswith(("http://", "https://", "/")):
+        media_url = getattr(settings, "MEDIA_URL", "/media/")
+        if not media_url.startswith("/"):
+            media_url = f"/{media_url}"
+        return f"{media_url.rstrip('/')}/{url_str.lstrip('/')}"
+    return url_str
+
+
 @admin.register(Place)
 class PlaceAdmin(TranslatableAdmin):
     list_display = ("id", "phone_number", "image_preview")
@@ -165,9 +183,11 @@ class PlaceAdmin(TranslatableAdmin):
 
     @admin.display(description=_("Image"))
     def image_preview(self, obj):
-        if obj.image:
+        url = get_image_url(obj.image)
+        if url:
             return mark_safe(
-                f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
+                f'<img src="{escape(url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />'
+            )
         return "-"
 
 
@@ -197,9 +217,11 @@ class EventAdmin(TranslatableAdmin):
 
     @admin.display(description=_("Image"))
     def image_preview(self, obj):
-        if obj.image:
+        url = get_image_url(obj.image)
+        if url:
             return mark_safe(
-                f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
+                f'<img src="{escape(url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />'
+            )
         return "-"
 
 

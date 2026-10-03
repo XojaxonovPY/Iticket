@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db.models import (
     CharField, EmailField, DateField, Model, ForeignKey, TextField, DecimalField, TimeField,
-    ImageField, DateTimeField, JSONField, PositiveIntegerField, BooleanField
+    URLField, DateTimeField, JSONField, PositiveIntegerField, BooleanField
 )
 from django.db.models.deletion import SET_NULL, CASCADE
 from django.db.models.enums import TextChoices
@@ -83,7 +83,7 @@ class Place(TranslatableModel):
         name=CharField(max_length=200)
     )
     phone_number = CharField(max_length=20)
-    image = ImageField(null=True, blank=True, upload_to="place/")
+    image = URLField(null=True, blank=True)
 
     def __str__(self):
         title = self.safe_translation_getter("title", any_language=True)
@@ -108,7 +108,7 @@ class Event(TranslatableModel):
         title=CharField(max_length=355),
         description=TextField()
     )
-    image = ImageField(null=True, blank=True, upload_to="events/")
+    image = URLField(null=True, blank=True)
     category = ForeignKey("apps.Category", null=True, blank=True, related_name="events", on_delete=SET_NULL)
     latitude = DecimalField(max_digits=9, decimal_places=6)
     longitude = DecimalField(max_digits=9, decimal_places=6)

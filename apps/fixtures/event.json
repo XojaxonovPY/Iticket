@@ -3,7 +3,7 @@
   "model": "apps.event",
   "pk": 6,
   "fields": {
-    "image": "events/konsta_live.jpg",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3HbF3yqT1F6W_x1uWFpRLwJ1kt0a15d6AnkGNvL0jNw&s=10",
     "category": 14,
     "latitude": "41.311151",
     "longitude": "69.279737",
@@ -20,7 +20,7 @@
   "model": "apps.event",
   "pk": 7,
   "fields": {
-    "image": "events/yulduz_usmonova.jpg",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9RmvIJn5oeC2jsPFDQU5elMjgJd95JwC2hxuMne7dNg&s=10",
     "category": 14,
     "latitude": "41.303210",
     "longitude": "69.241520",
@@ -37,7 +37,7 @@
   "model": "apps.event",
   "pk": 8,
   "fields": {
-    "image": "events/swan_lake.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/WN26yy2nR1BFWBicml7pmixQLGtl5eBLCyPzoD8I.jpg",
     "category": 15,
     "latitude": "41.314220",
     "longitude": "69.273110",
@@ -54,7 +54,7 @@
   "model": "apps.event",
   "pk": 9,
   "fields": {
-    "image": "events/romeo_juliet.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/U2qJn0NiZD3NKFOBj6ih2V0JYmsLKDpTCZ3Y1OG7.jpg",
     "category": 15,
     "latitude": "41.314220",
     "longitude": "69.273110",
@@ -71,7 +71,7 @@
   "model": "apps.event",
   "pk": 10,
   "fields": {
-    "image": "events/football_pakhtakor.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/hJK2wQrbnz5qpL1uVn6h1fo8dRgbrdtIzhe7dmHu.jpg",
     "category": 16,
     "latitude": "41.315000",
     "longitude": "69.260000",
@@ -88,7 +88,7 @@
   "model": "apps.event",
   "pk": 11,
   "fields": {
-    "image": "events/hockey_humo.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/UCQwuc3ZO46nogVXuhjWNGKVS95faNJ83Lc0Ujbq.jpg",
     "category": 16,
     "latitude": "41.311151",
     "longitude": "69.279737",
@@ -105,7 +105,7 @@
   "model": "apps.event",
   "pk": 12,
   "fields": {
-    "image": "events/tashkent_film_fest.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/A3p4m7NcnEWxnVrAqwfNIXlHuOf3wC8TFVLcAtYF.jpg",
     "category": 17,
     "latitude": "41.303210",
     "longitude": "69.241520",
@@ -122,7 +122,7 @@
   "model": "apps.event",
   "pk": 13,
   "fields": {
-    "image": "events/otello_premiere.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/2aYBRA3h9QA0Pv29v2UxVtSsl7lSNPCbQqa7TvL4.jpg",
     "category": 17,
     "latitude": "41.303210",
     "longitude": "69.241520",
@@ -139,7 +139,7 @@
   "model": "apps.event",
   "pk": 14,
   "fields": {
-    "image": "events/buratino_ice_show.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/4Tt5j9fRN8ztFLxHmLblHAczQshWclN3RJUxjJkn.jpg",
     "category": 18,
     "latitude": "41.311151",
     "longitude": "69.279737",
@@ -156,7 +156,7 @@
   "model": "apps.event",
   "pk": 15,
   "fields": {
-    "image": "events/magic_space.jpg",
+    "image": "https://cdn.iticket.uz/event/poster/q6o1kBgA82FhFPMfA5QkOfzGgvE6Wn0eVoqkV95k.png",
     "category": 18,
     "latitude": "41.311151",
     "longitude": "69.279737",
@@ -173,7 +173,7 @@
   "model": "apps.event",
   "pk": 16,
   "fields": {
-    "image": "events/tashkent_music_fest.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/KxQX2ws6lpzlbv50gooIxakmbRpfbrGb2YpcaoL1.jpg",
     "category": 19,
     "latitude": "41.303210",
     "longitude": "69.241520",
@@ -190,7 +190,7 @@
   "model": "apps.event",
   "pk": 17,
   "fields": {
-    "image": "events/gastro_food_fest.jpg",
+    "image": "https://cdn.iticket.uz/event/cover/gNx0s3XG9u07uo00YwnfCAXg2t6q7qVblQq2r7lV.jpg",
     "category": 19,
     "latitude": "41.315000",
     "longitude": "69.260000",

@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.db.utils import IntegrityError
 from django.http import HttpRequest
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
@@ -8,6 +9,7 @@ from ninja.errors import HttpError
 from ninja.pagination import paginate, PageNumberPagination
 
 from apps.commons.decorators import cache_page_ninja
+from apps.commons.exceptions import logger
 from apps.filters import EventFilterSchema
 from apps.models import Category, Event, Wishlist
 from apps.schema import MessageSchema, CategorySchema, EventSchema, WishlistSchema
@@ -61,8 +63,12 @@ async def create_or_delete_wishlist(request: HttpRequest, payload: WishlistSchem
         raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=_("Event not found"))
     if wishlist_delete_count > 0:
         return HTTPStatus.NO_CONTENT, None
-    await Wishlist.objects.acreate(user=user, event_id=event_id)
-    return HTTPStatus.CREATED, MessageSchema(message=_("Wishlist is created"))
+    try:
+        await Wishlist.objects.acreate(user=user, event_id=event_id)
+    except IntegrityError as e:
+        logger.error(e)
+        raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message="Something went wrong")
+    return HTTPStatus.CREATED, MessageSchema(status=True, message=_("Wishlist is created"))
 
 
 @router.get("/wishlist/", response=list[EventSchema])

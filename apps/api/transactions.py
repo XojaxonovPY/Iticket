@@ -16,7 +16,7 @@ from apps.schema import MessageSchema, PaymentInSchema, PaymentOutSchema, OrderO
 router = Router()
 
 
-def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str, str]:
+def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str, str | bool]:
     try:
         with transaction.atomic():
             order = (
@@ -77,18 +77,10 @@ def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str
                     amount=paid_amount,
                     status=Transaction.StatusTextChoices.SUCCESS
                 )
-                return {"message": __("Partial payment accepted")}
-    except HttpError:
-        raise
+                return {"status": True, "message": __("Partial payment accepted")}
     except Exception as e:
         logger.error(f"Payment error: {e}", exc_info=True)
         raise HttpError(HTTPStatus.INTERNAL_SERVER_ERROR, __("Payment processing failed"))
-
-
-@router.post("/payment/", response={HTTPStatus.CREATED: MessageSchema})
-async def create_payment(request: HttpRequest, payload: PaymentInSchema):
-    message = await sync_to_async(create_payment_transaction)(payload, request.auth)
-    return HTTPStatus.CREATED, message
 
 
 def _get_orders_queryset(user):
@@ -111,6 +103,12 @@ def _get_payments_queryset(user):
     )
 
 
+@router.post("/payment/", response={HTTPStatus.CREATED: MessageSchema})
+async def create_payment(request: HttpRequest, payload: PaymentInSchema):
+    message = await sync_to_async(create_payment_transaction)(payload, request.auth)
+    return HTTPStatus.CREATED, message
+
+
 @router.get("/transactions/", response=list[PaymentOutSchema] | list[OrderOutSchema] | AllTransactionsSchema)
 async def get_payments_transactions(
         request: HttpRequest,
@@ -122,11 +120,11 @@ async def get_payments_transactions(
         payments_qs = _get_payments_queryset(user)
         return [payment async for payment in payments_qs.aiterator(chunk_size=chunk_size)]
 
-    if filters == TransactionEnumFilter.pending:
+    elif filters == TransactionEnumFilter.pending:
         orders_qs = _get_orders_queryset(user).filter(total_paid=0)
         return [order async for order in orders_qs.aiterator(chunk_size=chunk_size)]
 
-    if filters == TransactionEnumFilter.receive:
+    elif filters == TransactionEnumFilter.receive:
         orders_qs = _get_orders_queryset(user).filter(total_paid__gt=0)
         return [order async for order in orders_qs.aiterator(chunk_size=chunk_size)]
 

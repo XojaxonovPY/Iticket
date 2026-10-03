@@ -4,7 +4,7 @@
   "pk": 10,
   "fields": {
     "phone_number": "+998712000001",
-    "image": "place/humo_arena.jpg"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQXzd2_ALZ3EqCMpjgxMDtLhMbfAA-ldM9kZShxGNiJA&s=10"
   }
 },
 {
@@ -12,7 +12,7 @@
   "pk": 11,
   "fields": {
     "phone_number": "+998712000002",
-    "image": "place/xalqlar_dostligi.jpg"
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbVNil-qSjurDiDDEZ6hCIF5vPxurohXrAfXjaFSY77g&s=10"
   }
 },
 {
@@ -20,7 +20,7 @@
   "pk": 12,
   "fields": {
     "phone_number": "+998712000003",
-    "image": "place/navoiy_teatri.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/2/26/Fasad_theatre.jpg?utm_source=uz.wikipedia.org&utm_campaign=index&utm_content=original"
   }
 },
 {
@@ -28,7 +28,7 @@
   "pk": 13,
   "fields": {
     "phone_number": "+998712000004",
-    "image": "place/pakhtakor_stadium.jpg"
+    "image": "https://championat.asia/upload/storage/297908_680.jpg"
   }
 },
 {

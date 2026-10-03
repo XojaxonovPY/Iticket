@@ -57,7 +57,7 @@ async def card_create(request: HttpRequest, payload: OrderItemInSchema):
         })
 
     await cache.aset(cache_key, ticket_items, timeout=EXPIRE_SECONDS)
-    return HTTPStatus.CREATED, MessageSchema(message=_("Card is save successfully"))
+    return HTTPStatus.CREATED, MessageSchema(status=True, message=_("Card is save successfully"))
 
 
 async def get_ticket(request: HttpRequest, user: User | AnonymousUser) -> tuple[
@@ -141,4 +141,4 @@ async def card_delete(request: HttpRequest, pk: int):
 
         return HTTPStatus.NO_CONTENT, None
 
-    return HTTPStatus.OK, MessageSchema(message=_("Card does not exist"))
+    return HTTPStatus.OK, MessageSchema(status=True, message=_("Card does not exist"))

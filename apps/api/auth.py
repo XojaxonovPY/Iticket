@@ -1,12 +1,14 @@
 from http import HTTPStatus
 
 from django.db.models import Q
+from django.db.utils import IntegrityError
 from django.http.request import HttpRequest
 from django.utils.timezone import now
 from django.utils.translation import gettext as _
 from ninja import Router
 from ninja.errors import HttpError
 
+from apps.commons.exceptions import logger
 from apps.commons.tokens import create_access_token, create_refresh_token, verify_token
 from apps.models import User
 from apps.schema import RegisterSchema, MessageSchema, LoginSchema, TokenSchema, RefreshTokenSchema
@@ -16,11 +18,12 @@ router = Router()
 
 @router.post("/register/", response={HTTPStatus.CREATED: MessageSchema}, auth=None)
 async def register(request: HttpRequest, payload: RegisterSchema):
-    user: bool = await User.objects.filter(email=payload.email, phone_number=payload.phone_number).aexists()
-    if user:
+    try:
+        await User.objects.acreate_user(**payload.dict())
+    except IntegrityError as e:
+        logger.error(e)
         raise HttpError(status_code=HTTPStatus.CONFLICT, message=_("User already exists"))
-    await User.objects.acreate_user(**payload.dict())
-    return MessageSchema(message=_("User is registered"))
+    return MessageSchema(status=True, message=_("User is registered"))
 
 
 @router.post("/login/", response={HTTPStatus.OK: TokenSchema}, auth=None)

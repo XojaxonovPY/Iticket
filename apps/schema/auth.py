@@ -29,6 +29,7 @@ class RegisterSchema(Schema):
 
 
 class MessageSchema(Schema):
+    status: bool
     message: str
 
 

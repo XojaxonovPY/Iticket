@@ -18,7 +18,7 @@ from apps.schema import OrderInSchema, MessageSchema, OrderOutSchema
 router = Router()
 
 
-def create_order_transaction(payload: OrderInSchema, user: User | None = None) -> Order:
+def create_order_transaction(payload: OrderInSchema, user: User | None = None) -> dict[str, bool | str]:
     payload_map = {item.ticket_id: item.count for item in payload.ticket}
     ticket_ids: list[int] = list(payload_map.keys())
     user_data: dict[str, str] = {
@@ -75,7 +75,7 @@ def create_order_transaction(payload: OrderInSchema, user: User | None = None) -
     except IntegrityError as e:
         logger.error(e)
         raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message=_("Server has problem"))
-    return {"message": _("Order created successfully")}
+    return {"status": True, "message": _("Order created successfully")}
 
 
 @router.post("/orders/", response={HTTPStatus.CREATED: MessageSchema}, auth=None)
