@@ -14,7 +14,9 @@
     "logout": "Sign Out",
     "all": "All",
     "home": "Home",
-    "support_service": "Customer Support:"
+    "support_service": "Customer Support:",
+    "theme_light": "Light mode",
+    "theme_dark": "Dark mode"
   },
   "home": {
     "buy_ticket": "Buy Tickets",

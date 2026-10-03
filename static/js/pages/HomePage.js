@@ -131,19 +131,19 @@
 
                 {/* Main Events Grid Header */}
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
                         <div>
-                            <h2 className="text-xl md:text-2xl font-black text-slate-900 flex items-center gap-2.5">
+                            <h2 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
                                 <span>
                                     {selectedCategory
                                         ? categories.find((c) => c.id === selectedCategory)?.name
                                         : (searchQuery ? `"${searchQuery}" ${t('search_results_for', language)}` : t('all_events', language))}
                                 </span>
-                                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                                     {events.length} {t('events_count', language)}
                                 </span>
                             </h2>
-                            <p className="text-xs text-slate-500 mt-1">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                 {t('home_subtitle', language)}
                             </p>
                         </div>
@@ -153,7 +153,7 @@
                             {selectedCategory && (
                                 <button
                                     onClick={() => onSelectCategory(null)}
-                                    className="px-3 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition"
+                                    className="px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition"
                                 >
                                     <span>{t('clear_filter', language)}</span>
                                     <i className="fa-solid fa-xmark text-xs"></i>
@@ -166,14 +166,14 @@
                     {loading ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-6">
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                                <div key={n} className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-xs animate-pulse">
-                                    <div className="aspect-[16/10] bg-slate-200"></div>
+                                <div key={n} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden shadow-xs animate-pulse">
+                                    <div className="aspect-[16/10] bg-slate-200 dark:bg-slate-800"></div>
                                     <div className="p-4 space-y-3">
-                                        <div className="h-4 bg-slate-200 rounded w-3/4"></div>
-                                        <div className="h-3 bg-slate-100 rounded w-1/2"></div>
-                                        <div className="pt-3 border-t border-slate-100 flex justify-between items-center">
-                                            <div className="h-4 bg-slate-200 rounded w-1/3"></div>
-                                            <div className="h-6 bg-slate-200 rounded w-16"></div>
+                                        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                                        <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded w-1/2"></div>
+                                        <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                                            <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                                            <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded w-16"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -194,12 +194,12 @@
                         </div>
                     ) : (
                         <div className="py-20 text-center space-y-4">
-                            <div className="w-16 h-16 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center text-2xl">
+                            <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-850 text-slate-400 dark:text-slate-500 mx-auto flex items-center justify-center text-2xl">
                                 <i className="fa-solid fa-calendar-xmark"></i>
                             </div>
                             <div>
-                                <h3 className="text-base font-bold text-slate-800">{t('no_events_found', language)}</h3>
-                                <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                                <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">{t('no_events_found', language)}</h3>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
                                     {t('no_events_desc', language)}
                                 </p>
                             </div>
@@ -217,46 +217,46 @@
 
                 {/* Features Section (Why iTicket) */}
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10">
-                    <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white">
+                    <div className="bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-8 md:p-12 shadow-xs transition-colors duration-200">
                         <div className="text-center max-w-xl mx-auto mb-10">
-                            <h2 className="text-xl md:text-2xl font-black">{t('why_iticket', language)}</h2>
-                            <p className="text-xs text-slate-400 mt-1">
+                            <h2 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">{t('why_iticket', language)}</h2>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                 {t('why_subtitle', language)}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-rose-600/20 text-rose-500 flex items-center justify-center text-xl flex-shrink-0 border border-rose-500/20">
+                                <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20 flex items-center justify-center text-xl flex-shrink-0 transition">
                                     <i className="fa-solid fa-bolt"></i>
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm text-white mb-1">{t('fast_easy', language)}</h4>
-                                    <p className="text-xs text-slate-400 leading-relaxed">
+                                    <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-1">{t('fast_easy', language)}</h4>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                         {t('fast_easy_desc', language)}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-600/20 text-emerald-500 flex items-center justify-center text-xl flex-shrink-0 border border-emerald-500/20">
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 flex items-center justify-center text-xl flex-shrink-0 transition">
                                     <i className="fa-solid fa-shield-check"></i>
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm text-white mb-1">{t('official_safe', language)}</h4>
-                                    <p className="text-xs text-slate-400 leading-relaxed">
+                                    <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-1">{t('official_safe', language)}</h4>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                         {t('official_safe_desc', language)}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-blue-600/20 text-blue-500 flex items-center justify-center text-xl flex-shrink-0 border border-blue-500/20">
+                                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20 flex items-center justify-center text-xl flex-shrink-0 transition">
                                     <i className="fa-solid fa-headset"></i>
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm text-white mb-1">{t('support_247', language)}</h4>
-                                    <p className="text-xs text-slate-400 leading-relaxed">
+                                    <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-1">{t('support_247', language)}</h4>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                         {t('support_247_desc', language)}
                                     </p>
                                 </div>

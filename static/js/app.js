@@ -36,6 +36,34 @@
             return () => window.removeEventListener('iticket:locale-loaded', onLocaleLoaded);
         }, []);
 
+        // Theme state: 'light' | 'dark' driven by central ThemeManager
+        const [theme, setTheme] = useState(() => {
+            return window.ThemeManager ? window.ThemeManager.getTheme() : (localStorage.getItem('iticket_theme') || 'light');
+        });
+
+        useEffect(() => {
+            if (window.ThemeManager) {
+                return window.ThemeManager.onThemeChange((newTheme) => {
+                    setTheme(newTheme);
+                });
+            }
+        }, []);
+
+        const toggleTheme = useCallback(() => {
+            if (window.ThemeManager) {
+                const next = window.ThemeManager.toggle();
+                setTheme(next);
+            } else {
+                setTheme((prev) => {
+                    const next = prev === 'dark' ? 'light' : 'dark';
+                    if (next === 'dark') document.documentElement.classList.add('dark');
+                    else document.documentElement.classList.remove('dark');
+                    localStorage.setItem('iticket_theme', next);
+                    return next;
+                });
+            }
+        }, []);
+
         // Router state
         const [route, setRoute] = useState({ path: 'home', params: {} });
 
@@ -297,6 +325,8 @@
                     }}
                     currentLanguage={language}
                     onLanguageChange={handleLanguageChange}
+                    currentTheme={theme}
+                    onToggleTheme={toggleTheme}
                     cartCount={cartCount}
                     wishlistCount={wishlistIds.length}
                     currentUser={currentUser}

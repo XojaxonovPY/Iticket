@@ -246,16 +246,16 @@
         return (
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-fade-in">
                 {/* Profile Header */}
-                <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                         <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-600 to-red-500 text-white flex items-center justify-center text-2xl font-black shadow-lg shadow-rose-500/20">
                             {currentUser?.first_name ? currentUser.first_name[0].toUpperCase() : 'U'}
                         </div>
                         <div>
-                            <h1 className="text-xl font-black text-slate-900">
+                            <h1 className="text-xl font-black text-slate-900 dark:text-white">
                                 {currentUser?.first_name ? `${currentUser.first_name} ${currentUser.last_name || ''}` : t('profile', language)}
                             </h1>
-                            <p className="text-xs text-slate-500 mt-0.5">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                                 {currentUser?.phone_number} {currentUser?.email && `• ${currentUser.email}`}
                             </p>
                         </div>
@@ -263,7 +263,7 @@
 
                     <button
                         onClick={onLogout}
-                        className="px-4 py-2 bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-600 rounded-xl text-xs font-bold transition flex items-center gap-2"
+                        className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-slate-700 dark:text-slate-200 hover:text-rose-600 dark:hover:text-rose-400 rounded-xl text-xs font-bold transition flex items-center gap-2"
                     >
                         <i className="fa-solid fa-arrow-right-from-bracket"></i>
                         <span>{t('logout', language)}</span>
@@ -271,11 +271,11 @@
                 </div>
 
                 {/* Tabs Navigation */}
-                <div className="flex bg-slate-100 p-1.5 rounded-2xl overflow-x-auto scrollbar-none text-xs font-bold gap-1">
+                <div className="flex bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded-2xl overflow-x-auto scrollbar-none text-xs font-bold gap-1">
                     <button
                         onClick={() => setActiveTab('profile')}
                         className={`px-4 py-2.5 rounded-xl whitespace-nowrap transition flex items-center gap-2 ${
-                            activeTab === 'profile' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                            activeTab === 'profile' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                     >
                         <i className="fa-regular fa-user"></i>
@@ -284,7 +284,7 @@
                     <button
                         onClick={() => setActiveTab('orders')}
                         className={`px-4 py-2.5 rounded-xl whitespace-nowrap transition flex items-center gap-2 ${
-                            activeTab === 'orders' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                            activeTab === 'orders' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                     >
                         <i className="fa-solid fa-receipt"></i>
@@ -293,7 +293,7 @@
                     <button
                         onClick={() => setActiveTab('transactions')}
                         className={`px-4 py-2.5 rounded-xl whitespace-nowrap transition flex items-center gap-2 ${
-                            activeTab === 'transactions' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                            activeTab === 'transactions' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                     >
                         <i className="fa-solid fa-credit-card"></i>
@@ -302,7 +302,7 @@
                     <button
                         onClick={() => setActiveTab('addresses')}
                         className={`px-4 py-2.5 rounded-xl whitespace-nowrap transition flex items-center gap-2 ${
-                            activeTab === 'addresses' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                            activeTab === 'addresses' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                     >
                         <i className="fa-solid fa-location-dot"></i>
@@ -311,7 +311,7 @@
                     <button
                         onClick={() => setActiveTab('security')}
                         className={`px-4 py-2.5 rounded-xl whitespace-nowrap transition flex items-center gap-2 ${
-                            activeTab === 'security' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                            activeTab === 'security' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                     >
                         <i className="fa-solid fa-shield-halved"></i>
@@ -321,59 +321,59 @@
 
                 {/* Tab 1: Profile */}
                 {activeTab === 'profile' && (
-                    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xs space-y-6 max-w-2xl">
-                        <h2 className="text-base font-black text-slate-900">{t('edit_personal_info', language)}</h2>
+                    <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs space-y-6 max-w-2xl">
+                        <h2 className="text-base font-black text-slate-900 dark:text-white">{t('edit_personal_info', language)}</h2>
 
                         <form onSubmit={handleProfileSave} className="space-y-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">{t('first_name', language)}</label>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('first_name', language)}</label>
                                     <input
                                         type="text"
                                         value={profileForm.first_name}
                                         onChange={(e) => setProfileForm({ ...profileForm, first_name: e.target.value })}
-                                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 outline-none transition"
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 outline-none transition"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">{t('last_name', language)}</label>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('last_name', language)}</label>
                                     <input
                                         type="text"
                                         value={profileForm.last_name}
                                         onChange={(e) => setProfileForm({ ...profileForm, last_name: e.target.value })}
-                                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 outline-none transition"
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 outline-none transition"
                                     />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">{t('phone_number', language)}</label>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('phone_number', language)}</label>
                                     <input
                                         type="text"
                                         value={currentUser?.phone_number || ''}
                                         disabled
-                                        className="w-full px-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-500 cursor-not-allowed"
+                                        className="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-500 dark:text-slate-500 cursor-not-allowed"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">{t('email', language)}</label>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('email', language)}</label>
                                     <input
                                         type="email"
                                         value={currentUser?.email || ''}
                                         disabled
-                                        className="w-full px-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-500 cursor-not-allowed"
+                                        className="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-500 dark:text-slate-500 cursor-not-allowed"
                                     />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">{t('gender', language)}</label>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('gender', language)}</label>
                                     <select
                                         value={profileForm.gender}
                                         onChange={(e) => setProfileForm({ ...profileForm, gender: e.target.value })}
-                                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 outline-none transition"
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 outline-none transition"
                                     >
                                         <option value="">{t('not_specified', language)}</option>
                                         <option value="male">{t('male', language)}</option>
@@ -381,12 +381,12 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">{t('birth_date', language)}</label>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('birth_date', language)}</label>
                                     <input
                                         type="date"
                                         value={profileForm.birth_date || ''}
                                         onChange={(e) => setProfileForm({ ...profileForm, birth_date: e.target.value })}
-                                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 outline-none transition"
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 outline-none transition"
                                     />
                                 </div>
                             </div>
@@ -406,16 +406,16 @@
                 {activeTab === 'orders' && (
                     <div className="space-y-4">
                         {loadingOrders ? (
-                            <div className="py-12 text-center text-xs text-slate-500">
+                            <div className="py-12 text-center text-xs text-slate-500 dark:text-slate-400">
                                 {language === 'uz' ? "Buyurtmalar yuklanmoqda..." : "Loading orders..."}
                             </div>
                         ) : orders.length > 0 ? (
                             orders.map((ord) => (
-                                <div key={ord.id} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xs space-y-4">
-                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                                <div key={ord.id} className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs space-y-4">
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 gap-2">
                                         <div>
-                                            <span className="text-xs font-black text-slate-900">{t('order_num', language)}{ord.id}</span>
-                                            <span className="text-slate-400 text-xs ml-3">
+                                            <span className="text-xs font-black text-slate-900 dark:text-white">{t('order_num', language)}{ord.id}</span>
+                                            <span className="text-slate-400 dark:text-slate-500 text-xs ml-3">
                                                 {new Date(ord.created_at).toLocaleDateString(language === 'uz' ? 'uz-UZ' : (language === 'ru' ? 'ru-RU' : 'en-US'), {
                                                     day: 'numeric',
                                                     month: 'long',
@@ -427,10 +427,10 @@
                                             <span
                                                 className={`px-3 py-1 rounded-full text-xs font-bold capitalize ${
                                                     ord.status === 'delivered'
-                                                        ? 'bg-emerald-50 text-emerald-600'
+                                                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400'
                                                         : ord.status === 'pending'
-                                                        ? 'bg-amber-50 text-amber-600'
-                                                        : 'bg-rose-50 text-rose-600'
+                                                        ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400'
+                                                        : 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400'
                                                 }`}
                                             >
                                                 {ord.status === 'delivered' ? t('status_delivered', language) : (ord.status === 'pending' ? t('status_pending', language) : t('status_cancelled', language))}
@@ -451,25 +451,25 @@
                                         {ord.order_item?.map((item) => (
                                             <div key={item.id} className="flex justify-between items-center text-xs py-1">
                                                 <div>
-                                                    <span className="font-bold text-slate-800">{item.ticket?.title || "Chipta"}</span>
-                                                    <span className="text-slate-500 ml-2">x {item.count} {t('events_count', language)}</span>
+                                                    <span className="font-bold text-slate-800 dark:text-slate-200">{item.ticket?.title || "Chipta"}</span>
+                                                    <span className="text-slate-500 dark:text-slate-400 ml-2">x {item.count} {t('events_count', language)}</span>
                                                 </div>
-                                                <span className="font-bold text-slate-900">{formatPrice(item.price_at_purchase * item.count, language)}</span>
+                                                <span className="font-bold text-slate-900 dark:text-white">{formatPrice(item.price_at_purchase * item.count, language)}</span>
                                             </div>
                                         ))}
                                     </div>
 
-                                    <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline text-xs">
-                                        <span className="text-slate-500">{t('total_payment', language)}:</span>
-                                        <span className="text-base font-black text-rose-600">{formatPrice(ord.total_amount, language)}</span>
+                                    <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-baseline text-xs">
+                                        <span className="text-slate-500 dark:text-slate-400">{t('total_payment', language)}:</span>
+                                        <span className="text-base font-black text-rose-600 dark:text-rose-400">{formatPrice(ord.total_amount, language)}</span>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div className="bg-white p-12 rounded-3xl border border-slate-100 text-center space-y-2">
-                                <i className="fa-solid fa-receipt text-3xl text-slate-300"></i>
-                                <h3 className="font-bold text-sm text-slate-800">{t('no_orders_yet', language)}</h3>
-                                <p className="text-xs text-slate-400">{t('no_orders_desc', language)}</p>
+                            <div className="bg-white dark:bg-slate-900 p-12 rounded-3xl border border-slate-100 dark:border-slate-800 text-center space-y-2">
+                                <i className="fa-solid fa-receipt text-3xl text-slate-300 dark:text-slate-600"></i>
+                                <h3 className="font-bold text-sm text-slate-800 dark:text-slate-200">{t('no_orders_yet', language)}</h3>
+                                <p className="text-xs text-slate-400 dark:text-slate-500">{t('no_orders_desc', language)}</p>
                             </div>
                         )}
                     </div>
@@ -477,35 +477,35 @@
 
                 {/* Tab 3: Transactions */}
                 {activeTab === 'transactions' && (
-                    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xs space-y-6">
-                        <h2 className="text-base font-black text-slate-900">{t('payment_history', language)}</h2>
+                    <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs space-y-6">
+                        <h2 className="text-base font-black text-slate-900 dark:text-white">{t('payment_history', language)}</h2>
                         {loadingTrans ? (
-                            <div className="py-8 text-center text-xs text-slate-500">
+                            <div className="py-8 text-center text-xs text-slate-500 dark:text-slate-400">
                                 {language === 'uz' ? "Tranzaksiyalar yuklanmoqda..." : "Loading transactions..."}
                             </div>
                         ) : transactions.payments && transactions.payments.length > 0 ? (
-                            <div className="divide-y divide-slate-100">
+                            <div className="divide-y divide-slate-100 dark:divide-slate-800">
                                 {transactions.payments.map((p) => (
                                     <div key={p.id} className="py-3.5 flex justify-between items-center text-xs">
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-bold text-slate-800">To'lov #{p.id}</span>
-                                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 font-bold uppercase">
+                                                <span className="font-bold text-slate-800 dark:text-slate-200">To'lov #{p.id}</span>
+                                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 font-bold uppercase">
                                                     {p.status}
                                                 </span>
                                             </div>
-                                            <span className="text-[11px] text-slate-400 mt-0.5 block">
+                                            <span className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 block">
                                                 {t('order_num', language)}{p.order} • {new Date(p.created_at).toLocaleString(language === 'uz' ? 'uz-UZ' : 'ru-RU')}
                                             </span>
                                         </div>
-                                        <span className="font-black text-sm text-slate-900">
+                                        <span className="font-black text-sm text-slate-900 dark:text-white">
                                             {formatPrice(p.total_amount, language)}
                                         </span>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-xs text-slate-500 text-center py-8">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 text-center py-8">
                                 {language === 'uz' ? "Hozircha hech qanday to'lov mavjud emas." : "No payment records found."}
                             </p>
                         )}
@@ -516,7 +516,7 @@
                 {activeTab === 'addresses' && (
                     <div className="space-y-6">
                         <div className="flex justify-between items-center">
-                            <h2 className="text-base font-black text-slate-900">{t('delivery_addresses', language)}</h2>
+                            <h2 className="text-base font-black text-slate-900 dark:text-white">{t('delivery_addresses', language)}</h2>
                             <button
                                 onClick={() => setIsAddAddressOpen(true)}
                                 className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-rose-600/20"
@@ -528,46 +528,46 @@
 
                         {/* Modal to add address */}
                         {isAddAddressOpen && (
-                            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-                                <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-4 shadow-2xl border border-slate-100">
+                            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs">
+                                <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-4 shadow-2xl border border-slate-100 dark:border-slate-800">
                                     <div className="flex justify-between items-center">
-                                        <h3 className="font-bold text-base text-slate-900">{t('add_new_address', language)}</h3>
-                                        <button onClick={() => setIsAddAddressOpen(false)} className="text-slate-400 hover:text-slate-600">
+                                        <h3 className="font-bold text-base text-slate-900 dark:text-white">{t('add_new_address', language)}</h3>
+                                        <button onClick={() => setIsAddAddressOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                                             <i className="fa-solid fa-xmark"></i>
                                         </button>
                                     </div>
 
                                     <form onSubmit={handleCreateAddress} className="space-y-3">
                                         <div>
-                                            <label className="block text-xs font-semibold text-slate-700 mb-1">{t('address_title', language)}</label>
+                                            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('address_title', language)}</label>
                                             <input
                                                 type="text"
                                                 value={newAddress.title}
                                                 onChange={(e) => setNewAddress({ ...newAddress, title: e.target.value })}
                                                 placeholder={t('address_title', language)}
-                                                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white outline-none"
+                                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                                 required
                                             />
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-3">
                                             <div>
-                                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('city', language)}</label>
+                                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('city', language)}</label>
                                                 <input
                                                     type="text"
                                                     value={newAddress.city}
                                                     onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                                                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white outline-none"
+                                                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                                     required
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('street', language)}</label>
+                                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('street', language)}</label>
                                                 <input
                                                     type="text"
                                                     value={newAddress.street}
                                                     onChange={(e) => setNewAddress({ ...newAddress, street: e.target.value })}
-                                                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white outline-none"
+                                                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                                     required
                                                 />
                                             </div>
@@ -575,45 +575,45 @@
 
                                         <div className="grid grid-cols-3 gap-3">
                                             <div>
-                                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('building', language)}</label>
+                                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('building', language)}</label>
                                                 <input
                                                     type="text"
                                                     value={newAddress.building}
                                                     onChange={(e) => setNewAddress({ ...newAddress, building: e.target.value })}
-                                                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white outline-none"
+                                                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                                     required
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('apartment', language)}</label>
+                                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('apartment', language)}</label>
                                                 <input
                                                     type="text"
                                                     value={newAddress.apparition}
                                                     onChange={(e) => setNewAddress({ ...newAddress, apparition: e.target.value })}
-                                                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white outline-none"
+                                                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                                     required
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('postal_code', language)}</label>
+                                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('postal_code', language)}</label>
                                                 <input
                                                     type="text"
                                                     value={newAddress.email_index}
                                                     onChange={(e) => setNewAddress({ ...newAddress, email_index: e.target.value })}
                                                     placeholder="100000"
-                                                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white outline-none"
+                                                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                                     required
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label className="block text-xs font-semibold text-slate-700 mb-1">{t('additional_info', language)}</label>
+                                            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('additional_info', language)}</label>
                                             <textarea
                                                 value={newAddress.additional_information}
                                                 onChange={(e) => setNewAddress({ ...newAddress, additional_information: e.target.value })}
                                                 rows="2"
-                                                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white outline-none"
+                                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                                 required
                                             ></textarea>
                                         </div>
@@ -630,19 +630,19 @@
                         )}
 
                         {loadingAddresses ? (
-                            <div className="py-8 text-center text-xs text-slate-500">
+                            <div className="py-8 text-center text-xs text-slate-500 dark:text-slate-400">
                                 {language === 'uz' ? "Manzillar yuklanmoqda..." : "Loading addresses..."}
                             </div>
                         ) : addresses.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {addresses.map((addr) => (
-                                    <div key={addr.id} className="bg-white p-5 rounded-3xl border border-slate-100 shadow-xs flex justify-between items-start">
+                                    <div key={addr.id} className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs flex justify-between items-start">
                                         <div className="space-y-1 text-xs">
-                                            <h4 className="font-bold text-sm text-slate-900">{addr.title}</h4>
-                                            <p className="text-slate-600">{addr.city}, {addr.street}, {addr.building}, {addr.apparition}</p>
-                                            <p className="text-[11px] text-slate-400">{t('postal_code', language)}: {addr.email_index}</p>
+                                            <h4 className="font-bold text-sm text-slate-900 dark:text-white">{addr.title}</h4>
+                                            <p className="text-slate-600 dark:text-slate-300">{addr.city}, {addr.street}, {addr.building}, {addr.apparition}</p>
+                                            <p className="text-[11px] text-slate-400 dark:text-slate-500">{t('postal_code', language)}: {addr.email_index}</p>
                                             {addr.additional_information && (
-                                                <p className="text-[11px] text-slate-500 italic mt-1">{addr.additional_information}</p>
+                                                <p className="text-[11px] text-slate-500 dark:text-slate-400 italic mt-1">{addr.additional_information}</p>
                                             )}
                                         </div>
                                         <button
@@ -656,7 +656,7 @@
                                 ))}
                             </div>
                         ) : (
-                            <div className="bg-white p-10 rounded-3xl border border-slate-100 text-center text-xs text-slate-500">
+                            <div className="bg-white dark:bg-slate-900 p-10 rounded-3xl border border-slate-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
                                 {t('no_addresses', language)}
                             </div>
                         )}
@@ -665,29 +665,29 @@
 
                 {/* Tab 5: Security */}
                 {activeTab === 'security' && (
-                    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xs space-y-6 max-w-md">
-                        <h2 className="text-base font-black text-slate-900">{t('change_password', language)}</h2>
+                    <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs space-y-6 max-w-md">
+                        <h2 className="text-base font-black text-slate-900 dark:text-white">{t('change_password', language)}</h2>
 
                         <form onSubmit={handlePasswordChange} className="space-y-4">
                             <div>
-                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('current_password', language)}</label>
+                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('current_password', language)}</label>
                                 <input
                                     type="password"
                                     value={pwdForm.old_password}
                                     onChange={(e) => setPwdForm({ ...pwdForm, old_password: e.target.value })}
-                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 outline-none"
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 outline-none"
                                     required
                                 />
                                 <FieldError error={pwdErrors.old_password} />
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('new_password', language)}</label>
+                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('new_password', language)}</label>
                                 <input
                                     type="password"
                                     value={pwdForm.new_password}
                                     onChange={(e) => setPwdForm({ ...pwdForm, new_password: e.target.value })}
-                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 outline-none"
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 outline-none"
                                     required
                                     minLength={3}
                                     maxLength={10}
@@ -696,12 +696,12 @@
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold text-slate-700 mb-1">{t('confirm_new_password', language)}</label>
+                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">{t('confirm_new_password', language)}</label>
                                 <input
                                     type="password"
                                     value={pwdForm.confirm_password}
                                     onChange={(e) => setPwdForm({ ...pwdForm, confirm_password: e.target.value })}
-                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 outline-none"
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 outline-none"
                                     required
                                     minLength={3}
                                     maxLength={10}

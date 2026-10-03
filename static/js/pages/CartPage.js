@@ -106,22 +106,22 @@
         return (
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-fade-in">
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-slate-200 pb-5">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-5">
                     <div>
-                        <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2.5">
+                        <h1 className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
                             <span>{t('shopping_cart', language)}</span>
-                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700">
+                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
                                 {totalCount} {t('tickets_count', language)}
                             </span>
                         </h1>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                             {t('cart_subtitle', language)}
                         </p>
                     </div>
 
                     <button
                         onClick={() => onNavigate('home')}
-                        className="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5 transition"
+                        className="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition"
                     >
                         <i className="fa-solid fa-arrow-left"></i>
                         <span>{t('continue_shopping', language)}</span>
@@ -139,11 +139,11 @@
                                 return (
                                     <div
                                         key={ticket.id}
-                                        className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-100 shadow-xs flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition hover:border-slate-200"
+                                        className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition hover:border-slate-200 dark:hover:border-slate-700"
                                     >
                                         <div className="flex items-center gap-4">
                                             {/* Event Thumb */}
-                                            <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0">
+                                            <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
                                                 <img
                                                     src={event.image || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&auto=format&fit=crop&q=80'}
                                                     alt={event.title}
@@ -153,13 +153,13 @@
 
                                             {/* Info */}
                                             <div className="space-y-1">
-                                                <span className="text-[11px] font-bold text-rose-600 uppercase">
+                                                <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase">
                                                     {event.category?.name || "Tadbir"}
                                                 </span>
-                                                <h3 className="font-bold text-sm text-slate-900 leading-snug">
+                                                <h3 className="font-bold text-sm text-slate-900 dark:text-white leading-snug">
                                                     {event.title}
                                                 </h3>
-                                                <p className="text-xs text-slate-500 flex items-center gap-2">
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
                                                     <span>{event.place?.title || event.place?.name}</span>
                                                     {dateInfo.full && (
                                                         <>
@@ -168,17 +168,17 @@
                                                         </>
                                                     )}
                                                 </p>
-                                                <p className="text-xs font-semibold text-slate-700 pt-0.5">
-                                                    {t('sector_type', language)}: <span className="text-slate-900">{ticket.title}</span>
+                                                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 pt-0.5">
+                                                    {t('sector_type', language)}: <span className="text-slate-900 dark:text-white">{ticket.title}</span>
                                                 </p>
                                             </div>
                                         </div>
 
                                         {/* Counter & Price */}
-                                        <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                                        <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
                                             <div className="text-right">
                                                 <span className="text-xs text-slate-400 block sm:hidden">{t('price', language)}</span>
-                                                <span className="text-base font-extrabold text-slate-900">
+                                                <span className="text-base font-extrabold text-slate-900 dark:text-white">
                                                     {formatPrice(Number(ticket.price) * count, language)}
                                                 </span>
                                                 <span className="text-[11px] text-slate-400 block">
@@ -188,23 +188,23 @@
 
                                             <div className="flex items-center gap-3">
                                                 {/* Counter */}
-                                                <div className="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200">
+                                                <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl p-1 border border-slate-200 dark:border-slate-700">
                                                     <button
                                                         type="button"
                                                         onClick={() => handleUpdateCount(ticket.id, count - 1)}
                                                         disabled={isBusy}
-                                                        className="w-7 h-7 rounded-lg bg-white text-slate-700 hover:bg-slate-200 flex items-center justify-center text-xs font-bold transition shadow-2xs disabled:opacity-40"
+                                                        className="w-7 h-7 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 flex items-center justify-center text-xs font-bold transition shadow-2xs disabled:opacity-40"
                                                     >
                                                         <i className="fa-solid fa-minus"></i>
                                                     </button>
-                                                    <span className="w-8 text-center font-bold text-xs text-slate-900">
+                                                    <span className="w-8 text-center font-bold text-xs text-slate-900 dark:text-white">
                                                         {count}
                                                     </span>
                                                     <button
                                                         type="button"
                                                         onClick={() => handleUpdateCount(ticket.id, count + 1)}
                                                         disabled={isBusy}
-                                                        className="w-7 h-7 rounded-lg bg-white text-slate-700 hover:bg-slate-200 flex items-center justify-center text-xs font-bold transition shadow-2xs disabled:opacity-40"
+                                                        className="w-7 h-7 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 flex items-center justify-center text-xs font-bold transition shadow-2xs disabled:opacity-40"
                                                     >
                                                         <i className="fa-solid fa-plus"></i>
                                                     </button>
@@ -215,7 +215,7 @@
                                                     type="button"
                                                     onClick={() => handleRemove(ticket.id)}
                                                     disabled={isBusy}
-                                                    className="w-8 h-8 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition"
+                                                    className="w-8 h-8 rounded-xl text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition"
                                                     title={language === 'uz' ? "O'chirish" : (language === 'ru' ? "Удалить" : "Delete")}
                                                 >
                                                     <i className="fa-regular fa-trash-can text-sm"></i>
@@ -229,23 +229,23 @@
 
                         {/* Order Summary Box */}
                         <div className="lg:col-span-4 sticky top-24">
-                            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl space-y-6">
-                                <h3 className="text-base font-black text-slate-900 border-b border-slate-100 pb-3">
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl space-y-6">
+                                <h3 className="text-base font-black text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
                                     {t('order_summary', language)}
                                 </h3>
 
                                 <div className="space-y-3 text-xs">
-                                    <div className="flex justify-between text-slate-600">
+                                    <div className="flex justify-between text-slate-600 dark:text-slate-400">
                                         <span>{t('total_tickets', language)}:</span>
-                                        <span className="font-bold text-slate-900">{totalCount} {t('events_count', language)}</span>
+                                        <span className="font-bold text-slate-900 dark:text-white">{totalCount} {t('events_count', language)}</span>
                                     </div>
-                                    <div className="flex justify-between text-slate-600">
+                                    <div className="flex justify-between text-slate-600 dark:text-slate-400">
                                         <span>{t('service_fee', language)}:</span>
-                                        <span className="font-bold text-emerald-600">{t('free_service', language)}</span>
+                                        <span className="font-bold text-emerald-600 dark:text-emerald-400">{t('free_service', language)}</span>
                                     </div>
-                                    <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline">
-                                        <span className="text-sm font-bold text-slate-900">{t('total_payment', language)}:</span>
-                                        <span className="text-xl font-black text-rose-600">
+                                    <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-baseline">
+                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{t('total_payment', language)}:</span>
+                                        <span className="text-xl font-black text-rose-600 dark:text-rose-500">
                                             {formatPrice(totalAmount, language)}
                                         </span>
                                     </div>
@@ -259,9 +259,9 @@
                                     <i className="fa-solid fa-arrow-right text-xs"></i>
                                 </button>
 
-                                <div className="p-3.5 bg-slate-50 rounded-2xl text-[11px] text-slate-500 space-y-2">
-                                    <p className="flex items-center gap-2 font-medium text-slate-700">
-                                        <i className="fa-solid fa-shield-check text-emerald-600 text-xs"></i>
+                                <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl text-[11px] text-slate-500 dark:text-slate-400 space-y-2">
+                                    <p className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
+                                        <i className="fa-solid fa-shield-check text-emerald-600 dark:text-emerald-400 text-xs"></i>
                                         <span>{t('secure_payment_guarantee', language)}</span>
                                     </p>
                                     <p>{t('secure_payment_desc', language)}</p>

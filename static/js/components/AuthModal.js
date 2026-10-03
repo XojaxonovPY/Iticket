@@ -122,7 +122,7 @@
         return (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fade-in">
                 <div
-                    className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all"
+                    className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden transform transition-all"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Header */}
@@ -131,13 +131,13 @@
                             <div className="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-bold">
                                 <i className="fa-solid fa-ticket-simple -rotate-12 text-sm"></i>
                             </div>
-                            <span className="text-lg font-black text-slate-900">
+                            <span className="text-lg font-black text-slate-900 dark:text-white">
                                 iTicket<span className="text-rose-600">.uz</span>
                             </span>
                         </div>
                         <button
                             onClick={onClose}
-                            className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition"
+                            className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition"
                         >
                             <i className="fa-solid fa-xmark text-sm"></i>
                         </button>
@@ -145,7 +145,7 @@
 
                     {/* Tabs */}
                     <div className="px-6 pt-4">
-                        <div className="flex bg-slate-100 p-1 rounded-2xl">
+                        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl">
                             <button
                                 onClick={() => {
                                     setTab('login');
@@ -153,8 +153,8 @@
                                 }}
                                 className={`flex-1 py-2 text-xs font-bold rounded-xl transition ${
                                     tab === 'login'
-                                        ? 'bg-white text-slate-900 shadow-xs'
-                                        : 'text-slate-500 hover:text-slate-900'
+                                        ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
+                                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                                 }`}
                             >
                                 {t('login_tab', language)}
@@ -166,8 +166,8 @@
                                 }}
                                 className={`flex-1 py-2 text-xs font-bold rounded-xl transition ${
                                     tab === 'register'
-                                        ? 'bg-white text-slate-900 shadow-xs'
-                                        : 'text-slate-500 hover:text-slate-900'
+                                        ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
+                                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                                 }`}
                             >
                                 {t('register_tab', language)}
@@ -177,7 +177,7 @@
 
                     {/* General Error Alert */}
                     {generalError && (
-                        <div className="mx-6 mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2 animate-fade-in">
+                        <div className="mx-6 mt-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs flex items-center gap-2 animate-fade-in">
                             <i className="fa-solid fa-circle-exclamation flex-shrink-0"></i>
                             <span>{generalError}</span>
                         </div>
@@ -188,7 +188,7 @@
                         {tab === 'login' ? (
                             <form onSubmit={handleLoginSubmit} className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t('phone_or_email', language)}
                                     </label>
                                     <div className="relative">
@@ -197,7 +197,7 @@
                                             value={loginData.identifier}
                                             onChange={(e) => setLoginData({ ...loginData, identifier: e.target.value })}
                                             placeholder="+998 90 123 45 67 / example@mail.uz"
-                                            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition"
+                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition"
                                             required
                                         />
                                     </div>
@@ -205,7 +205,7 @@
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t('password', language)}
                                     </label>
                                     <div className="relative">
@@ -213,13 +213,13 @@
                                             type={showPassword ? 'text' : 'password'}
                                             value={loginData.password}
                                             onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                                            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition pr-10"
+                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition pr-10"
                                             required
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                                         >
                                             <i className={`fa-solid text-xs ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
                                         </button>
@@ -243,27 +243,27 @@
                             <form onSubmit={handleRegisterSubmit} className="space-y-3">
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                                             {t('first_name', language)}
                                         </label>
                                         <input
                                             type="text"
                                             value={regData.first_name}
                                             onChange={(e) => setRegData({ ...regData, first_name: e.target.value })}
-                                            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition"
+                                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition"
                                             required
                                         />
                                         <FieldError error={fieldErrors.first_name} />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                                             {t('last_name', language)}
                                         </label>
                                         <input
                                             type="text"
                                             value={regData.last_name}
                                             onChange={(e) => setRegData({ ...regData, last_name: e.target.value })}
-                                            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition"
+                                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition"
                                             required
                                         />
                                         <FieldError error={fieldErrors.last_name} />
@@ -271,7 +271,7 @@
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                                         {t('phone_number', language)}
                                     </label>
                                     <input
@@ -279,14 +279,14 @@
                                         value={regData.phone_number}
                                         onChange={(e) => setRegData({ ...regData, phone_number: e.target.value })}
                                         placeholder="+998901234567"
-                                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition"
+                                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition"
                                         required
                                     />
                                     <FieldError error={fieldErrors.phone_number} />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                                         {t('email', language)}
                                     </label>
                                     <input
@@ -294,7 +294,7 @@
                                         value={regData.email}
                                         onChange={(e) => setRegData({ ...regData, email: e.target.value })}
                                         placeholder="example@mail.uz"
-                                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition"
+                                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition"
                                         required
                                     />
                                     <FieldError error={fieldErrors.email} />
@@ -302,14 +302,14 @@
 
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                                             {t('password', language)}
                                         </label>
                                         <input
                                             type="password"
                                             value={regData.password}
                                             onChange={(e) => setRegData({ ...regData, password: e.target.value })}
-                                            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition"
+                                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition"
                                             required
                                             minLength={3}
                                             maxLength={10}
@@ -317,14 +317,14 @@
                                         <FieldError error={fieldErrors.password} />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 mb-1">
+                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                                             {t('password_confirm', language)}
                                         </label>
                                         <input
                                             type="password"
                                             value={regData.confirm_password}
                                             onChange={(e) => setRegData({ ...regData, confirm_password: e.target.value })}
-                                            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none transition"
+                                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-850 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 outline-none transition"
                                             required
                                             minLength={3}
                                             maxLength={10}

@@ -14,7 +14,9 @@
     "logout": "Выйти",
     "all": "Все",
     "home": "Главная",
-    "support_service": "Служба поддержки:"
+    "support_service": "Служба поддержки:",
+    "theme_light": "Светлая тема",
+    "theme_dark": "Тёмная тема"
   },
   "home": {
     "buy_ticket": "Купить билет",

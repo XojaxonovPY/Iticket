@@ -14,7 +14,9 @@
     "logout": "Chiqish",
     "all": "Barchasi",
     "home": "Bosh sahifa",
-    "support_service": "Qo'llab-quvvatlash xizmati:"
+    "support_service": "Qo'llab-quvvatlash xizmati:",
+    "theme_light": "Kunduzgi rejim",
+    "theme_dark": "Tungi rejim"
   },
   "home": {
     "buy_ticket": "Chipta xarid qilish",

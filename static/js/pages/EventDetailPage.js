@@ -153,7 +153,7 @@
                 <div className="flex items-center justify-between">
                     <button
                         onClick={onBack}
-                        className="flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-slate-900 py-2 px-3 rounded-xl hover:bg-slate-100 transition"
+                        className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition"
                     >
                         <i className="fa-solid fa-arrow-left"></i>
                         <span>{t('back_to_events', language)}</span>
@@ -164,11 +164,11 @@
                             onClick={() => onToggleWishlist(event.id)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition border ${
                                 isWishlisted
-                                    ? 'bg-rose-50 border-rose-200 text-rose-600'
-                                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                                    ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900 text-rose-600 dark:text-rose-400'
+                                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
                             }`}
                         >
-                            <i className={`fa-heart ${isWishlisted ? 'fa-solid text-rose-600' : 'fa-regular'}`}></i>
+                            <i className={`fa-heart ${isWishlisted ? 'fa-solid text-rose-600 dark:text-rose-400' : 'fa-regular'}`}></i>
                             <span>{isWishlisted ? t('in_wishlist', language) : t('add_to_wishlist', language)}</span>
                         </button>
                     </div>
@@ -178,8 +178,8 @@
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     {/* Poster Card */}
                     <div className="lg:col-span-5">
-                        <div className="sticky top-24 bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-xl">
-                            <div className="relative aspect-[3/4] bg-slate-100">
+                        <div className="sticky top-24 bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-xl">
+                            <div className="relative aspect-[3/4] bg-slate-100 dark:bg-slate-800">
                                 <img
                                     src={event.image || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80'}
                                     alt={event.title}
@@ -190,9 +190,9 @@
                                     }}
                                 />
                                 {dateInfo.day && (
-                                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-xs text-slate-900 px-3.5 py-1.5 rounded-2xl shadow-lg text-center">
-                                        <span className="block text-base font-black leading-none text-rose-600">{dateInfo.day}</span>
-                                        <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">{dateInfo.month}</span>
+                                    <div className="absolute top-4 left-4 bg-white/95 dark:bg-slate-900/90 backdrop-blur-xs text-slate-900 dark:text-white px-3.5 py-1.5 rounded-2xl shadow-lg text-center">
+                                        <span className="block text-base font-black leading-none text-rose-600 dark:text-rose-500">{dateInfo.day}</span>
+                                        <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">{dateInfo.month}</span>
                                     </div>
                                 )}
                             </div>
@@ -202,47 +202,47 @@
                     {/* Details & Ticket Matrix */}
                     <div className="lg:col-span-7 space-y-6">
                         {/* Title & Metadata */}
-                        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xs space-y-4">
+                        <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs space-y-4">
                             <div className="flex flex-wrap items-center gap-2">
                                 {event.category && (
-                                    <span className="px-3 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded-full">
+                                    <span className="px-3 py-1 bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 text-xs font-bold rounded-full">
                                         {event.category.name}
                                     </span>
                                 )}
                                 {event.restriction?.age_limit !== undefined && (
-                                    <span className="px-2.5 py-0.5 bg-slate-100 text-slate-700 text-xs font-bold rounded-full">
+                                    <span className="px-2.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-full">
                                         {event.restriction.age_limit}+ {t('age_limit', language)}
                                     </span>
                                 )}
                                 {event.restriction?.dress_code && (
-                                    <span className="px-2.5 py-0.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-full capitalize">
+                                    <span className="px-2.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full capitalize">
                                         {t('dress_code', language)}: {event.restriction.dress_code}
                                     </span>
                                 )}
                             </div>
 
-                            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-snug">
+                            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white leading-snug">
                                 {event.title}
                             </h1>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
-                                <div className="p-3.5 bg-slate-50 rounded-2xl flex items-center gap-3">
-                                    <div className="w-9 h-9 rounded-xl bg-white shadow-xs text-rose-600 flex items-center justify-center text-sm">
+                                <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-2xl flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-xl bg-white dark:bg-slate-700 shadow-xs text-rose-600 dark:text-rose-400 flex items-center justify-center text-sm">
                                         <i className="fa-regular fa-calendar-check"></i>
                                     </div>
                                     <div>
-                                        <span className="text-slate-400 block text-[11px]">{t('start_time', language)}</span>
-                                        <span className="font-bold text-slate-800">{dateInfo.full || t('soon', language)}</span>
+                                        <span className="text-slate-400 dark:text-slate-400 block text-[11px]">{t('start_time', language)}</span>
+                                        <span className="font-bold text-slate-800 dark:text-slate-100">{dateInfo.full || t('soon', language)}</span>
                                     </div>
                                 </div>
 
-                                <div className="p-3.5 bg-slate-50 rounded-2xl flex items-center gap-3">
-                                    <div className="w-9 h-9 rounded-xl bg-white shadow-xs text-rose-600 flex items-center justify-center text-sm">
+                                <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-2xl flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-xl bg-white dark:bg-slate-700 shadow-xs text-rose-600 dark:text-rose-400 flex items-center justify-center text-sm">
                                         <i className="fa-solid fa-location-dot"></i>
                                     </div>
                                     <div className="truncate">
-                                        <span className="text-slate-400 block text-[11px]">{t('venue', language)}</span>
-                                        <span className="font-bold text-slate-800 truncate block">
+                                        <span className="text-slate-400 dark:text-slate-400 block text-[11px]">{t('venue', language)}</span>
+                                        <span className="font-bold text-slate-800 dark:text-slate-100 truncate block">
                                             {event.place?.title || event.place?.name || t('tashkent', language)}
                                         </span>
                                     </div>
@@ -251,9 +251,9 @@
 
                             {/* Description */}
                             {event.description && (
-                                <div className="pt-2 border-t border-slate-100">
-                                    <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">{t('about_event', language)}</h3>
-                                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+                                <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+                                    <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{t('about_event', language)}</h3>
+                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
                                         {event.description}
                                     </p>
                                 </div>
@@ -261,13 +261,13 @@
                         </div>
 
                         {/* Ticket Selection Matrix */}
-                        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-xs space-y-5">
-                            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs space-y-5">
+                            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
                                 <div>
-                                    <h2 className="text-base font-black text-slate-900">{t('available_tickets', language)}</h2>
-                                    <p className="text-xs text-slate-500 mt-0.5">{t('choose_sector_count', language)}</p>
+                                    <h2 className="text-base font-black text-slate-900 dark:text-white">{t('available_tickets', language)}</h2>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{t('choose_sector_count', language)}</p>
                                 </div>
-                                <span className="text-xs font-bold text-slate-600 px-2.5 py-1 bg-slate-100 rounded-lg">
+                                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
                                     {event.tickets ? event.tickets.length : 0} {t('ticket_types_count', language)}
                                 </span>
                             </div>
@@ -283,30 +283,30 @@
                                                 key={ticket.id}
                                                 className={`p-4 rounded-2xl border transition-all ${
                                                     count > 0
-                                                        ? 'bg-rose-50/50 border-rose-300 ring-2 ring-rose-200'
+                                                        ? 'bg-rose-50/50 dark:bg-rose-950/30 border-rose-300 dark:border-rose-800 ring-2 ring-rose-200 dark:ring-rose-900/50'
                                                         : isOutOfStock
-                                                        ? 'bg-slate-50 border-slate-200 opacity-60'
-                                                        : 'bg-white border-slate-200 hover:border-slate-300'
+                                                        ? 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 opacity-60'
+                                                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                                                 }`}
                                             >
                                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                                     <div className="space-y-1">
                                                         <div className="flex items-center gap-2">
-                                                            <h4 className="font-bold text-sm text-slate-900">{ticket.title}</h4>
+                                                            <h4 className="font-bold text-sm text-slate-900 dark:text-white">{ticket.title}</h4>
                                                             {isOutOfStock ? (
-                                                                <span className="text-[10px] font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded">
+                                                                <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/60 px-2 py-0.5 rounded">
                                                                     {t('out_of_stock', language)}
                                                                 </span>
                                                             ) : (
-                                                                <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+                                                                <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60 px-2 py-0.5 rounded">
                                                                     {ticket.count} {t('left_count', language)}
                                                                 </span>
                                                             )}
                                                         </div>
                                                         {ticket.description && (
-                                                            <p className="text-xs text-slate-500">{ticket.description}</p>
+                                                            <p className="text-xs text-slate-500 dark:text-slate-400">{ticket.description}</p>
                                                         )}
-                                                        <div className="text-sm font-extrabold text-rose-600 pt-1">
+                                                        <div className="text-sm font-extrabold text-rose-600 dark:text-rose-500 pt-1">
                                                             {formatPrice(ticket.price, language)}
                                                         </div>
                                                     </div>
@@ -314,23 +314,23 @@
                                                     {/* Quantity Controller */}
                                                     {!isOutOfStock && (
                                                         <div className="flex items-center gap-3 self-end sm:self-center">
-                                                            <div className="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200">
+                                                            <div className="flex items-center bg-slate-100 dark:bg-slate-700/60 rounded-xl p-1 border border-slate-200 dark:border-slate-600">
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => updateTicketCount(ticket.id, -1, ticket.count)}
                                                                     disabled={count === 0}
-                                                                    className="w-8 h-8 rounded-lg bg-white text-slate-700 hover:bg-slate-200 flex items-center justify-center text-xs font-bold disabled:opacity-30 transition shadow-2xs"
+                                                                    className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-xs font-bold disabled:opacity-30 transition shadow-2xs"
                                                                 >
                                                                     <i className="fa-solid fa-minus"></i>
                                                                 </button>
-                                                                <span className="w-10 text-center font-bold text-sm text-slate-900">
+                                                                <span className="w-10 text-center font-bold text-sm text-slate-900 dark:text-white">
                                                                     {count}
                                                                 </span>
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => updateTicketCount(ticket.id, 1, ticket.count)}
                                                                     disabled={count >= ticket.count}
-                                                                    className="w-8 h-8 rounded-lg bg-white text-slate-700 hover:bg-slate-200 flex items-center justify-center text-xs font-bold disabled:opacity-30 transition shadow-2xs"
+                                                                    className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-xs font-bold disabled:opacity-30 transition shadow-2xs"
                                                                 >
                                                                     <i className="fa-solid fa-plus"></i>
                                                                 </button>
@@ -343,16 +343,16 @@
                                     })}
                                 </div>
                             ) : (
-                                <p className="text-xs text-slate-500 py-4 text-center">{t('no_tickets', language)}</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 py-4 text-center">{t('no_tickets', language)}</p>
                             )}
 
                             {/* Total & Checkout Bar */}
-                            <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
                                 <div>
                                     <span className="text-xs text-slate-400 block font-medium">
                                         {t('selected_count', language)}: {totalSelectedCount}
                                     </span>
-                                    <span className="text-xl font-black text-slate-900">
+                                    <span className="text-xl font-black text-slate-900 dark:text-white">
                                         {formatPrice(totalSelectedAmount, language)}
                                     </span>
                                 </div>
@@ -362,7 +362,7 @@
                                         type="button"
                                         onClick={() => handleAddToCart(false)}
                                         disabled={addingToCart || totalSelectedCount === 0}
-                                        className="flex-1 sm:flex-none px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 disabled:opacity-40"
+                                        className="flex-1 sm:flex-none px-5 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 disabled:opacity-40"
                                     >
                                         <i className="fa-solid fa-basket-shopping"></i>
                                         <span>{t('add_to_cart', language)}</span>
@@ -382,15 +382,15 @@
 
                         {/* Venue details box */}
                         {event.place && (
-                            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xs flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl flex-shrink-0">
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xl flex-shrink-0">
                                     <i className="fa-solid fa-landmark"></i>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h4 className="font-bold text-sm text-slate-900 truncate">
+                                    <h4 className="font-bold text-sm text-slate-900 dark:text-white truncate">
                                         {event.place.title || event.place.name}
                                     </h4>
-                                    <p className="text-xs text-slate-500 truncate">
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
                                         {t('contact_venue', language)}: {event.place.phone_number || "+998 71 200 00 00"}
                                     </p>
                                 </div>

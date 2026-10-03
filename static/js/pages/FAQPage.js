@@ -37,11 +37,11 @@
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-fade-in">
                 <div className="text-center space-y-2 max-w-xl mx-auto">
-                    <span className="px-3 py-1 bg-rose-50 text-rose-600 text-xs font-bold rounded-full uppercase">
+                    <span className="px-3 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 text-xs font-bold rounded-full uppercase">
                         {t('help_center', language)}
                     </span>
-                    <h1 className="text-2xl sm:text-3xl font-black text-slate-900">{t('faq_title', language)}</h1>
-                    <p className="text-xs sm:text-sm text-slate-500">
+                    <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">{t('faq_title', language)}</h1>
+                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                         {t('faq_desc', language)}
                     </p>
                 </div>
@@ -49,7 +49,7 @@
                 {loading ? (
                     <div className="py-20 text-center space-y-4">
                         <div className="w-12 h-12 border-4 border-rose-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                        <p className="text-xs text-slate-500">{language === 'uz' ? "Savol-javoblar yuklanmoqda..." : "Loading FAQ..."}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{language === 'uz' ? "Savol-javoblar yuklanmoqda..." : "Loading FAQ..."}</p>
                     </div>
                 ) : questions.length > 0 ? (
                     <div className="space-y-3">
@@ -58,24 +58,24 @@
                             return (
                                 <div
                                     key={q.id}
-                                    className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs transition"
+                                    className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xs transition"
                                 >
                                     <button
                                         onClick={() => toggleQuestion(idx)}
-                                        className="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-slate-50 transition"
+                                        className="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition"
                                     >
-                                        <span className="font-bold text-sm text-slate-900 leading-snug">
+                                        <span className="font-bold text-sm text-slate-900 dark:text-white leading-snug">
                                             {q.question}
                                         </span>
                                         <div className={`w-8 h-8 rounded-full flex items-center justify-center transition flex-shrink-0 ${
-                                            isOpen ? 'bg-rose-600 text-white rotate-180' : 'bg-slate-100 text-slate-500'
+                                            isOpen ? 'bg-rose-600 text-white rotate-180' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                                         }`}>
                                             <i className="fa-solid fa-chevron-down text-xs"></i>
                                         </div>
                                     </button>
 
                                     {isOpen && (
-                                        <div className="px-5 pb-5 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100 animate-fade-in whitespace-pre-line">
+                                        <div className="px-5 pb-5 pt-1 text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800 animate-fade-in whitespace-pre-line">
                                             {q.answer}
                                         </div>
                                     )}
@@ -84,15 +84,15 @@
                         })}
                     </div>
                 ) : (
-                    <div className="bg-white p-12 rounded-3xl border border-slate-100 text-center text-xs text-slate-500">
+                    <div className="bg-white dark:bg-slate-900 p-12 rounded-3xl border border-slate-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
                         {language === 'uz' ? "Savollar hozircha mavjud emas." : "No questions available."}
                     </div>
                 )}
 
                 {/* Still have questions banner */}
-                <div className="bg-slate-100 rounded-3xl p-6 sm:p-8 text-center space-y-3">
-                    <h3 className="font-bold text-sm text-slate-900">{t('cant_find_answer', language)}</h3>
-                    <p className="text-xs text-slate-500 max-w-md mx-auto">
+                <div className="bg-slate-100 dark:bg-slate-900 rounded-3xl p-6 sm:p-8 text-center space-y-3 border border-slate-200 dark:border-slate-800">
+                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">{t('cant_find_answer', language)}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
                         {t('cant_find_desc', language)}
                     </p>
                     <a

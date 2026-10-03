@@ -29,10 +29,10 @@
         const imageUrl = event.image || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&auto=format&fit=crop&q=80';
 
         return (
-            <div className="event-card group bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-xs hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer">
+            <div className="event-card group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden shadow-xs hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer">
                 {/* Image & Badges Container */}
                 <div
-                    className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100"
+                    className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800"
                     onClick={() => onSelectEvent(event.id)}
                 >
                     <img
@@ -51,9 +51,9 @@
 
                     {/* Date Badge */}
                     {dateInfo.day && (
-                        <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-slate-900 px-3 py-1 rounded-xl shadow-md text-center">
-                            <span className="block text-sm font-black leading-none text-rose-600">{dateInfo.day}</span>
-                            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-600">{dateInfo.month}</span>
+                        <div className="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/90 backdrop-blur-xs text-slate-900 dark:text-white px-3 py-1 rounded-xl shadow-md text-center">
+                            <span className="block text-sm font-black leading-none text-rose-600 dark:text-rose-500">{dateInfo.day}</span>
+                            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">{dateInfo.month}</span>
                         </div>
                     )}
 
@@ -66,7 +66,7 @@
                         className={`absolute top-3 right-3 w-9 h-9 rounded-full backdrop-blur-md flex items-center justify-center transition shadow-md ${
                             isWishlisted
                                 ? 'bg-rose-600 text-white hover:bg-rose-700'
-                                : 'bg-white/80 text-slate-700 hover:bg-white hover:text-rose-600'
+                                : 'bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-800 hover:text-rose-600'
                         }`}
                         title={isWishlisted ? t('remove_from_wishlist', language) : t('add_to_wishlist', language)}
                     >
@@ -92,32 +92,32 @@
                 <div className="p-4 flex-1 flex flex-col justify-between" onClick={() => onSelectEvent(event.id)}>
                     <div>
                         {/* Place & Time */}
-                        <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-1.5 truncate">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mb-1.5 truncate">
                             <i className="fa-solid fa-location-dot text-rose-500 text-[11px] flex-shrink-0"></i>
                             <span className="truncate">{event.place?.title || event.place?.name || t('tashkent', language)}</span>
                             {dateInfo.time && (
                                 <>
-                                    <span className="text-slate-300">•</span>
+                                    <span className="text-slate-300 dark:text-slate-600">•</span>
                                     <span className="flex-shrink-0">{dateInfo.time}</span>
                                 </>
                             )}
                         </div>
 
                         {/* Title */}
-                        <h3 className="font-bold text-slate-900 text-sm md:text-base line-clamp-2 leading-snug group-hover:text-rose-600 transition">
+                        <h3 className="font-bold text-slate-900 dark:text-white text-sm md:text-base line-clamp-2 leading-snug group-hover:text-rose-600 dark:group-hover:text-rose-400 transition">
                             {event.title}
                         </h3>
                     </div>
 
                     {/* Price & Action */}
-                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <div>
-                            <span className="text-[10px] text-slate-400 block font-medium">{t('start_price', language)}</span>
-                            <span className="text-sm md:text-base font-extrabold text-slate-900">
+                            <span className="text-[10px] text-slate-400 dark:text-slate-400 block font-medium">{t('start_price', language)}</span>
+                            <span className="text-sm md:text-base font-extrabold text-slate-900 dark:text-white">
                                 {minPrice !== null ? formatPrice(minPrice, language) : t('free', language)}
                             </span>
                         </div>
-                        <span className="px-3 py-1.5 bg-rose-50 group-hover:bg-rose-600 text-rose-600 group-hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span className="px-3 py-1.5 bg-rose-50 dark:bg-rose-950/40 group-hover:bg-rose-600 text-rose-600 dark:text-rose-400 group-hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
                             <span>{t('buy', language)}</span>
                             <i className="fa-solid fa-chevron-right text-[10px]"></i>
                         </span>
