@@ -1,7 +1,7 @@
 from django.utils.translation import get_language
 from ninja import ModelSchema
 
-from apps.models import SalesOutlets, Questions, Place
+from apps.models import SalesOutlets, Question, Place
 
 
 class PlaceSchema(ModelSchema):
@@ -32,6 +32,6 @@ class SalesOutletsSchema(ModelSchema):
 
 class QuestionsSchema(ModelSchema):
     class Meta:
-        model = Questions
+        model = Question
         fields = "__all__"
         exclude = ("is_visible",)

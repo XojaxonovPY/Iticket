@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os
+from os import getenv
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +28,7 @@ SECRET_KEY = 'django-insecure-or4timx-7-d9(-x!@dmn(uk+gc-vx(y@q11yk_6)f!%@zx*efe
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+load_dotenv()
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_filters',
     'parler',
     'django_json_widget',
     "apps"
@@ -43,13 +45,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'root.urls'
@@ -71,16 +74,50 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'root.wsgi.application'
-
+ASGI_APPLICATION = "root.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = getenv("DATABASE_URL")
+if DATABASE_URL:
+    from urllib.parse import urlparse
+    _db_url = urlparse(DATABASE_URL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': _db_url.path[1:],
+            'USER': _db_url.username,
+            'PASSWORD': _db_url.password,
+            'HOST': _db_url.hostname,
+            'PORT': _db_url.port or 5432,
+            'OPTIONS': {
+                'sslmode': getenv("DB_SSLMODE", "require"),
+            },
+            'CONN_MAX_AGE': 600,
+        }
     }
-}
+elif getenv("DB_NAME"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': getenv("DB_NAME"),
+            'USER': getenv("DB_USER"),
+            'PASSWORD': getenv("DB_PASSWORD"),
+            'HOST': getenv("DB_HOST"),
+            'PORT': getenv("DB_PORT", "5432"),
+            'OPTIONS': {
+                'sslmode': getenv("DB_SSLMODE", "require"),
+            },
+            'CONN_MAX_AGE': 600,
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -108,6 +145,7 @@ LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
+USE_L10N = True
 
 USE_TZ = True
 
@@ -137,9 +175,18 @@ LOCALE_PATHS = [
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'apps.User'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": BASE_DIR / "cache",
+    }
+}

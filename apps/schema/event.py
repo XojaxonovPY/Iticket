@@ -1,5 +1,5 @@
 from django.utils.translation import get_language
-from ninja import ModelSchema
+from ninja import ModelSchema, Schema
 
 from apps.models import Category, Event, Ticket
 from apps.schema.system import PlaceSchema
@@ -52,3 +52,7 @@ class EventSchema(ModelSchema):
     @staticmethod
     def resolve_description(obj):
         return obj.safe_translation_getter("description", language_code=get_language(), any_language=False, default="")
+
+
+class WishlistSchema(Schema):
+    event_id: int

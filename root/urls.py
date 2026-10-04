@@ -16,14 +16,18 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
 
 from apps.api import api
-from root.settings import MEDIA_URL, MEDIA_ROOT
+from root.settings import MEDIA_URL, MEDIA_ROOT, STATIC_URL, STATICFILES_DIRS
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", api.urls)
+    path("", TemplateView.as_view(template_name="index.html"), name="index"),
+    path("", api.urls),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
+urlpatterns += static(STATIC_URL, document_root=STATICFILES_DIRS[0])

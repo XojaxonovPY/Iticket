@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import Annotated, Optional
 
 from ninja import FilterSchema, FilterLookup
@@ -11,3 +12,10 @@ class EventFilterSchema(FilterSchema):
     end_date: Annotated[Optional[datetime], FilterLookup("end_datetime_lte")] = None
     min_price: Annotated[Optional[int], FilterLookup("tickets__price__gte")] = None
     max_price: Annotated[Optional[int], FilterLookup("tickets__price__lte")] = None
+
+
+class TransactionEnumFilter(str, Enum):
+    all = "all"
+    send = "send"
+    receive = "receive"
+    pending = "pending"

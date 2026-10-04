@@ -1,0 +1,15 @@
+.venv
+.idea
+.git
+.gitignore
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+db.sqlite3
+cache/
+staticfiles/
+ANTIGRAVITY.md
+docs/

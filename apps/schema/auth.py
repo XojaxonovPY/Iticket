@@ -1,6 +1,8 @@
+import re
+
 from django.utils.translation import gettext_lazy as _
 from ninja import Schema
-from pydantic import Field, model_validator, EmailStr
+from pydantic import Field, model_validator, EmailStr, field_validator
 
 
 class RegisterSchema(Schema):
@@ -17,8 +19,17 @@ class RegisterSchema(Schema):
             raise ValueError(_("Password is not equal to confirm_password"))
         return self
 
+    @field_validator("phone_number")
+    @classmethod
+    def phone_number_validator(cls, value: str) -> str:
+        cleaned = re.sub(r"\D", "", value)
+        if not cleaned or len(cleaned) < 7:
+            raise ValueError(_("Phone number must contain digits"))
+        return cleaned
+
 
 class MessageSchema(Schema):
+    status: bool
     message: str
 
 

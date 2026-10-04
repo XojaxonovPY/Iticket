@@ -1,37 +1,46 @@
 import datetime
-from django.contrib import admin, messages
-from django.http import HttpResponse
-from django.utils.safestring import mark_safe
-from django.utils.html import escape
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django_json_widget.widgets import JSONEditorWidget
-from parler.admin import TranslatableAdmin
+from typing import Any
+
 import openpyxl
+from django.conf import settings
+from django.contrib import admin, messages
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
+from django.db import transaction, IntegrityError
+from django.db.models import When, F, Value, Case, PositiveIntegerField
+from django.http import HttpResponse, HttpRequest
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
+from django_json_widget.widgets import JSONEditorWidget
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+from parler.admin import TranslatableAdmin
 
 from apps import models
+from apps.commons.exceptions import logger
 from apps.models import (
-    User, Country, Questions, SalesOutlets, Place, Category,
-    Event, Ticket, Wishlist, OrderItem, Order, Payment, Transaction
+    User, Country, Question, SalesOutlets, Place, Category,
+    Event, Ticket, Wishlist, OrderItem, Order, Payment, Transaction, Address
 )
 
+admin.sites.site.unregister(Group)
 
-@admin.action(description=_("Tanlangan obyektlarni Excel (.xlsx) ga yuklab olish"))
+
+@admin.action(description=_("Export selected objects to Excel (.xlsx)"))
 def export_to_excel(modeladmin, request, queryset):
     """
-    Har qanday model ma'lumotlarini Excel (.xlsx) formatida eksport qilish uchun umumiy harakat.
+    Generic action to export any model data to Excel (.xlsx) format.
     """
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = modeladmin.model._meta.verbose_name_plural.capitalize()[:31]
 
-    # Stillar
+    # Styles
     header_font = Font(name="Calibri", size=11, bold=True, color="FFFFFF")
     header_fill = PatternFill(start_color="1F497D", end_color="1F497D", fill_type="solid")
     header_alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
-    
+
     thin_border = Border(
         left=Side(style='thin', color='D9D9D9'),
         right=Side(style='thin', color='D9D9D9'),
@@ -56,11 +65,12 @@ def export_to_excel(modeladmin, request, queryset):
         for field in fields:
             val = getattr(obj, field.name)
             if isinstance(val, (datetime.datetime, datetime.date)):
-                val = val.strftime("%Y-%m-%d %H:%M:%S") if isinstance(val, datetime.datetime) else val.strftime("%Y-%m-%d")
+                val = val.strftime("%Y-%m-%d %H:%M:%S") if isinstance(val, datetime.datetime) else val.strftime(
+                    "%Y-%m-%d")
             elif hasattr(val, '__str__') and not isinstance(val, (int, float, str, bool, type(None))):
                 val = str(val)
             row_data.append(val if val is not None else "")
-        
+
         ws.append(row_data)
         ws.row_dimensions[row_idx].height = 20
 
@@ -85,7 +95,8 @@ def export_to_excel(modeladmin, request, queryset):
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ("id", "phone_number", "email", "gender", "birth_date", "country", "is_staff", "is_active", "date_joined")
+    list_display = ("id", "phone_number", "email", "gender", "birth_date", "country", "is_staff", "is_active",
+                    "date_joined")
     list_filter = ("gender", "is_staff", "is_active", "is_superuser", "country")
     search_fields = ("phone_number", "email", "first_name", "last_name")
     ordering = ("-id",)
@@ -95,9 +106,9 @@ class UserAdmin(BaseUserAdmin):
 
     fieldsets = (
         (None, {"fields": ("phone_number", "password")}),
-        (_("Shaxsiy ma'lumotlar"), {"fields": ("first_name", "last_name", "email", "gender", "birth_date", "country")}),
-        (_("Huquqlar"), {"fields": ("is_active", "is_staff", "is_superuser", "user_permissions")}),
-        (_("Muhim sanalar"), {"fields": ("last_login", "date_joined")}),
+        (_("Personal Info"), {"fields": ("first_name", "last_name", "email", "gender", "birth_date", "country")}),
+        (_("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser", "user_permissions")}),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
         (
@@ -118,27 +129,27 @@ class CountryAdmin(TranslatableAdmin):
     actions = [export_to_excel]
 
 
-@admin.register(Questions)
-class QuestionsAdmin(admin.ModelAdmin):
-    list_display = ("id", "short_question", "short_answer","is_visible")
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ("id", "short_question", "short_answer", "is_visible")
     search_fields = ("question", "answer")
     list_per_page = 25
     actions = [export_to_excel]
 
-    @admin.display(description=_("Savol"))
+    @admin.display(description=_("Question"))
     def short_question(self, obj):
         return obj.question[:60] + "..." if len(obj.question) > 60 else obj.question
 
-    @admin.display(description=_("Javob"))
+    @admin.display(description=_("Answer"))
     def short_answer(self, obj):
         return obj.answer[:60] + "..." if len(obj.answer) > 60 else obj.answer
 
 
 @admin.register(SalesOutlets)
 class SalesOutletsAdmin(admin.ModelAdmin):
-    list_display = ("id", "phone_number", "place", "start_time", "end_time", "latitude", "longitude")
+    list_display = ("id", "place", "start_time", "end_time", "latitude", "longitude")
     list_filter = ("place",)
-    search_fields = ("phone_number",)
+    search_fields = ("place__translations__title", "place__translations__name")
     list_per_page = 25
     actions = [export_to_excel]
     formfield_overrides = {
@@ -146,23 +157,44 @@ class SalesOutletsAdmin(admin.ModelAdmin):
     }
 
 
+def get_image_url(image) -> str:
+    """Return accessible URL for image whether it is a URLField string or FileField/ImageField."""
+    if not image:
+        return ""
+    if hasattr(image, "url"):
+        return image.url
+    url_str = str(image).strip()
+    if not url_str:
+        return ""
+    if not url_str.startswith(("http://", "https://", "/")):
+        media_url = getattr(settings, "MEDIA_URL", "/media/")
+        if not media_url.startswith("/"):
+            media_url = f"/{media_url}"
+        return f"{media_url.rstrip('/')}/{url_str.lstrip('/')}"
+    return url_str
+
+
 @admin.register(Place)
 class PlaceAdmin(TranslatableAdmin):
     list_display = ("id", "phone_number", "image_preview")
-    search_fields = ("phone_number",)
+    search_fields = ("phone_number", "translations__title", "translations__name")
     list_per_page = 25
     actions = [export_to_excel]
 
-    @admin.display(description=_("Rasm"))
+    @admin.display(description=_("Image"))
     def image_preview(self, obj):
-        if obj.image:
-            return mark_safe(f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
+        url = get_image_url(obj.image)
+        if url:
+            return mark_safe(
+                f'<img src="{escape(url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />'
+            )
         return "-"
 
 
 @admin.register(Category)
 class CategoryAdmin(TranslatableAdmin):
-    list_display = ("id",)
+    list_display = ("id", "name")
+    search_fields = ("translations__name",)
     list_per_page = 25
     actions = [export_to_excel]
 
@@ -174,8 +206,8 @@ class TicketInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(TranslatableAdmin):
-    list_display = ("id", "category", "place_id", "start_datetime", "end_datetime", "image_preview")
-    list_filter = ("category", "place_id", "start_datetime")
+    list_display = ("id", "category", "place", "start_datetime", "end_datetime", "image_preview")
+    list_filter = ("category", "place", "start_datetime")
     inlines = [TicketInline]
     list_per_page = 25
     actions = [export_to_excel]
@@ -183,17 +215,21 @@ class EventAdmin(TranslatableAdmin):
         models.JSONField: {'widget': JSONEditorWidget},
     }
 
-    @admin.display(description=_("Rasm"))
+    @admin.display(description=_("Image"))
     def image_preview(self, obj):
-        if obj.image:
-            return mark_safe(f'<img src="{escape(obj.image.url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />')
+        url = get_image_url(obj.image)
+        if url:
+            return mark_safe(
+                f'<img src="{escape(url)}" style="width: 45px; height:45px; object-fit:cover; border-radius:6px;" />'
+            )
         return "-"
 
 
 @admin.register(Ticket)
 class TicketAdmin(TranslatableAdmin):
-    list_display = ("id", "price", "count", "even_id")
-    list_filter = ("even_id",)
+    list_display = ("id", "price", "count", "event")
+    list_filter = ("event",)
+    search_fields = ("translations__title", "even__translations__title")
     list_per_page = 25
     actions = [export_to_excel]
 
@@ -210,10 +246,10 @@ class WishlistAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ("id", "event", "user", "datetime", "created_at")
-    list_filter = ("created_at", "datetime")
-    search_fields = ("user__phone_number", "user__email")
-    readonly_fields = ("created_at", "datetime")
+    list_display = ("id", "ticket", "order", "count", "updated_at", "created_at")
+    list_filter = ("created_at", "updated_at")
+    search_fields = ("user__phone_number", "user__email", "ticket__translations__title")
+    readonly_fields = ("created_at", "updated_at")
     list_per_page = 25
     actions = [export_to_excel]
 
@@ -226,9 +262,9 @@ class PaymentInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id", "user_id", "item", "colored_status", "created_at", "updated_at")
+    list_display = ("id", "user", "total_amount", "total_paid","colored_status", "created_at", "updated_at")
     list_filter = ("status", "created_at")
-    search_fields = ("user_id__phone_number", "user_id__email", "id")
+    search_fields = ("user__phone_number", "user__email", "id")
     readonly_fields = ("created_at", "updated_at")
     inlines = [PaymentInline]
     list_per_page = 25
@@ -247,15 +283,41 @@ class OrderAdmin(admin.ModelAdmin):
             f'<span style="background-color: {escape(color)}; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11px;">{escape(obj.get_status_display())}</span>'
         )
 
-    @admin.action(description=_("Tanlangan buyurtmalarni 'Yetkazilgan' deb belgilash"))
+    @admin.action(description=_("Mark selected orders as Delivered"))
     def mark_as_delivered(self, request, queryset):
         updated = queryset.update(status=Order.StatusTextChoices.DELIVERED)
-        self.message_user(request, f"{updated} ta buyurtma holati 'Yetkazilgan' ga o'zgartirildi.", messages.SUCCESS)
+        self.message_user(request, f"{updated} order(s) marked as Delivered.", messages.SUCCESS)
 
-    @admin.action(description=_("Tanlangan buyurtmalarni 'Bekor qilingan' deb belgilash"))
+    @admin.action(description=_("Mark selected orders as Cancelled"))
     def mark_as_cancelled(self, request, queryset):
         updated = queryset.update(status=Order.StatusTextChoices.CANCELLED)
-        self.message_user(request, f"{updated} ta buyurtma holati 'Bekor qilingan' ga o'zgartirildi.", messages.WARNING)
+        self.message_user(request, f"{updated} order(s) marked as Cancelled.", messages.WARNING)
+
+    def save_model(self, request: HttpRequest, obj: Order, form: Any, change: Any) -> None:
+        if change and "status" in form.changed_data:
+            if obj.status == Order.StatusTextChoices.CANCELLED:
+                order_items = obj.order_item.select_related("ticket").all()
+                when_clauses = []
+                ticket_ids = []
+
+                for item in order_items:
+                    if item.ticket.pk:
+                        ticket_ids.append(item.ticket.pk)
+                        when_clauses.append(When(id=item.ticket.pk, then=F("count") + Value(item.count)))
+
+                try:
+                    with transaction.atomic():
+                        if ticket_ids:
+                            Ticket.objects.filter(id__in=ticket_ids).update(
+                                count=Case(*when_clauses, default=F("count"), output_field=PositiveIntegerField())
+                            )
+                        super().save_model(request, obj, form, change)
+                    return
+                except IntegrityError as e:
+                    logger.error(f"Chiptalarni qaytarishda xatolik: {e}")
+                    raise e
+
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Payment)
@@ -280,22 +342,29 @@ class PaymentAdmin(admin.ModelAdmin):
             f'<span style="background-color: {escape(color)}; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11px;">{escape(obj.get_status_display())}</span>'
         )
 
-    @admin.action(description=_("Tanlangan to'lovlarni 'Bajarildi' deb belgilash"))
+    @admin.action(description=_("Mark selected payments as Completed"))
     def mark_as_completed(self, request, queryset):
         updated = queryset.update(status=Payment.StatusTextChoices.COMPLETED)
-        self.message_user(request, f"{updated} ta to'lov holati 'Bajarildi' ga o'zgartirildi.", messages.SUCCESS)
+        self.message_user(request, f"{updated} payment(s) marked as Completed.", messages.SUCCESS)
 
-    @admin.action(description=_("Tanlangan to'lovlarni 'Qaytarildi' deb belgilash"))
+    @admin.action(description=_("Mark selected payments as Refunded"))
     def mark_as_refunded(self, request, queryset):
         updated = queryset.update(status=Payment.StatusTextChoices.REFUNDED)
-        self.message_user(request, f"{updated} ta to'lov holati 'Qaytarildi' ga o'zgartirildi.", messages.INFO)
+        self.message_user(request, f"{updated} payment(s) marked as Refunded.", messages.INFO)
+
+    def save_model(self, request: HttpRequest, obj: Payment, form: Any, change: Any) -> None:
+        if change and "status" in form.changed_data:
+            if obj.status in (Payment.StatusTextChoices.CANCELLED, Payment.StatusTextChoices.REFUNDED):
+                with transaction.atomic():
+                    Order.objects.filter(pk=obj.order.pk).update(total_paid=0)
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("id", "payment_id", "colored_status", "created_at", "updated_at")
+    list_display = ("id", "payment", "colored_status", "created_at", "updated_at")
     list_filter = ("status", "created_at")
-    search_fields = ("payment_id__id",)
+    search_fields = ("payment__id",)
     readonly_fields = ("created_at", "updated_at")
     list_per_page = 25
     actions = [export_to_excel]
@@ -310,3 +379,12 @@ class TransactionAdmin(admin.ModelAdmin):
         return mark_safe(
             f'<span style="background-color: {escape(color)}; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11px;">{escape(obj.get_status_display())}</span>'
         )
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "city", "street", "building", "user", "country")
+    list_filter = ("city", "country")
+    search_fields = ("title", "city", "street", "user__phone_number", "user__email")
+    list_per_page = 25
+    actions = [export_to_excel]

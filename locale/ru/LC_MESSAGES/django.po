@@ -1,0 +1,229 @@
+# Translation file for Russian (ru).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-03 21:34+0500\n"
+"PO-Revision-Date: 2026-10-03 21:35+0500\n"
+"Last-Translator: Dev <dev@example.com>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: apps/admin.py:30
+msgid "Export selected objects to Excel (.xlsx)"
+msgstr "Экспортировать выбранные объекты в Excel (.xlsx)"
+
+#: apps/admin.py:109
+msgid "Personal Info"
+msgstr "Личная информация"
+
+#: apps/admin.py:110
+msgid "Permissions"
+msgstr "Права доступа"
+
+#: apps/admin.py:111
+msgid "Important dates"
+msgstr "Важные даты"
+
+#: apps/admin.py:139
+msgid "Question"
+msgstr "Вопрос"
+
+#: apps/admin.py:143
+msgid "Answer"
+msgstr "Ответ"
+
+#: apps/admin.py:184 apps/admin.py:218
+msgid "Image"
+msgstr "Изображение"
+
+#: apps/admin.py:273 apps/admin.py:332 apps/admin.py:372
+msgid "Status"
+msgstr "Статус"
+
+#: apps/admin.py:286
+msgid "Mark selected orders as Delivered"
+msgstr "Отметить выбранные заказы как Доставленные"
+
+#: apps/admin.py:291
+msgid "Mark selected orders as Cancelled"
+msgstr "Отметить выбранные заказы как Отмененные"
+
+#: apps/admin.py:345
+msgid "Mark selected payments as Completed"
+msgstr "Отметить выбранные платежи как Завершенные"
+
+#: apps/admin.py:350
+msgid "Mark selected payments as Refunded"
+msgstr "Отметить выбранные платежи как Возвращенные"
+
+#: apps/api/auth.py:25
+msgid "User already exists"
+msgstr "Пользователь уже существует"
+
+#: apps/api/auth.py:26
+msgid "User is registered"
+msgstr "Пользователь зарегистрирован"
+
+#: apps/api/auth.py:36
+msgid "User does not exist"
+msgstr "Пользователь не существует"
+
+#: apps/api/auth.py:39
+msgid "Incorrect password"
+msgstr "Неверный пароль"
+
+#: apps/api/auth.py:51
+msgid "Invalid token"
+msgstr "Недействительный токен"
+
+#: apps/api/cards.py:29
+msgid "Ticket does not exist"
+msgstr "Билет не существует"
+
+#: apps/api/cards.py:60
+msgid "Card is save successfully"
+msgstr "Корзина успешно сохранена"
+
+#: apps/api/cards.py:144
+msgid "Card does not exist"
+msgstr "Корзина не существует"
+
+#: apps/api/event.py:51 apps/api/event.py:63
+msgid "Event not found"
+msgstr "Мероприятие не найдено"
+
+#: apps/api/event.py:70 apps/api/user.py:49 apps/api/user.py:66
+msgid "Something went wrong"
+msgstr "Что-то пошло не так"
+
+#: apps/api/event.py:71
+msgid "Wishlist is created"
+msgstr "Список желаний создан"
+
+#: apps/api/orders.py:36
+msgid "Tickets not found"
+msgstr "Билеты не найдены"
+
+#: apps/api/orders.py:46
+#, python-brace-format
+msgid "Not enough tickets available for {ticket_id}"
+msgstr "Недостаточно билетов для {ticket_id}"
+
+#: apps/api/orders.py:77
+msgid "Server has problem"
+msgstr "Ошибка сервера"
+
+#: apps/api/orders.py:78
+msgid "Order created successfully"
+msgstr "Заказ успешно создан"
+
+#: apps/api/transactions.py:28
+msgid "Order not found"
+msgstr "Заказ не найден"
+
+#: apps/api/transactions.py:31
+msgid "Order is already cancelled or failed"
+msgstr "Заказ уже отменен или завершился с ошибкой"
+
+#: apps/api/transactions.py:39
+msgid "Payment already completed"
+msgstr "Оплата уже завершена"
+
+#: apps/api/transactions.py:68
+msgid "Payment completed successfully"
+msgstr "Оплата успешно завершена"
+
+#: apps/api/transactions.py:80
+msgid "Partial payment accepted"
+msgstr "Частичная оплата принята"
+
+#: apps/api/transactions.py:83
+msgid "Payment processing failed"
+msgstr "Ошибка обработки платежа"
+
+#: apps/api/user.py:33
+msgid "User not found"
+msgstr "Пользователь не найден"
+
+#: apps/api/user.py:44
+msgid "Password not match"
+msgstr "Пароли не совпадают"
+
+#: apps/api/user.py:50
+msgid "Password is successfully updated"
+msgstr "Пароль успешно обновлен"
+
+#: apps/api/user.py:84 apps/api/user.py:92
+msgid "Address not found"
+msgstr "Адрес не найден"
+
+#: apps/commons/exceptions.py:56
+msgid "Invalid input data"
+msgstr "Неверные входные данные"
+
+#: apps/commons/exceptions.py:70
+msgid "An internal server error occurred."
+msgstr "Произошла внутренняя ошибка сервера."
+
+#: apps/commons/tokens.py:55
+msgid "Token is invalid"
+msgstr "Токен недействителен"
+
+#: apps/commons/tokens.py:58
+msgid "User is not found"
+msgstr "Пользователь не найден"
+
+#: apps/commons/tokens.py:63
+msgid "User is not found or deleted"
+msgstr "Пользователь не найден или удален"
+
+#: apps/models.py:16
+msgid "Male"
+msgstr "Мужской"
+
+#: apps/models.py:17
+msgid "Female"
+msgstr "Женский"
+
+#: apps/models.py:170 apps/models.py:188
+msgid "Pending"
+msgstr "В ожидании"
+
+#: apps/models.py:171
+msgid "Delivered"
+msgstr "Доставлен"
+
+#: apps/models.py:172 apps/models.py:190
+msgid "Cancelled"
+msgstr "Отменен"
+
+#: apps/models.py:173 apps/models.py:207
+msgid "Failed"
+msgstr "Не удалось"
+
+#: apps/models.py:189
+msgid "Completed"
+msgstr "Завершено"
+
+#: apps/models.py:191
+msgid "Refunded"
+msgstr "Возвращено"
+
+#: apps/models.py:206
+msgid "Success"
+msgstr "Успешно"
+
+#: apps/schema/auth.py:19 apps/schema/user.py:34
+msgid "Password is not equal to confirm_password"
+msgstr "Пароль не совпадает с подтверждением пароля"
+
+#: apps/schema/auth.py:27 apps/schema/orders.py:28
+msgid "Phone number must contain digits"
+msgstr "Номер телефона должен состоять из цифр"

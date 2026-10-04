@@ -1,0 +1,45 @@
+[
+{
+  "model": "apps.salesoutlets",
+  "pk": 8,
+  "fields": {
+    "latitude": "41.311151",
+    "longitude": "69.279737",
+    "phone_number": [
+      "+998712001111",
+      "+998712002222"
+    ],
+    "start_time": "09:00:00",
+    "end_time": "19:00:00",
+    "place": 10
+  }
+},
+{
+  "model": "apps.salesoutlets",
+  "pk": 9,
+  "fields": {
+    "latitude": "41.303210",
+    "longitude": "69.241520",
+    "phone_number": [
+      "+998712003333"
+    ],
+    "start_time": "10:00:00",
+    "end_time": "20:00:00",
+    "place": 11
+  }
+},
+{
+  "model": "apps.salesoutlets",
+  "pk": 10,
+  "fields": {
+    "latitude": "41.314220",
+    "longitude": "69.273110",
+    "phone_number": [
+      "+998712004444"
+    ],
+    "start_time": "09:00:00",
+    "end_time": "18:00:00",
+    "place": 12
+  }
+}
+]

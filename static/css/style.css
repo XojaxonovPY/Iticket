@@ -1,0 +1,233 @@
+/* iTicket.uz Brand Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ==========================================================================
+   DESIGN TOKENS & THEME ARCHITECTURE (Single Source of Truth)
+   To change brand or theme colors across the entire project, simply update
+   these variables. All components dynamically inherit from here.
+   ========================================================================== */
+:root {
+    /* Brand Primary */
+    --color-primary: #EB1C24;
+    --color-primary-hover: #D0141B;
+    --color-primary-light: #FDE8E9;
+    --color-primary-glow: rgba(235, 28, 36, 0.25);
+
+    /* Backgrounds & Surfaces */
+    --bg-surface: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8FAFC;
+    --bg-subtle: #F1F5F9;
+    --bg-input: #F8FAFC;
+    --bg-input-focus: #FFFFFF;
+
+    /* Borders */
+    --border-subtle: #E2E8F0;
+    --border-card: #E2E8F0;
+    --border-hover: #CBD5E1;
+
+    /* Typography */
+    --text-main: #0F172A;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+
+    /* Semantic Status */
+    --color-success: #10B981;
+    --color-success-bg: #ECFDF5;
+    --color-warning: #F59E0B;
+    --color-warning-bg: #FFFBEB;
+    --color-danger: #EF4444;
+    --color-danger-bg: #FEF2F2;
+    --color-info: #3B82F6;
+    --color-info-bg: #EFF6FF;
+
+    /* Backward compatibility aliases */
+    --primary: var(--color-primary);
+    --primary-hover: var(--color-primary-hover);
+    --primary-light: var(--color-primary-light);
+    --secondary: #1E293B;
+    --bg-main: var(--bg-surface);
+    --card-bg: var(--bg-card);
+    --input-bg: var(--bg-input);
+    --border-color: var(--border-card);
+    --text-primary: var(--text-main);
+}
+
+html.dark {
+    /* Brand Primary in dark mode */
+    --color-primary: #EB1C24;
+    --color-primary-hover: #F43F5E;
+    --color-primary-light: rgba(235, 28, 36, 0.15);
+    --color-primary-glow: rgba(235, 28, 36, 0.35);
+
+    /* Backgrounds & Surfaces (Deep modern slate) */
+    --bg-surface: #020617;
+    --bg-card: #0F172A;
+    --bg-card-hover: #1E293B;
+    --bg-subtle: #1E293B;
+    --bg-input: #1E293B;
+    --bg-input-focus: #0F172A;
+
+    /* Borders */
+    --border-subtle: #1E293B;
+    --border-card: #1E293B;
+    --border-hover: #334155;
+
+    /* Typography */
+    --text-main: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+
+    /* Semantic Status Dark */
+    --color-success: #34D399;
+    --color-success-bg: rgba(16, 185, 129, 0.15);
+    --color-warning: #FBBF24;
+    --color-warning-bg: rgba(245, 158, 11, 0.15);
+    --color-danger: #F87171;
+    --color-danger-bg: rgba(239, 68, 68, 0.15);
+    --color-info: #60A5FA;
+    --color-info-bg: rgba(59, 130, 246, 0.15);
+
+    /* Backward compatibility aliases */
+    --primary: var(--color-primary);
+    --primary-hover: var(--color-primary-hover);
+    --primary-light: var(--color-primary-light);
+    --secondary: #0F172A;
+    --bg-main: var(--bg-surface);
+    --card-bg: var(--bg-card);
+    --input-bg: var(--bg-input);
+    --border-color: var(--border-card);
+    --text-primary: var(--text-main);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+html.dark ::-webkit-scrollbar-track {
+    background: #090d16;
+}
+html.dark ::-webkit-scrollbar-thumb {
+    background: #334155;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.25s ease-out forwards;
+}
+
+.animate-shimmer {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+html.dark .animate-shimmer {
+    background: linear-gradient(90deg, #111827 25%, #1f2937 50%, #111827 75%);
+    background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Ticket cutout styling */
+.ticket-stub {
+    position: relative;
+    background: white;
+}
+html.dark .ticket-stub {
+    background: #111827;
+    color: #f8fafc;
+}
+.ticket-stub::before,
+.ticket-stub::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: var(--bg-main);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.ticket-stub::before {
+    left: -10px;
+}
+.ticket-stub::after {
+    right: -10px;
+}
+
+/* Event card hover effect */
+.event-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.12);
+}
+
+.event-card-image {
+    transition: transform 0.5s ease;
+}
+.event-card:hover .event-card-image {
+    transform: scale(1.05);
+}
+
+/* Glassmorphism nav */
+.nav-glass {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+html.dark .nav-glass {
+    background: rgba(15, 23, 42, 0.95);
+}
+
+/* Line clamp helpers */
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

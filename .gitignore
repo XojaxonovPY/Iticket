@@ -2,3 +2,8 @@
 .venv
 db.sqlite3
 Token
+cache
+.pytest_cache/
+__pycache__/
+*.pyc
+.env

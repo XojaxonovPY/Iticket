@@ -1,12 +1,16 @@
 from http import HTTPStatus
 
+from asgiref.sync import sync_to_async
 from django.contrib.auth.hashers import make_password
+from django.db.utils import IntegrityError
 from django.http import HttpRequest
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
 from ninja import Router
 from ninja.errors import HttpError
 
+from apps.commons.decorators import cache_page_ninja
+from apps.commons.exceptions import logger
 from apps.models import Country, Address
 from apps.models import User
 from apps.schema import AddressInUpSchema, MessageSchema, PasswordSchema
@@ -24,10 +28,13 @@ async def get_user(request: HttpRequest):
 @router.patch("/profile/", response=UserOutSchema)
 async def update_user(request: HttpRequest, payload: UserInSchema):
     user: User = request.auth
-    updated_count = await User.objects.filter(pk=user.pk).aupdate(**payload.model_dump(exclude_unset=True))
-    if not updated_count:
+    user_data = payload.model_dump(exclude_unset=True)
+    update_count = await User.objects.filter(pk=user.pk).aupdate(**user_data)
+    if not update_count:
         raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=_("User not found"))
-    await user.arefresh_from_db()
+    for attr, value in user_data.items():
+        setattr(user, attr, value)
+
     return user
 
 
@@ -36,10 +43,16 @@ async def update_password(request: HttpRequest, payload: PasswordSchema):
     user: User = request.auth
     if not await user.acheck_password(payload.old_password):
         raise HttpError(status_code=HTTPStatus.BAD_REQUEST, message=_("Password not match"))
-    await User.objects.filter(pk=user.pk).aupdate(password=payload.new_password)
-    return {"message":_("Password is successfully updated")}
+    hash_password = await sync_to_async(make_password)(payload.new_password)
+    try:
+        await User.objects.filter(pk=user.pk).aupdate(password=hash_password)
+    except IntegrityError as e:
+        raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message=_("Something went wrong"))
+    return {"status": True, "message": _("Password is successfully updated")}
+
 
 @router.get("/country/", response=list[CountrySchema], auth=None)
+@cache_page_ninja(60 * 7)
 async def get_country(request: HttpRequest, lang: str = "uz"):
     activate(lang)
     countries = [country async for country in Country.objects.prefetch_related("translations").all()]
@@ -48,7 +61,11 @@ async def get_country(request: HttpRequest, lang: str = "uz"):
 
 @router.post("/address/", response={HTTPStatus.CREATED: AddressOutSchema})
 async def create_address(request: HttpRequest, payload: AddressInSchema):
-    address = await Address.objects.acreate(**payload.dict(), user=request.auth)
+    try:
+        address = await Address.objects.acreate(**payload.model_dump(exclude_unset=True), user=request.auth)
+    except IntegrityError as e:
+        logger.error(e)
+        raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message=_("Something went wrong"))
     return HTTPStatus.CREATED, address
 
 
@@ -63,19 +80,16 @@ async def get_address(request: HttpRequest):
 
 @router.patch("/address/{pk}", response=AddressOutSchema)
 async def update_address(request: HttpRequest, pk: int, payload: AddressInUpSchema):
-    address: Address | None = await Address.objects.filter(id=pk, user=request.auth).afirst()
-    if not address:
+    address_query = Address.objects.filter(id=pk, user=request.auth)
+    update_count = await address_query.aupdate(**payload.model_dump(exclude_unset=True))
+    if not update_count:
         raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=_("Address not found"))
-    for key, value in payload.dict(exclude_unset=True).items():
-        setattr(address, key, value)
-    await address.asave()
-    return address
+    return await address_query.afirst()
 
 
 @router.delete("/address/{pk}", response={HTTPStatus.NO_CONTENT: None})
 async def delete_address(request: HttpRequest, pk: int):
-    address_qs = Address.objects.filter(id=pk, user=request.auth)
-    if not await address_qs.aexists():
+    address_qs = await Address.objects.filter(id=pk, user=request.auth).adelete()
+    if not address_qs:
         raise HttpError(status_code=HTTPStatus.NOT_FOUND, message=_("Address not found"))
-    await address_qs.adelete()
     return HTTPStatus.NO_CONTENT, None

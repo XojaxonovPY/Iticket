@@ -1,0 +1,228 @@
+# Translation file for Uzbek (uz).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-03 21:34+0500\n"
+"PO-Revision-Date: 2026-10-03 21:35+0500\n"
+"Last-Translator: Dev <dev@example.com>\n"
+"Language-Team: Uzbek <uz@li.org>\n"
+"Language: uz\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: apps/admin.py:30
+msgid "Export selected objects to Excel (.xlsx)"
+msgstr "Tanlangan obyektlarni Excel (.xlsx) ga yuklab olish"
+
+#: apps/admin.py:109
+msgid "Personal Info"
+msgstr "Shaxsiy ma'lumotlar"
+
+#: apps/admin.py:110
+msgid "Permissions"
+msgstr "Huquqlar"
+
+#: apps/admin.py:111
+msgid "Important dates"
+msgstr "Muhim sanalar"
+
+#: apps/admin.py:139
+msgid "Question"
+msgstr "Savol"
+
+#: apps/admin.py:143
+msgid "Answer"
+msgstr "Javob"
+
+#: apps/admin.py:184 apps/admin.py:218
+msgid "Image"
+msgstr "Rasm"
+
+#: apps/admin.py:273 apps/admin.py:332 apps/admin.py:372
+msgid "Status"
+msgstr "Holat"
+
+#: apps/admin.py:286
+msgid "Mark selected orders as Delivered"
+msgstr "Tanlangan buyurtmalarni 'Yetkazilgan' deb belgilash"
+
+#: apps/admin.py:291
+msgid "Mark selected orders as Cancelled"
+msgstr "Tanlangan buyurtmalarni 'Bekor qilingan' deb belgilash"
+
+#: apps/admin.py:345
+msgid "Mark selected payments as Completed"
+msgstr "Tanlangan to'lovlarni 'Bajarildi' deb belgilash"
+
+#: apps/admin.py:350
+msgid "Mark selected payments as Refunded"
+msgstr "Tanlangan to'lovlarni 'Qaytarildi' deb belgilash"
+
+#: apps/api/auth.py:25
+msgid "User already exists"
+msgstr "Foydalanuvchi allaqachon mavjud"
+
+#: apps/api/auth.py:26
+msgid "User is registered"
+msgstr "Foydalanuvchi ro'yxatdan o'tdi"
+
+#: apps/api/auth.py:36
+msgid "User does not exist"
+msgstr "Foydalanuvchi mavjud emas"
+
+#: apps/api/auth.py:39
+msgid "Incorrect password"
+msgstr "Noto'g'ri parol"
+
+#: apps/api/auth.py:51
+msgid "Invalid token"
+msgstr "Yaroqsiz token"
+
+#: apps/api/cards.py:29
+msgid "Ticket does not exist"
+msgstr "Chipta mavjud emas"
+
+#: apps/api/cards.py:60
+msgid "Card is save successfully"
+msgstr "Savatga muvaffaqiyatli saqlandi"
+
+#: apps/api/cards.py:144
+msgid "Card does not exist"
+msgstr "Savat mavjud emas"
+
+#: apps/api/event.py:51 apps/api/event.py:63
+msgid "Event not found"
+msgstr "Tadbir topilmadi"
+
+#: apps/api/event.py:70 apps/api/user.py:49 apps/api/user.py:66
+msgid "Something went wrong"
+msgstr "Nimadir xato ketdi"
+
+#: apps/api/event.py:71
+msgid "Wishlist is created"
+msgstr "Istaklar ro'yxati yaratildi"
+
+#: apps/api/orders.py:36
+msgid "Tickets not found"
+msgstr "Chiptalar topilmadi"
+
+#: apps/api/orders.py:46
+#, python-brace-format
+msgid "Not enough tickets available for {ticket_id}"
+msgstr "{ticket_id} uchun yetarli chipta mavjud emas"
+
+#: apps/api/orders.py:77
+msgid "Server has problem"
+msgstr "Serverda xatolik yuz berdi"
+
+#: apps/api/orders.py:78
+msgid "Order created successfully"
+msgstr "Buyurtma muvaffaqiyatli yaratildi"
+
+#: apps/api/transactions.py:28
+msgid "Order not found"
+msgstr "Buyurtma topilmadi"
+
+#: apps/api/transactions.py:31
+msgid "Order is already cancelled or failed"
+msgstr "Buyurtma allaqachon bekor qilingan yoki bekor bo'lgan"
+
+#: apps/api/transactions.py:39
+msgid "Payment already completed"
+msgstr "To'lov allaqachon bajarilgan"
+
+#: apps/api/transactions.py:68
+msgid "Payment completed successfully"
+msgstr "To'lov muvaffaqiyatli amalga oshirildi"
+
+#: apps/api/transactions.py:80
+msgid "Partial payment accepted"
+msgstr "Qisman to'lov qabul qilindi"
+
+#: apps/api/transactions.py:83
+msgid "Payment processing failed"
+msgstr "To'lovni amalga oshirishda xatolik yuz berdi"
+
+#: apps/api/user.py:33
+msgid "User not found"
+msgstr "Foydalanuvchi topilmadi"
+
+#: apps/api/user.py:44
+msgid "Password not match"
+msgstr "Parollar mos kelmadi"
+
+#: apps/api/user.py:50
+msgid "Password is successfully updated"
+msgstr "Parol muvaffaqiyatli yangilandi"
+
+#: apps/api/user.py:84 apps/api/user.py:92
+msgid "Address not found"
+msgstr "Manzil topilmadi"
+
+#: apps/commons/exceptions.py:56
+msgid "Invalid input data"
+msgstr "Ma'lumotlar noto'g'ri kiritildi"
+
+#: apps/commons/exceptions.py:70
+msgid "An internal server error occurred."
+msgstr "Serverda ichki xatolik yuz berdi."
+
+#: apps/commons/tokens.py:55
+msgid "Token is invalid"
+msgstr "Token yaroqsiz"
+
+#: apps/commons/tokens.py:58
+msgid "User is not found"
+msgstr "Foydalanuvchi topilmadi"
+
+#: apps/commons/tokens.py:63
+msgid "User is not found or deleted"
+msgstr "Foydalanuvchi topilmadi yoki o'chirilgan"
+
+#: apps/models.py:16
+msgid "Male"
+msgstr "Erkak"
+
+#: apps/models.py:17
+msgid "Female"
+msgstr "Ayol"
+
+#: apps/models.py:170 apps/models.py:188
+msgid "Pending"
+msgstr "Kutilmoqda"
+
+#: apps/models.py:171
+msgid "Delivered"
+msgstr "Yetkazildi"
+
+#: apps/models.py:172 apps/models.py:190
+msgid "Cancelled"
+msgstr "Bekor qilindi"
+
+#: apps/models.py:173 apps/models.py:207
+msgid "Failed"
+msgstr "Muvaffaqiyatsiz"
+
+#: apps/models.py:189
+msgid "Completed"
+msgstr "Bajarildi"
+
+#: apps/models.py:191
+msgid "Refunded"
+msgstr "Qaytarildi"
+
+#: apps/models.py:206
+msgid "Success"
+msgstr "Muvaffaqiyatli"
+
+#: apps/schema/auth.py:19 apps/schema/user.py:34
+msgid "Password is not equal to confirm_password"
+msgstr "Parol tasdiqlash paroli bilan mos kelmaydi"
+
+#: apps/schema/auth.py:27 apps/schema/orders.py:28
+msgid "Phone number must contain digits"
+msgstr "Telefon raqami faqat raqamlardan iborat bo'lishi kerak"

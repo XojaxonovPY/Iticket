@@ -1,0 +1,228 @@
+# Translation file for English (en).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-03 21:34+0500\n"
+"PO-Revision-Date: 2026-10-03 21:35+0500\n"
+"Last-Translator: Dev <dev@example.com>\n"
+"Language-Team: English <en@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/admin.py:30
+msgid "Export selected objects to Excel (.xlsx)"
+msgstr "Export selected objects to Excel (.xlsx)"
+
+#: apps/admin.py:109
+msgid "Personal Info"
+msgstr "Personal Info"
+
+#: apps/admin.py:110
+msgid "Permissions"
+msgstr "Permissions"
+
+#: apps/admin.py:111
+msgid "Important dates"
+msgstr "Important dates"
+
+#: apps/admin.py:139
+msgid "Question"
+msgstr "Question"
+
+#: apps/admin.py:143
+msgid "Answer"
+msgstr "Answer"
+
+#: apps/admin.py:184 apps/admin.py:218
+msgid "Image"
+msgstr "Image"
+
+#: apps/admin.py:273 apps/admin.py:332 apps/admin.py:372
+msgid "Status"
+msgstr "Status"
+
+#: apps/admin.py:286
+msgid "Mark selected orders as Delivered"
+msgstr "Mark selected orders as Delivered"
+
+#: apps/admin.py:291
+msgid "Mark selected orders as Cancelled"
+msgstr "Mark selected orders as Cancelled"
+
+#: apps/admin.py:345
+msgid "Mark selected payments as Completed"
+msgstr "Mark selected payments as Completed"
+
+#: apps/admin.py:350
+msgid "Mark selected payments as Refunded"
+msgstr "Mark selected payments as Refunded"
+
+#: apps/api/auth.py:25
+msgid "User already exists"
+msgstr "User already exists"
+
+#: apps/api/auth.py:26
+msgid "User is registered"
+msgstr "User is registered"
+
+#: apps/api/auth.py:36
+msgid "User does not exist"
+msgstr "User does not exist"
+
+#: apps/api/auth.py:39
+msgid "Incorrect password"
+msgstr "Incorrect password"
+
+#: apps/api/auth.py:51
+msgid "Invalid token"
+msgstr "Invalid token"
+
+#: apps/api/cards.py:29
+msgid "Ticket does not exist"
+msgstr "Ticket does not exist"
+
+#: apps/api/cards.py:60
+msgid "Card is save successfully"
+msgstr "Card is saved successfully"
+
+#: apps/api/cards.py:144
+msgid "Card does not exist"
+msgstr "Card does not exist"
+
+#: apps/api/event.py:51 apps/api/event.py:63
+msgid "Event not found"
+msgstr "Event not found"
+
+#: apps/api/event.py:70 apps/api/user.py:49 apps/api/user.py:66
+msgid "Something went wrong"
+msgstr "Something went wrong"
+
+#: apps/api/event.py:71
+msgid "Wishlist is created"
+msgstr "Wishlist is created"
+
+#: apps/api/orders.py:36
+msgid "Tickets not found"
+msgstr "Tickets not found"
+
+#: apps/api/orders.py:46
+#, python-brace-format
+msgid "Not enough tickets available for {ticket_id}"
+msgstr "Not enough tickets available for {ticket_id}"
+
+#: apps/api/orders.py:77
+msgid "Server has problem"
+msgstr "Server has a problem"
+
+#: apps/api/orders.py:78
+msgid "Order created successfully"
+msgstr "Order created successfully"
+
+#: apps/api/transactions.py:28
+msgid "Order not found"
+msgstr "Order not found"
+
+#: apps/api/transactions.py:31
+msgid "Order is already cancelled or failed"
+msgstr "Order is already cancelled or failed"
+
+#: apps/api/transactions.py:39
+msgid "Payment already completed"
+msgstr "Payment already completed"
+
+#: apps/api/transactions.py:68
+msgid "Payment completed successfully"
+msgstr "Payment completed successfully"
+
+#: apps/api/transactions.py:80
+msgid "Partial payment accepted"
+msgstr "Partial payment accepted"
+
+#: apps/api/transactions.py:83
+msgid "Payment processing failed"
+msgstr "Payment processing failed"
+
+#: apps/api/user.py:33
+msgid "User not found"
+msgstr "User not found"
+
+#: apps/api/user.py:44
+msgid "Password not match"
+msgstr "Password does not match"
+
+#: apps/api/user.py:50
+msgid "Password is successfully updated"
+msgstr "Password is successfully updated"
+
+#: apps/api/user.py:84 apps/api/user.py:92
+msgid "Address not found"
+msgstr "Address not found"
+
+#: apps/commons/exceptions.py:56
+msgid "Invalid input data"
+msgstr "Invalid input data"
+
+#: apps/commons/exceptions.py:70
+msgid "An internal server error occurred."
+msgstr "An internal server error occurred."
+
+#: apps/commons/tokens.py:55
+msgid "Token is invalid"
+msgstr "Token is invalid"
+
+#: apps/commons/tokens.py:58
+msgid "User is not found"
+msgstr "User is not found"
+
+#: apps/commons/tokens.py:63
+msgid "User is not found or deleted"
+msgstr "User is not found or deleted"
+
+#: apps/models.py:16
+msgid "Male"
+msgstr "Male"
+
+#: apps/models.py:17
+msgid "Female"
+msgstr "Female"
+
+#: apps/models.py:170 apps/models.py:188
+msgid "Pending"
+msgstr "Pending"
+
+#: apps/models.py:171
+msgid "Delivered"
+msgstr "Delivered"
+
+#: apps/models.py:172 apps/models.py:190
+msgid "Cancelled"
+msgstr "Cancelled"
+
+#: apps/models.py:173 apps/models.py:207
+msgid "Failed"
+msgstr "Failed"
+
+#: apps/models.py:189
+msgid "Completed"
+msgstr "Completed"
+
+#: apps/models.py:191
+msgid "Refunded"
+msgstr "Refunded"
+
+#: apps/models.py:206
+msgid "Success"
+msgstr "Success"
+
+#: apps/schema/auth.py:19 apps/schema/user.py:34
+msgid "Password is not equal to confirm_password"
+msgstr "Password is not equal to confirm_password"
+
+#: apps/schema/auth.py:27 apps/schema/orders.py:28
+msgid "Phone number must contain digits"
+msgstr "Phone number must contain digits"
