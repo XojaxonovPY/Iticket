@@ -4,7 +4,7 @@ from asgiref.sync import sync_to_async
 from django.db import transaction
 from django.db.models import Prefetch, Q
 from django.http.request import HttpRequest
-from django.utils.translation import gettext as _
+from django.utils.translation import activate, gettext as _
 from ninja import Router, Query
 from ninja.errors import HttpError
 
@@ -65,7 +65,7 @@ def create_payment_transaction(payload: PaymentInSchema, user: User) -> dict[str
                     )
 
                 Transaction.objects.bulk_create(transactions)
-                return {"message": _("Payment completed successfully")}
+                return {"status": True, "message": _("Payment completed successfully")}
 
             else:
                 Payment.objects.filter(**payment_filter).update(
@@ -112,8 +112,10 @@ async def create_payment(request: HttpRequest, payload: PaymentInSchema):
 @router.get("/transactions/", response=list[PaymentOutSchema] | list[OrderOutSchema] | AllTransactionsSchema)
 async def get_payments_transactions(
         request: HttpRequest,
-        filters: TransactionEnumFilter = Query(TransactionEnumFilter.all)
+        filters: TransactionEnumFilter = Query(TransactionEnumFilter.all),
+        lang: str = "uz"
 ):
+    activate(lang)
     user = request.auth
     chunk_size = 100
     if filters == TransactionEnumFilter.send:

@@ -1,3 +1,4 @@
+import time
 from datetime import timedelta
 from http import HTTPStatus
 
@@ -35,9 +36,12 @@ async def card_create(request: HttpRequest, payload: OrderItemInSchema):
             await request.session.acreate()
         cache_key = f"{CACHE_KEY}session:{request.session.session_key}"
 
+    now_ts = int(time.time())
     cached_data = await cache.aget(cache_key)
     if not cached_data:
         ticket_items: list[dict[str, int]] = []
+    elif isinstance(cached_data, dict) and "items" in cached_data:
+        ticket_items = cached_data.get("items", [])
     elif isinstance(cached_data, list):
         ticket_items = cached_data
     else:
@@ -56,37 +60,49 @@ async def card_create(request: HttpRequest, payload: OrderItemInSchema):
             "count": payload.count
         })
 
-    await cache.aset(cache_key, ticket_items, timeout=EXPIRE_SECONDS)
+    expires_at = now_ts + EXPIRE_SECONDS
+    await cache.aset(
+        cache_key,
+        {"items": ticket_items, "expires_at": expires_at},
+        timeout=EXPIRE_SECONDS
+    )
     return HTTPStatus.CREATED, MessageSchema(status=True, message=_("Card is save successfully"))
 
 
 async def get_ticket(request: HttpRequest, user: User | AnonymousUser) -> tuple[
-    list[dict[str, int]], str]:
+    list[dict[str, int]], str, int, int]:
     if user and getattr(user, "is_authenticated", False):
         cache_key = f"{CACHE_KEY}user:{user.pk}"
     else:
         session_key = request.session.session_key
         if not session_key:
-            return [], ""
+            return [], "", 0, 0
         cache_key = f"{CACHE_KEY}session:{request.session.session_key}"
 
     cached_data = await cache.aget(cache_key)
     if not cached_data:
-        return [], cache_key
+        return [], cache_key, 0, 0
 
-    if isinstance(cached_data, list):
-        ticket_ids: list[dict[str, int]] = cached_data
+    now_ts = int(time.time())
+    if isinstance(cached_data, dict) and "items" in cached_data:
+        ticket_ids = cached_data.get("items", [])
+        expires_at = cached_data.get("expires_at", now_ts + EXPIRE_SECONDS)
+    elif isinstance(cached_data, list):
+        ticket_ids = cached_data
+        expires_at = now_ts + EXPIRE_SECONDS
     else:
         ticket_ids = [cached_data]
+        expires_at = now_ts + EXPIRE_SECONDS
 
-    return ticket_ids, cache_key
+    remaining_seconds = max(0, expires_at - now_ts)
+    return ticket_ids, cache_key, expires_at, remaining_seconds
 
 
 @router.get("/cards/", response={HTTPStatus.OK: list[EventCardSchema]}, auth=optional_auth)
 async def card_get(request: HttpRequest, lang: str = "uz"):
     activate(lang)
     user = request.auth
-    ticket_items, _ = await get_ticket(request, user)
+    ticket_items, _, expires_at, remaining_seconds = await get_ticket(request, user)
 
     if not ticket_items:
         return HTTPStatus.OK, []
@@ -122,20 +138,30 @@ async def card_get(request: HttpRequest, lang: str = "uz"):
         Prefetch("tickets", queryset=ticket_query)
     ).distinct()
 
-    events = [event async for event in events_query.aiterator(chunk_size=100)]
+    events = []
+    async for event in events_query.aiterator(chunk_size=100):
+        event.expires_at = expires_at
+        event.remaining_seconds = remaining_seconds
+        events.append(event)
     return HTTPStatus.OK, events
 
 
 @router.delete("/cards/{pk}", response={HTTPStatus.NO_CONTENT: None, HTTPStatus.OK: MessageSchema}, auth=optional_auth)
 async def card_delete(request: HttpRequest, pk: int):
     user = request.auth
-    ticket_items, cache_key = await get_ticket(request, user)
+    ticket_items, cache_key, expires_at, remaining_seconds = await get_ticket(request, user)
     initial_length = len(ticket_items)
     updated_items = [item for item in ticket_items if item.get("ticket_id") != pk]
 
     if len(updated_items) < initial_length:
         if updated_items:
-            await cache.aset(cache_key, updated_items, timeout=EXPIRE_SECONDS)
+            now_ts = int(time.time())
+            remaining = max(1, expires_at - now_ts)
+            await cache.aset(
+                cache_key,
+                {"items": updated_items, "expires_at": expires_at},
+                timeout=remaining
+            )
         else:
             await cache.adelete(cache_key)
 

@@ -237,9 +237,17 @@
                                 </div>
 
                                 <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-2xl flex items-center gap-3">
-                                    <div className="w-9 h-9 rounded-xl bg-white dark:bg-slate-700 shadow-xs text-rose-600 dark:text-rose-400 flex items-center justify-center text-sm">
-                                        <i className="fa-solid fa-location-dot"></i>
-                                    </div>
+                                    {event.place?.image ? (
+                                        <img
+                                            src={event.place.image}
+                                            alt={event.place?.title || event.place?.name}
+                                            className="w-10 h-10 rounded-xl object-cover shadow-xs border border-slate-200 dark:border-slate-700 flex-shrink-0"
+                                        />
+                                    ) : (
+                                        <div className="w-9 h-9 rounded-xl bg-white dark:bg-slate-700 shadow-xs text-rose-600 dark:text-rose-400 flex items-center justify-center text-sm">
+                                            <i className="fa-solid fa-location-dot"></i>
+                                        </div>
+                                    )}
                                     <div className="truncate">
                                         <span className="text-slate-400 dark:text-slate-400 block text-[11px]">{t('venue', language)}</span>
                                         <span className="font-bold text-slate-800 dark:text-slate-100 truncate block">
@@ -382,17 +390,56 @@
 
                         {/* Venue details box */}
                         {event.place && (
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xl flex-shrink-0">
-                                    <i className="fa-solid fa-landmark"></i>
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <h4 className="font-bold text-sm text-slate-900 dark:text-white truncate">
-                                        {event.place.title || event.place.name}
-                                    </h4>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                                        {t('contact_venue', language)}: {event.place.phone_number || "+998 71 200 00 00"}
-                                    </p>
+                            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xs overflow-hidden">
+                                {event.place.image && (
+                                    <div className="w-full h-44 bg-slate-100 dark:bg-slate-800 relative overflow-hidden group">
+                                        <img
+                                            src={event.place.image}
+                                            alt={event.place.title || event.place.name}
+                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                                        <div className="absolute bottom-3 left-4 right-4">
+                                            <span className="inline-block px-2 py-0.5 rounded-md bg-rose-600/90 text-white text-[10px] font-bold uppercase tracking-wider mb-1">
+                                                {t('venue', language)}
+                                            </span>
+                                            <h4 className="font-extrabold text-white text-base leading-tight drop-shadow-sm truncate">
+                                                {event.place.title || event.place.name}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="p-5 space-y-3">
+                                    {!event.place.image && (
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xl flex-shrink-0">
+                                                <i className="fa-solid fa-landmark"></i>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <span className="text-[11px] font-semibold text-slate-400 block">{t('venue', language)}</span>
+                                                <h4 className="font-bold text-sm text-slate-900 dark:text-white truncate">
+                                                    {event.place.title || event.place.name}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    )}
+                                    <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+                                        <span className="flex items-center gap-2">
+                                            <i className="fa-solid fa-phone text-rose-500"></i>
+                                            <span>{event.place.phone_number || "+998 71 200 00 00"}</span>
+                                        </span>
+                                        {event.latitude && event.longitude && (
+                                            <a
+                                                href={`https://maps.google.com/?q=${event.latitude},${event.longitude}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-bold transition"
+                                            >
+                                                <span>{t('view_on_map', language)}</span>
+                                                <i className="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                            </a>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         )}

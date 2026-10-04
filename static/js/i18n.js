@@ -34,7 +34,8 @@
             return translationsCache[lang];
         }
         try {
-            const res = await fetch(`/static/locales/${lang}.json`);
+            const cacheBuster = window.DJANGO_CONFIG?.version || Date.now();
+            const res = await fetch(`/static/locales/${lang}.json?v=${cacheBuster}`, { cache: 'no-cache' });
             if (res.ok) {
                 const data = await res.json();
                 translationsCache[lang] = data;
@@ -59,7 +60,7 @@
         }
     });
 
-    function t(key, lang = 'uz') {
+    function t(key, lang = 'uz', fallback = null) {
         const activeDict = flatCache[lang] || flatCache[initialLang] || flatCache.uz || {};
         if (activeDict[key] !== undefined) {
             return activeDict[key];
@@ -68,7 +69,7 @@
         if (flatCache.uz && flatCache.uz[key] !== undefined) {
             return flatCache.uz[key];
         }
-        return key;
+        return fallback !== null ? fallback : key;
     }
 
     function formatEventDate(dateString, lang = 'uz') {

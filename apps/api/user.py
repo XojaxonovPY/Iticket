@@ -10,6 +10,7 @@ from ninja import Router
 from ninja.errors import HttpError
 
 from apps.commons.decorators import cache_page_ninja
+from apps.commons.exceptions import logger
 from apps.models import Country, Address
 from apps.models import User
 from apps.schema import AddressInUpSchema, MessageSchema, PasswordSchema
@@ -61,8 +62,9 @@ async def get_country(request: HttpRequest, lang: str = "uz"):
 @router.post("/address/", response={HTTPStatus.CREATED: AddressOutSchema})
 async def create_address(request: HttpRequest, payload: AddressInSchema):
     try:
-        address = await Address.objects.acreate(**payload.dict(), user=request.auth)
+        address = await Address.objects.acreate(**payload.model_dump(exclude_unset=True), user=request.auth)
     except IntegrityError as e:
+        logger.error(e)
         raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message=_("Something went wrong"))
     return HTTPStatus.CREATED, address
 

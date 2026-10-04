@@ -7,3 +7,5 @@ class TicketCardSchema(TicketSchema):
 
 class EventCardSchema(EventSchema):
     tickets: list[TicketCardSchema]
+    expires_at: int | None = None
+    remaining_seconds: int | None = None

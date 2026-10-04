@@ -16,12 +16,26 @@
         const [cartEvents, setCartEvents] = useState([]);
         const [loading, setLoading] = useState(true);
         const [updatingTicketId, setUpdatingTicketId] = useState(null);
+        const [timeLeft, setTimeLeft] = useState(null);
 
         async function loadCart() {
             setLoading(true);
             try {
                 const data = await window.apiServices.cart.getCart(language);
                 setCartEvents(data);
+                if (data && data.length > 0) {
+                    const firstEv = data[0];
+                    if (firstEv?.expires_at) {
+                        const remaining = Math.max(0, firstEv.expires_at - Math.floor(Date.now() / 1000));
+                        setTimeLeft(remaining);
+                    } else if (firstEv?.remaining_seconds != null) {
+                        setTimeLeft(firstEv.remaining_seconds);
+                    } else {
+                        setTimeLeft(900);
+                    }
+                } else {
+                    setTimeLeft(null);
+                }
             } catch (err) {
                 if (onShowToast) {
                     onShowToast({ type: 'error', message: err.message || (language === 'uz' ? "Savatni yuklab bo'lmadi" : "Failed to load cart") });
@@ -34,6 +48,34 @@
         useEffect(() => {
             loadCart();
         }, [language]);
+
+        useEffect(() => {
+            if (timeLeft === null || timeLeft <= 0) return;
+            const timer = setInterval(() => {
+                setTimeLeft((prev) => {
+                    if (prev === null) return null;
+                    if (prev <= 1) {
+                        clearInterval(timer);
+                        if (onShowToast) {
+                            onShowToast({
+                                type: 'warning',
+                                message: t('cart_time_expired_desc', language) || "Savatdagi band qilish vaqti tugadi!"
+                            });
+                        }
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+            return () => clearInterval(timer);
+        }, [timeLeft, language]);
+
+        function formatCountdown(totalSec) {
+            if (totalSec == null || totalSec < 0) return "00:00";
+            const m = Math.floor(totalSec / 60);
+            const s = totalSec % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
 
         async function handleUpdateCount(ticketId, newCount) {
             if (newCount <= 0) {
@@ -127,6 +169,82 @@
                         <span>{t('continue_shopping', language)}</span>
                     </button>
                 </div>
+
+                {allItems.length > 0 && timeLeft !== null && (
+                    <div className={`p-4 sm:p-5 rounded-3xl border transition-all duration-300 ${
+                        timeLeft === 0
+                            ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-200'
+                            : timeLeft <= 120
+                                ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-100 shadow-sm animate-pulse'
+                                : 'bg-gradient-to-r from-rose-50/80 via-white to-orange-50/60 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800/80 border-rose-100 dark:border-slate-800 shadow-xs'
+                    }`}>
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div className="flex items-center gap-3.5">
+                                <div className={`w-11 h-11 rounded-2xl flex items-center justify-center text-lg flex-shrink-0 ${
+                                    timeLeft === 0
+                                        ? 'bg-rose-600 text-white'
+                                        : timeLeft <= 120
+                                            ? 'bg-amber-500 text-white animate-bounce'
+                                            : 'bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                                }`}>
+                                    <i className={timeLeft === 0 ? "fa-solid fa-hourglass-end" : "fa-solid fa-stopwatch"}></i>
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <h3 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white">
+                                            {timeLeft === 0 ? t('cart_time_expired', language) : t('cart_reservation_title', language)}
+                                        </h3>
+                                        {timeLeft > 0 && (
+                                            <span className="relative flex h-2 w-2">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                                            </span>
+                                        )}
+                                    </div>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 max-w-xl">
+                                        {timeLeft === 0 ? t('cart_time_expired_desc', language) : t('cart_reservation_desc', language)}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-3 self-end sm:self-center">
+                                {timeLeft === 0 ? (
+                                    <button
+                                        type="button"
+                                        onClick={loadCart}
+                                        className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center gap-1.5"
+                                    >
+                                        <i className="fa-solid fa-rotate-right"></i>
+                                        <span>{t('refresh_cart', language)}</span>
+                                    </button>
+                                ) : (
+                                    <div className="flex items-center gap-2.5 bg-white dark:bg-slate-800 px-4 py-2.5 rounded-2xl border border-rose-100 dark:border-slate-700 shadow-2xs">
+                                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                            {t('cart_time_remaining', language)}:
+                                        </span>
+                                        <span className={`font-mono text-xl font-black ${
+                                            timeLeft <= 120 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white'
+                                        }`}>
+                                            {formatCountdown(timeLeft)}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Progress line */}
+                        {timeLeft > 0 && (
+                            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mt-3.5 overflow-hidden">
+                                <div
+                                    className={`h-full rounded-full transition-all duration-1000 ${
+                                        timeLeft <= 120 ? 'bg-amber-500' : 'bg-rose-600'
+                                    }`}
+                                    style={{ width: `${Math.min(100, Math.max(0, (timeLeft / 900) * 100))}%` }}
+                                ></div>
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {allItems.length > 0 ? (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

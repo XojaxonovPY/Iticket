@@ -1,5 +1,6 @@
 from urllib.request import Request
 
+from asgiref.sync import sync_to_async
 from django.utils.translation.trans_real import activate
 from ninja import Router
 
@@ -14,16 +15,11 @@ router = Router()
 @cache_page_ninja(60 * 10)
 async def get_sales_outlets(request: Request, lang: str = "uz"):
     activate(lang)
-    sales_outlets = [
-        sales async for sales in
-        SalesOutlets.objects.select_related("place")
-        .prefetch_related("place__translations")
-        .aiterator(chunk_size=50)
-    ]
+    sales_outlets = SalesOutlets.objects.select_related("place").prefetch_related("place__translations")
     return sales_outlets
 
 
 @router.get("/questions/", response=list[QuestionsSchema], auth=None)
 async def get_questions(request: Request):
-    questions = [question async for question in Question.objects.filter(is_visible=True).aiterator()]
-    return questions
+    questions = Question.objects.filter(is_visible=True)
+    return await sync_to_async(list)(questions)

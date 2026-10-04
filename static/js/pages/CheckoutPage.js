@@ -20,6 +20,7 @@
         const [submitting, setSubmitting] = useState(false);
         const [orderSuccess, setOrderSuccess] = useState(false);
         const [createdOrderInfo, setCreatedOrderInfo] = useState(null);
+        const [timeLeft, setTimeLeft] = useState(null);
 
         // Buyer details
         const [formData, setFormData] = useState({
@@ -49,6 +50,19 @@
             try {
                 const data = await window.apiServices.cart.getCart(language);
                 setCartEvents(data);
+                if (data && data.length > 0) {
+                    const firstEv = data[0];
+                    if (firstEv?.expires_at) {
+                        const remaining = Math.max(0, firstEv.expires_at - Math.floor(Date.now() / 1000));
+                        setTimeLeft(remaining);
+                    } else if (firstEv?.remaining_seconds != null) {
+                        setTimeLeft(firstEv.remaining_seconds);
+                    } else {
+                        setTimeLeft(900);
+                    }
+                } else {
+                    setTimeLeft(null);
+                }
             } catch (err) {
                 if (onShowToast) {
                     onShowToast({ type: 'error', message: "Savatni yuklab bo'lmadi" });
@@ -61,6 +75,34 @@
         useEffect(() => {
             loadCart();
         }, [language]);
+
+        useEffect(() => {
+            if (timeLeft === null || timeLeft <= 0) return;
+            const timer = setInterval(() => {
+                setTimeLeft((prev) => {
+                    if (prev === null) return null;
+                    if (prev <= 1) {
+                        clearInterval(timer);
+                        if (onShowToast) {
+                            onShowToast({
+                                type: 'warning',
+                                message: t('cart_time_expired_desc', language) || "Band qilish vaqti tugadi!"
+                            });
+                        }
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+            return () => clearInterval(timer);
+        }, [timeLeft, language]);
+
+        function formatCountdown(totalSec) {
+            if (totalSec == null || totalSec < 0) return "00:00";
+            const m = Math.floor(totalSec / 60);
+            const s = totalSec % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
 
         // Flatten cart items
         const ticketItems = [];
@@ -110,22 +152,6 @@
 
                 const res = await window.apiServices.order.createOrder(payload);
 
-                // If user is authenticated, we can optionally trigger payment
-                if (currentUser) {
-                    try {
-                        const orders = await window.apiServices.order.getOrders(language);
-                        if (orders && orders.length > 0) {
-                            const latestOrder = orders[0];
-                            await window.apiServices.order.createPayment({
-                                order_id: latestOrder.id,
-                                total_amount: latestOrder.total_amount,
-                            });
-                        }
-                    } catch (payErr) {
-                        console.log('Payment auto-attempt info:', payErr);
-                    }
-                }
-
                 // Clear cart items in backend
                 for (const item of ticketItems) {
                     try {
@@ -147,8 +173,8 @@
                 if (onShowToast) {
                     onShowToast({
                         type: 'success',
-                        title: t('order_success', language),
-                        message: language === 'uz' ? "Chiptalaringiz tasdiqlandi. Rahmat!" : (language === 'ru' ? "Ваши билеты подтверждены. Спасибо!" : "Your tickets are confirmed. Thank you!")
+                        title: t('order_success', language, "Buyurtma qabul qilindi!"),
+                        message: language === 'uz' ? "Buyurtmangiz qabul qilindi. To'lovni 'Buyurtmalarim' bo'limida amalga oshirishingiz mumkin." : (language === 'ru' ? "Ваш заказ оформлен. Вы можете оплатить его в разделе 'Мои заказы'." : "Your order has been placed. You can proceed with payment in 'My Orders'.")
                     });
                 }
             } catch (err) {
@@ -177,8 +203,8 @@
             return (
                 <div className="max-w-2xl mx-auto px-4 py-16 animate-fade-in">
                     <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 sm:p-10 border border-slate-100 dark:border-slate-800 shadow-xl text-center space-y-6">
-                        <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
-                            <i className="fa-solid fa-check"></i>
+                        <div className="w-20 h-20 bg-amber-50 dark:bg-amber-950/40 text-amber-500 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
+                            <i className="fa-solid fa-receipt"></i>
                         </div>
 
                         <div className="space-y-2">
@@ -186,45 +212,49 @@
                                 {createdOrderInfo.message}
                             </h2>
                             <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-                                {t('order_success_desc', language)}
+                                {t('order_pending_payment_notice', language, "Buyurtmangiz muvaffaqiyatli qabul qilindi. To'lovni amalga oshirish uchun 'Buyurtmalarim' bo'limiga o'ting.")}
                             </p>
                         </div>
 
-                        <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl text-xs space-y-2 text-left max-w-md mx-auto border border-slate-100 dark:border-slate-800">
+                        <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl text-xs space-y-2.5 text-left max-w-md mx-auto border border-slate-100 dark:border-slate-800">
                             <div className="flex justify-between text-slate-600 dark:text-slate-400">
-                                <span>{t('buyer', language)}:</span>
+                                <span>{t('buyer', language, "Xaridor")}:</span>
                                 <span className="font-bold text-slate-900 dark:text-white">{createdOrderInfo.first_name}</span>
                             </div>
                             <div className="flex justify-between text-slate-600 dark:text-slate-400">
-                                <span>{t('phone_number', language)}:</span>
+                                <span>{t('phone_number', language, "Telefon")}:</span>
                                 <span className="font-bold text-slate-900 dark:text-white">{createdOrderInfo.phone_number}</span>
                             </div>
                             <div className="flex justify-between text-slate-600 dark:text-slate-400">
-                                <span>{t('total_tickets', language)}:</span>
-                                <span className="font-bold text-slate-900 dark:text-white">{createdOrderInfo.total_count} {t('events_count', language)}</span>
+                                <span>{t('total_tickets', language, "Jami chiptalar")}:</span>
+                                <span className="font-bold text-slate-900 dark:text-white">{createdOrderInfo.total_count} {t('events_count', language, "dona")}</span>
+                            </div>
+                            <div className="flex justify-between text-slate-600 dark:text-slate-400">
+                                <span>Status:</span>
+                                <span className="font-bold px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-[11px]">
+                                    {t('filter_pending', language, "O'tkazma kutilmoqda")}
+                                </span>
                             </div>
                             <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex justify-between items-baseline">
-                                <span className="font-bold text-slate-900 dark:text-white">{t('paid_amount', language)}:</span>
+                                <span className="font-bold text-slate-900 dark:text-white">{t('total_sum', language, "Jami to'lov")}:</span>
                                 <span className="font-extrabold text-rose-600 dark:text-rose-400 text-sm">{formatPrice(createdOrderInfo.total_amount, language)}</span>
                             </div>
                         </div>
 
                         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-                            {currentUser && (
-                                <button
-                                    onClick={() => onNavigate('orders')}
-                                    className="w-full sm:w-auto px-6 py-3 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2"
-                                >
-                                    <i className="fa-solid fa-receipt"></i>
-                                    <span>{t('view_my_orders', language)}</span>
-                                </button>
-                            )}
                             <button
-                                onClick={() => onNavigate('home')}
+                                onClick={() => onNavigate('orders')}
                                 className="w-full sm:w-auto px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-rose-600/25 flex items-center justify-center gap-2"
                             >
+                                <i className="fa-solid fa-credit-card"></i>
+                                <span>{t('view_my_orders', language, "Buyurtmalarimga o'tish (To'lash)")}</span>
+                            </button>
+                            <button
+                                onClick={() => onNavigate('home')}
+                                className="w-full sm:w-auto px-6 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2"
+                            >
                                 <i className="fa-solid fa-house"></i>
-                                <span>{t('back_home', language)}</span>
+                                <span>{t('back_home', language, "Bosh sahifa")}</span>
                             </button>
                         </div>
                     </div>
@@ -249,6 +279,37 @@
                         <span>{t('back_to_cart', language)}</span>
                     </button>
                 </div>
+
+                {/* Reservation Countdown Alert */}
+                {timeLeft !== null && (
+                    <div className={`p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between gap-4 ${
+                        timeLeft === 0
+                            ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-200'
+                            : timeLeft <= 120
+                                ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-100 shadow-sm animate-pulse'
+                                : 'bg-rose-50/70 dark:bg-slate-900 border-rose-100 dark:border-slate-800 shadow-2xs'
+                    }`}>
+                        <div className="flex items-center gap-3">
+                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm flex-shrink-0 ${
+                                timeLeft === 0 ? 'bg-rose-600 text-white' : 'bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                            }`}>
+                                <i className="fa-solid fa-stopwatch"></i>
+                            </div>
+                            <div>
+                                <span className="font-bold text-xs text-slate-900 dark:text-white block">
+                                    {timeLeft === 0 ? t('cart_time_expired', language) : t('cart_reservation_title', language)}
+                                </span>
+                                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                                    {timeLeft === 0 ? t('cart_time_expired_desc', language) : t('cart_reservation_desc', language)}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-rose-100 dark:border-slate-700 font-mono text-sm font-black text-rose-600 dark:text-rose-400 flex-shrink-0">
+                            <i className="fa-regular fa-clock text-xs"></i>
+                            <span>{formatCountdown(timeLeft)}</span>
+                        </div>
+                    </div>
+                )}
 
                 {generalError && (
                     <div className="p-4 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-400 text-xs rounded-2xl flex items-center gap-3">

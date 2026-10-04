@@ -11,7 +11,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23eb1c24'><path d='M2 9v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zm18 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM4 5h16a1 1 0 0 0 0-2H4a1 1 0 0 0 0 2z'/></svg>">
 
     <!-- Google Font & Brand CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={% now 'U' %}">
 
     <!-- React 18 & ReactDOM (CDN) -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -82,35 +82,36 @@
     <script>
         window.DJANGO_CONFIG = {
             csrfToken: "{{ csrf_token }}",
-            baseUrl: "{{ BASE_URL|default:'' }}"
+            baseUrl: "{{ BASE_URL|default:'' }}",
+            version: "{% now 'U' %}"
         };
     </script>
 
     <!-- 1. Central Theme Manager, Localization, API Client & Services Layer (Vanilla JS) -->
-    <script src="{% static 'js/theme.js' %}"></script>
-    <script src="{% static 'js/i18n.js' %}"></script>
-    <script src="{% static 'js/api/client.js' %}"></script>
-    <script src="{% static 'js/api/services.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}?v={% now 'U' %}"></script>
+    <script src="{% static 'js/i18n.js' %}?v={% now 'U' %}"></script>
+    <script src="{% static 'js/api/client.js' %}?v={% now 'U' %}"></script>
+    <script src="{% static 'js/api/services.js' %}?v={% now 'U' %}"></script>
 
     <!-- 2. UI Primitives & Components (Babel JSX) -->
-    <script type="text/babel" src="{% static 'js/components/ui/UIComponents.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/components/Toast.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/components/EventCard.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/components/Navbar.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/components/Footer.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/components/AuthModal.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/ui/UIComponents.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/Toast.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/EventCard.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/Navbar.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/Footer.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/components/AuthModal.js' %}?v={% now 'U' %}"></script>
 
     <!-- 3. Pages Layer (Babel JSX) -->
-    <script type="text/babel" src="{% static 'js/pages/HomePage.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/pages/EventDetailPage.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/pages/CartPage.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/pages/CheckoutPage.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/pages/ProfilePage.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/pages/WishlistPage.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/pages/OutletsPage.js' %}"></script>
-    <script type="text/babel" src="{% static 'js/pages/FAQPage.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/HomePage.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/EventDetailPage.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/CartPage.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/CheckoutPage.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/ProfilePage.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/WishlistPage.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/OutletsPage.js' %}?v={% now 'U' %}"></script>
+    <script type="text/babel" src="{% static 'js/pages/FAQPage.js' %}?v={% now 'U' %}"></script>
 
     <!-- 4. Main App & Router Entrypoint (Babel JSX) -->
-    <script type="text/babel" src="{% static 'js/app.js' %}"></script>
+    <script type="text/babel" src="{% static 'js/app.js' %}?v={% now 'U' %}"></script>
 </body>
 </html>

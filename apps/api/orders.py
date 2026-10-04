@@ -72,6 +72,7 @@ def create_order_transaction(payload: OrderInSchema, user: User | None = None) -
             Ticket.objects.filter(id__in=ticket_ids).update(
                 count=Case(*when_clauses, default=F("count"), output_field=PositiveIntegerField())
             )
+            OrderItem.objects.bulk_create(order_items)
     except IntegrityError as e:
         logger.error(e)
         raise HttpError(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, message=_("Server has problem"))

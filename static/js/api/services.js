@@ -110,8 +110,8 @@
             return await post('/payment/', payload);
         },
 
-        async getTransactions(filter = 'all') {
-            return await get(`/transactions/?filters=${encodeURIComponent(filter)}`);
+        async getTransactions(filter = 'all', lang = 'uz') {
+            return await get(`/transactions/?filters=${encodeURIComponent(filter)}&lang=${encodeURIComponent(lang)}`);
         }
     };
 
