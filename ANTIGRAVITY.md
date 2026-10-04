@@ -1,179 +1,145 @@
-# Project Guidelines
+# Antigravity Assistant Guide - Iticket Project
 
-## Project Overview
-
-### Project Goal
-
-Develop a high-performance event ticketing platform similar to **iticket.uz**.
-
-### Technology Stack
-
-| Component            | Technology                 |
-|----------------------|----------------------------|
-| Language             | Python 3.12+               |
-| Framework            | Django Ninja (Async)       |
-| ORM                  | Django ORM (Async)         |
-| Validation           | Pydantic v2, Ninja Schemas |
-| Authentication       | JWT                        |
-| Internationalization | Django Parler              |
-| Filtering            | Django Filter              |
+Bu fayl **Antigravity AI agenti** uchun loyihaning arxitekturasi, buyruqlari, qoidalari va ish jarayonlarini to'liq tushuntiruvchi qo'llanma hisoblanadi.
 
 ---
 
-# Architecture
+## 1. Loyiha haqida qisqacha
 
-The project follows a **Layered Clean Architecture** to keep business logic isolated from the API layer and maintain a
-scalable codebase.
+* **Loyiha nomi:** Iticket (Tadbir va chiptalar savdosi platformasi - iticket.uz analogi)
+* **Asosiy maqsad:** Yuqori unumdorlikka (High Performance), past latency'ga ega, asinxron REST API backend.
+* **Paket menejeri:** `uv` (zamonaviy, ultra-tezkor Python package manager).
+* **Python versiyasi:** `3.12+`
+* **Veb server:** `Granian` (Rust asosidagi yuqori unumdorlikdagi ASGI HTTP server).
+* **API Framework:** `Django Ninja` (Pydantic v2 asosidagi asinxron API).
+* **Ma'lumotlar bazasi:** PostgreSQL (Production / Render) yoki SQLite (Local fallback).
 
-## Directory Structure
+---
+
+## 2. Loyiha arxitekturasi va tuzilishi
+
+Loyiha toza qatlamli arxitekturaga (Clean Layered Architecture) asoslangan:
 
 ```
-app/
-├── api/          # API endpoints and routers
-├── schema/       # Request and Response schemas (Pydantic v2)
-├── models/       # Django ORM models
-├── admin/        # Django Admin configuration
+Iticket/
+├── apps/
+│   ├── api/             # Django Ninja routerlari va endpointlar (auth, event, user, cards, orders, transactions, system)
+│   ├── schema/          # Pydantic v2 so'rov va javob sxemalari (Request/Response schemas)
+│   ├── commons/         # Umumiy utilitalar, tokenlar, dekoratorlar, maxsus exceptions
+│   ├── fixtures/        # Boshlang'ich JSON backuplar (category, country, place, sales_outlets, question, event, ticket)
+│   ├── models.py        # Django ORM modellari
+│   ├── admin.py         # Django Admin sozlamalari
+│   └── filters.py       # Qidiruv va filterlash logikasi
+├── root/
+│   ├── asgi.py          # ASGI kirish nuqtasi (Granian orqali ishlatiladi)
+│   ├── settings.py      # Django sozlamalari (DATABASE_URL, DJANGO_SECRET_KEY, dj_database_url)
+│   └── urls.py          # Asosiy URL routing (/api/docs, /admin, /)
+├── static/              # Frontend aktivlari (SPA React 18)
+│   ├── css/style.css    # Central Design Tokens (:root, html.dark)
+│   ├── locales/         # i18n tarjimalar (uz.json, ru.json, en.json)
+│   └── js/
+│       ├── app.js       # Asosiy React app va router
+│       ├── theme.js     # Dark/Light rejim menejeri (localStorage)
+│       ├── i18n.js      # Ko'p tillilik menejeri
+│       ├── api/         # Backend bilan API mijoz (client.js, services.js)
+│       ├── components/  # Reusable UI primitives va komponentlar
+│       └── pages/       # Barcha SPA sahifalari
+├── templates/
+│   └── index.html       # SPA kirish sahifasi (CDN React 18 + Tailwind)
+├── docs/
+│   └── UI_ARCHITECTURE.md # Frontend Design System qo'llanmasi
+├── Dockerfile           # Python 3.12-slim asosidagi multi-stage production Dockerfile
+├── entrypoint.sh        # Konteyner kirish skripti (migratsiyalar, fixturelar, Granian)
+├── render.yaml          # Render Cloud Blueprint konfiguratsiyasi
+├── pyproject.toml       # Loyiha metadata va bog'liqliklari
+└── uv.lock              # Qulflangan paketlar versiyalari
 ```
 
-### Responsibilities
+---
 
-#### `app/api/`
+## 3. Server va Ishga tushirish qoidalari
 
-Contains:
+### 3.1 Server: Granian ASGI
+Loyiha WSGI emas, **ASGI** rejimida ishlaydi. Ishga tushirish buyrug'i:
+```bash
+# Production (Konteyner ichida):
+granian --interface asginl root.asgi:application --host 0.0.0.0 --port 8000 --workers 1 --access-log
 
-* Django Ninja routers
-* API endpoints
-* Request handling
-* Response generation
+# Mahalliy ishlab chiqishda (Reload bilan):
+uv run granian --interface asgi root.asgi:application --host 127.0.0.1 --port 8000 --reload
+```
 
-Business logic should **not** be implemented here.
+### 3.2 Paketlar va Muhit boshqaruvi (`uv`)
+Paketlarni o'rnatish va boshqarishda faqat `uv` ishlatiladi:
+```bash
+uv sync                           # Bog'liqliklarni o'rnatish
+uv add <package_name>             # Yangi paket qo'shish
+uv run python manage.py <command> # Buyruqlarni virtual muhitda bajarish
+```
 
 ---
 
-#### `app/schema/`
+## 4. Boshlang'ich Ma'lumotlar (Fixtures)
 
-Contains:
+Loyiha `apps/fixtures/` papkasida 195 ta dastlabki ma'lumotlarga ega. 
+Yuklashda xorijiy kalitlar (Foreign Keys) zanjiri quyidagi qat'iy tartibda bo'lishi shart:
+1. `category`
+2. `country`
+3. `place`
+4. `sales_outlets`
+5. `question`
+6. `event`
+7. `ticket`
 
-* Request schemas
-* Response schemas
-* Validation logic
+Konteyner ishga tushganda `entrypoint.sh` avtomatik ravishda `Category.objects.exists()` orqali bazani tekshiradi:
+* Baza bo'sh bo'lsa — fixturelar avtomatik yuklanadi.
+* Baza to'la bo'lsa — qayta yuklanmasdan o'tkazib yuboriladi.
+* Majburiy yuklash uchun: Muhit o'zgaruvchisiga `LOAD_FIXTURES=true` beriladi.
 
-Use **Pydantic v2** and **Ninja Schema** features whenever possible.
-
----
-
-#### `app/models/`
-
-Contains:
-
-* Django ORM models
-* Relationships
-* Model methods (only when closely related to the model)
-
-Avoid placing business workflows inside models.
-
----
-
-#### `app/admin/`
-
-Contains:
-
-* Django Admin configuration
-* Model registration
-* Admin customization
+Qo'lda yuklash buyrug'i:
+```bash
+uv run python manage.py loaddata category country place sales_outlets question event ticket
+```
 
 ---
 
-# Coding Standards
+## 5. Dasturlash va Kod yozish qoidalari (Guidelines for Agent)
 
-## General Rules
+1. **Django Ninja va Pydantic v2:**
+   - Har bir yangi API endpoint `apps/api/` ichidagi mos modulga qo'shiladi.
+   - Request va Response ma'lumotlari faqat `apps/schema/` ichidagi Pydantic sxemalar orqali qabul qilinadi va qaytariladi.
+   - Mumkin bo'lgan joylarda `async def` va asinxron ORM (`await Model.objects.aget(...)`) ishlatilsin.
 
-* Write clean, readable, and maintainable code.
-* Follow the **DRY (Don't Repeat Yourself)** principle.
-* Prefer composition over duplication.
-* Keep functions small and focused on a single responsibility.
-* Use meaningful variable, function, and class names.
-* Favor asynchronous implementations whenever supported.
+2. **So'rovlar va ORM optimizatsiyasi:**
+   - N+1 muammolarini oldini olish uchun `select_related` va `prefetch_related` doimiy qo'llansin.
+   - Pul va to'lovlar bilan bog'liq jarayonlarda (Orders, Tickets, Transactions) ma'lumotlar yaxlitligi uchun tranzaksiyalar (`transaction.atomic()` yoki `select_for_update()`) ishlatilsin.
 
----
+3. **Xavfsizlik:**
+   - `.env` yoki maxfiy kalitlar hech qachon git commit'ga kiritilmasin.
+   - Parollar, karta ma'lumotlari to'g'ridan-to'g'ri ochiq saqlanmaydi (hash yoki tokenizatsiya).
 
-## Comments
-
-* Write code comments only when they improve understanding.
-* Comments may be written in **English** or **Uzbek**.
-* Avoid commenting obvious code.
-
----
-
-## Existing Code
-
-When modifying existing code:
-
-* Preserve the current coding style.
-* Keep naming conventions consistent.
-* Do not refactor unrelated code unless explicitly requested.
-* Minimize unnecessary changes.
+4. **Konteyner va Deploy yaxlitligi:**
+   - `Dockerfile` va `entrypoint.sh` dagi o'zgarishlar faqat sinovdan o'tkazilgach kiritilishi shart.
+   - Statik fayllar `python manage.py collectstatic --noinput` orqali tayyorlanishi inobatga olingan.
 
 ---
 
-# Django Guidelines
+## 6. Frontend Arxitekturasi va Qoidalari (SPA & UI System)
 
-* Use Django ORM for all database operations.
-* Prefer asynchronous ORM methods whenever available.
-* Avoid raw SQL unless absolutely necessary.
-* Keep database queries optimized.
-* Prevent N+1 query problems using appropriate query optimization techniques.
+1. **Texnologiya:**
+   - Frontend alohida Node.js server emas, balki `templates/index.html` orqali yuklanadigan **React 18 SPA (In-browser JSX/Babel)** hisoblanadi.
+   - Tailwind CSS va markaziy Design Tokens (`static/css/style.css`) orqali stillanadi.
 
----
+2. **UI Komponentlar va Dizayn:**
+   - Ranglar, kartochka va input fonlari faqat `static/css/style.css` dagi CSS o'zgaruvchilar orqali o'zgartiriladi.
+   - Yangi UI elementlar yaratilganda `static/js/components/ui/UIComponents.js` dagi atomik komponentlar (`Card`, `Button`, `Input`, `Badge`) ishlatiladi.
 
-# API Guidelines
+3. **Backend API Integratsiyasi:**
+   - Barcha API chaqiruvlari `static/js/api/client.js` va `static/js/api/services.js` orqali amalga oshiriladi.
+   - JWT autentifikatsiya tokenlari avtomatik ravishda `localStorage` dan olinadi va yangilanadi.
 
-* Use Django Ninja routers.
-* Validate all incoming data using Pydantic v2 schemas.
-* Return consistent response structures.
-* Use proper HTTP status codes.
-* Handle exceptions gracefully.
+4. **Ko'p tillilik va Mavzular:**
+   - Har qanday yangi matn `static/locales/{uz, ru, en}.json` fayllariga kiritilishi shart.
+   - Mavzu boshqaruvi `static/js/theme.js` orqali sinxronlashadi.
+   - To'liq yo'riqnoma: `docs/UI_ARCHITECTURE.md`.
 
----
-
-# Schema Guidelines
-
-* Separate Request and Response schemas.
-* Keep schemas reusable.
-* Avoid duplicating validation logic.
-* Use descriptive field names and type hints.
-
----
-
-# Code Quality
-
-Every generated solution should be:
-
-* Modular
-* Readable
-* Reusable
-* Type-safe
-* Production-ready
-* Easy to maintain
-
-Avoid:
-
-* Dead code
-* Large monolithic functions
-* Unnecessary abstractions
-* Repeated logic
-* Magic numbers or hardcoded values
-
----
-
-# Output Preferences
-
-Unless explicitly requested otherwise:
-
-* Produce complete, working code.
-* Include all required imports.
-* Preserve project structure.
-* Explain only when necessary.
-* Do not generate placeholder implementations if a complete solution is possible.
-
-Prioritize correctness, maintainability, readability, and consistency over clever or overly complex implementations.
