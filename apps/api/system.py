@@ -16,7 +16,7 @@ router = Router()
 async def get_sales_outlets(request: Request, lang: str = "uz"):
     activate(lang)
     sales_outlets = SalesOutlets.objects.select_related("place").prefetch_related("place__translations")
-    return sales_outlets
+    return await sync_to_async(list)(sales_outlets)
 
 
 @router.get("/questions/", response=list[QuestionsSchema], auth=None)
